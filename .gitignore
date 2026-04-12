@@ -42,3 +42,4 @@ data/vosk-model/
 # ─── Java tracer build artifacts ──────────────────────────────────────────────
 java-tracer/out/
 java-tracer/*.class
+*.docx
