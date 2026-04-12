@@ -7,6 +7,11 @@ from models.session import SessionStartRequest, SessionSaveRequest
 
 router = APIRouter()
 
+ADMIN_NAME = "Admin"
+
+def is_admin(name: str) -> bool:
+    return normalize_name(name) == ADMIN_NAME
+
 def normalize_name(name: str) -> str:
     return name.strip().title()
 
@@ -40,6 +45,8 @@ def _cleanup_orphan(student_dir: Path) -> None:
 @router.post("/start")
 async def start_session(req: SessionStartRequest):
     normalized_name = normalize_name(req.student_name)
+    if is_admin(normalized_name):
+        return {"session_id": "admin_preview", "iteration": 0}
     student_dir = get_student_dir(normalized_name)
     if student_dir.exists():
         _cleanup_orphan(student_dir)
@@ -63,6 +70,8 @@ async def start_session(req: SessionStartRequest):
 
 @router.post("/{student_name}/{session_id}/save")
 async def save_responses(student_name: str, session_id: str, req: SessionSaveRequest):
+    if is_admin(student_name):
+        return {"status": "saved"}
     session_dir = get_student_dir(student_name) / session_id
     if not session_dir.exists():
         raise HTTPException(404, "Session not found")
@@ -76,6 +85,8 @@ async def save_responses(student_name: str, session_id: str, req: SessionSaveReq
 
 @router.patch("/{student_name}/{session_id}/mark-study-complete")
 async def mark_study_complete(student_name: str, session_id: str):
+    if is_admin(student_name):
+        return {"status": "updated"}
     meta_path = get_student_dir(student_name) / session_id / "metadata.json"
     if not meta_path.exists():
         raise HTTPException(404, "Session not found")
@@ -86,6 +97,8 @@ async def mark_study_complete(student_name: str, session_id: str):
 
 @router.get("/{student_name}/history")
 async def get_history(student_name: str):
+    if is_admin(student_name):
+        return {"sessions": [], "reports": []}
     student_dir = get_student_dir(student_name)
     if not student_dir.exists():
         return {"sessions": [], "reports": []}
