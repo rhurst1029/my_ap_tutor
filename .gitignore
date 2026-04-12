@@ -1,0 +1,44 @@
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── IDE / local tooling ──────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+.claude/
+
+# ─── Java build output ────────────────────────────────────────────────────────
+out/
+bin/
+
+# ─── Python ───────────────────────────────────────────────────────────────────
+backend/venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.python-version
+
+# ─── Secrets — never commit ───────────────────────────────────────────────────
+backend/.env
+.env
+*.env
+
+# ─── Node / Frontend ──────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ─── Student data (PII + session history) ─────────────────────────────────────
+# All per-student directories are runtime-generated and must not be committed.
+data/students/
+
+# ─── Generated PDFs (contain student work) ────────────────────────────────────
+*.pdf
+
+# ─── Vosk speech model (large binary, ~50 MB) ─────────────────────────────────
+data/vosk-model/
+
+# ─── Java tracer build artifacts ──────────────────────────────────────────────
+java-tracer/out/
+java-tracer/*.class

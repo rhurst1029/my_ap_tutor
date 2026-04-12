@@ -1,0 +1,372 @@
+{
+  "$schema": "ap_csa_question_schema_v1",
+  "test_id": "ap_csa_test_1",
+  "title": "AP Computer Science A — Diagnostic Test",
+  "created_at": "2026-04-11",
+  "source": "converted_docx",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "code_trace",
+      "topic_tags": [
+        "strings"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed when this code runs?",
+      "code_block": "String s = \"computer\";\nSystem.out.println(s.substring(3, 6));",
+      "options": [
+        "A) put",
+        "B) pute",
+        "C) com",
+        "D) ter"
+      ],
+      "answer_key": "A",
+      "explanation": "Correct answer: A — \"put\". Concept: String.substring(start, end)",
+      "guiding_questions": [
+        {
+          "id": "q1_g1",
+          "text": "What index does the character 'c' have in the string 'computer'?",
+          "intent": "Probe understanding for question 1"
+        },
+        {
+          "id": "q1_g2",
+          "text": "If I call substring(a, b), which index is NOT included in the result?",
+          "intent": "Probe understanding for question 1"
+        },
+        {
+          "id": "q1_g3",
+          "text": "Let's write out the index table together. What is index 6?",
+          "intent": "Probe understanding for question 1"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q2",
+      "type": "code_trace",
+      "topic_tags": [
+        "operators",
+        "variables_and_types"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "int x = 7;\nint y = 2;\ndouble result = x / y;\nSystem.out.println(result);",
+      "options": [
+        "A) 3.5",
+        "B) 3.0",
+        "C) 3",
+        "D) Compile error"
+      ],
+      "answer_key": "B",
+      "explanation": "Correct answer: B — 3.0. Concept: Integer division & type widening",
+      "guiding_questions": [
+        {
+          "id": "q2_g1",
+          "text": "What data type is the result of 7 / 2 in Java before it's assigned to result?",
+          "intent": "Probe understanding for question 2"
+        },
+        {
+          "id": "q2_g2",
+          "text": "If you wanted 3.5, what one change would you make to the code?",
+          "intent": "Probe understanding for question 2"
+        },
+        {
+          "id": "q2_g3",
+          "text": "What would happen if you changed int y to double y? How does that change things?",
+          "intent": "Probe understanding for question 2"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "topic_tags": [
+        "conditionals",
+        "operators"
+      ],
+      "difficulty": "medium",
+      "text": "What is the value of the expression:   !(true && false) || (false || true)",
+      "code_block": null,
+      "options": [
+        "A) true",
+        "B) false",
+        "C) Compile error",
+        "D) Cannot be determined"
+      ],
+      "answer_key": "A",
+      "explanation": "Correct answer: A — true. Concept: Boolean logic & operator precedence",
+      "guiding_questions": [
+        {
+          "id": "q3_g1",
+          "text": "Walk me through each sub-expression step by step. Start with what's inside the parentheses.",
+          "intent": "Probe understanding for question 3"
+        },
+        {
+          "id": "q3_g2",
+          "text": "What does the ! operator do to a boolean value?",
+          "intent": "Probe understanding for question 3"
+        },
+        {
+          "id": "q3_g3",
+          "text": "What is !(false)? Now re-read the left side of the || operator.",
+          "intent": "Probe understanding for question 3"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q4",
+      "type": "code_trace",
+      "topic_tags": [
+        "loops"
+      ],
+      "difficulty": "hard",
+      "text": "What value is printed?",
+      "code_block": "int count = 0;\nfor (int i = 1; i <= 5; i++) {\nif (i % 2 == 0) count++;\n}\nSystem.out.println(count);",
+      "options": [
+        "A) 5",
+        "B) 3",
+        "C) 2",
+        "D) 1"
+      ],
+      "answer_key": "C",
+      "explanation": "Correct answer: C — 2. Concept: Loop tracing with modulus",
+      "guiding_questions": [
+        {
+          "id": "q4_g1",
+          "text": "What does the % operator compute? What is 4 % 2?",
+          "intent": "Probe understanding for question 4"
+        },
+        {
+          "id": "q4_g2",
+          "text": "Can you trace through the loop and write down the value of i and count at each iteration?",
+          "intent": "Probe understanding for question 4"
+        },
+        {
+          "id": "q4_g3",
+          "text": "Which numbers between 1 and 5 have no remainder when divided by 2?",
+          "intent": "Probe understanding for question 4"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q5",
+      "type": "code_trace",
+      "topic_tags": [
+        "loops"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "int sum = 0;\nfor (int i = 0; i < 3; i++) {\nfor (int j = 0; j < i; j++) {\nsum++;\n}\n}\nSystem.out.println(sum);",
+      "options": [
+        "A) 6",
+        "B) 9",
+        "C) 3",
+        "D) 0"
+      ],
+      "answer_key": "C",
+      "explanation": "Correct answer: C — 3. Concept: Nested loop accumulation",
+      "guiding_questions": [
+        {
+          "id": "q5_g1",
+          "text": "When i=1, what is the condition of the inner loop? How many times does it execute?",
+          "intent": "Probe understanding for question 5"
+        },
+        {
+          "id": "q5_g2",
+          "text": "Make a table: for each value of i, how many times does sum increment?",
+          "intent": "Probe understanding for question 5"
+        },
+        {
+          "id": "q5_g3",
+          "text": "When i=0, how many times does the inner loop run?",
+          "intent": "Probe understanding for question 5"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q6",
+      "type": "code_trace",
+      "topic_tags": [
+        "classes_and_objects",
+        "methods"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "public class Rectangle {\nprivate int width, height;\npublic Rectangle(int w, int h) {\nwidth = w; height = h;\n}\npublic int area() { return width * height; }\n}\n// In main:\nRectangle r = new Rectangle(4, 5);\nSystem.out.println(r.area());",
+      "options": [
+        "A) 9",
+        "B) 20",
+        "C) 0",
+        "D) Compile error: area() is not static"
+      ],
+      "answer_key": "B",
+      "explanation": "Correct answer: B — 20. Concept: Object instantiation & method calls",
+      "guiding_questions": [
+        {
+          "id": "q6_g1",
+          "text": "What happens inside the constructor when we call new Rectangle(4, 5)?",
+          "intent": "Probe understanding for question 6"
+        },
+        {
+          "id": "q6_g2",
+          "text": "After the constructor runs, what are the values of width and height?",
+          "intent": "Probe understanding for question 6"
+        },
+        {
+          "id": "q6_g3",
+          "text": "When does the constructor run relative to when the object is used?",
+          "intent": "Probe understanding for question 6"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "topic_tags": [
+        "classes_and_objects"
+      ],
+      "difficulty": "medium",
+      "text": "Why are instance variables typically declared private in Java?",
+      "code_block": null,
+      "options": [
+        "A) Private variables execute faster than public ones",
+        "B) To prevent the variable from ever being changed after the object is created",
+        "C) To enforce encapsulation — controlled access through public accessor/mutator methods",
+        "D) Java requires all instance variables to be private"
+      ],
+      "answer_key": "C",
+      "explanation": "Correct answer: C — Encapsulation. Concept: Encapsulation / data hiding",
+      "guiding_questions": [
+        {
+          "id": "q7_g1",
+          "text": "If a variable is private, can a method inside the same class access it?",
+          "intent": "Probe understanding for question 7"
+        },
+        {
+          "id": "q7_g2",
+          "text": "What is the difference between private and final in Java?",
+          "intent": "Probe understanding for question 7"
+        },
+        {
+          "id": "q7_g3",
+          "text": "If private meant 'can never be changed,' how would a setter method work?",
+          "intent": "Probe understanding for question 7"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q8",
+      "type": "code_trace",
+      "topic_tags": [
+        "arrays"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "int[] arr = {5, 3, 8, 1, 9};\nint max = arr[0];\nfor (int i = 1; i < arr.length; i++) {\nif (arr[i] > max) max = arr[i];\n}\nSystem.out.println(max);",
+      "options": [
+        "A) 5",
+        "B) 9",
+        "C) 1",
+        "D) 8"
+      ],
+      "answer_key": "B",
+      "explanation": "Correct answer: B — 9. Concept: Array traversal & max-finding",
+      "guiding_questions": [
+        {
+          "id": "q8_g1",
+          "text": "What is the value of max after the loop processes arr[2]=8?",
+          "intent": "Probe understanding for question 8"
+        },
+        {
+          "id": "q8_g2",
+          "text": "Does the loop check arr[4]=9? What happens to max at that point?",
+          "intent": "Probe understanding for question 8"
+        },
+        {
+          "id": "q8_g3",
+          "text": "How many iterations does the loop run? What is arr.length for this array?",
+          "intent": "Probe understanding for question 8"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q9",
+      "type": "code_trace",
+      "topic_tags": [
+        "arraylist"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "ArrayList<Integer> list = new ArrayList<>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\nlist.remove(1);\nSystem.out.println(list);",
+      "options": [
+        "A) [10, 30]",
+        "B) [20, 30]",
+        "C) [10, 20]",
+        "D) [10, 20, 30]"
+      ],
+      "answer_key": "A",
+      "explanation": "Correct answer: A — [10, 30]. Concept: ArrayList.remove(index)",
+      "guiding_questions": [
+        {
+          "id": "q9_g1",
+          "text": "ArrayList has two remove methods. One takes an index, one takes an Object. Which is being called here?",
+          "intent": "Probe understanding for question 9"
+        },
+        {
+          "id": "q9_g2",
+          "text": "After all three add() calls, what is the list? What are the indices of each element?",
+          "intent": "Probe understanding for question 9"
+        },
+        {
+          "id": "q9_g3",
+          "text": "What index does the element 20 have in the list [10, 20, 30]?",
+          "intent": "Probe understanding for question 9"
+        }
+      ],
+      "execution_trace": null
+    },
+    {
+      "id": "q10",
+      "type": "code_trace",
+      "topic_tags": [
+        "2d_arrays"
+      ],
+      "difficulty": "hard",
+      "text": "What is printed?",
+      "code_block": "int[][] grid = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};\nSystem.out.println(grid[1][2]);",
+      "options": [
+        "A) 6",
+        "B) 8",
+        "C) 5",
+        "D) 2"
+      ],
+      "answer_key": "A",
+      "explanation": "Correct answer: A — 6. Concept: 2D array row/column indexing",
+      "guiding_questions": [
+        {
+          "id": "q10_g1",
+          "text": "In a 2D array, what does the first index represent? What does the second represent?",
+          "intent": "Probe understanding for question 10"
+        },
+        {
+          "id": "q10_g2",
+          "text": "Can you list out all three rows of this grid?",
+          "intent": "Probe understanding for question 10"
+        },
+        {
+          "id": "q10_g3",
+          "text": "What is grid[2][1]? How is that different from grid[1][2]?",
+          "intent": "Probe understanding for question 10"
+        }
+      ],
+      "execution_trace": null
+    }
+  ]
+}

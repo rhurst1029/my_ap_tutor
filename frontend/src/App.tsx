@@ -1,0 +1,94 @@
+import { useState } from 'react';
+import NameEntry from './components/NameEntry';
+import TestRunner from './components/TestRunner/TestRunner';
+import CompletionScreen from './components/CompletionScreen';
+import { fetchTest } from './api';
+import type { Test } from './types/test';
+import type { QuestionResponse } from './types/session';
+import './App.css';
+
+type Screen = 'name-entry' | 'loading' | 'test' | 'complete';
+
+interface SessionInfo {
+  session_id: string;
+  iteration: number;
+  started_at: string;
+}
+
+interface CompletionResult {
+  score: number;
+  total: number;
+  responses: QuestionResponse[];
+  test: Test;
+  studentName: string;
+  sessionInfo: SessionInfo;
+}
+
+const DEFAULT_TEST_ID = 'ap_csa_test_1';
+
+export default function App() {
+  const [screen, setScreen] = useState<Screen>('name-entry');
+  const [studentName, setStudentName] = useState('');
+  const [test, setTest] = useState<Test | null>(null);
+  const [result, setResult] = useState<CompletionResult | null>(null);
+  const [loadError, setLoadError] = useState('');
+
+  const handleStart = async (name: string) => {
+    setStudentName(name);
+    setScreen('loading');
+    setLoadError('');
+    try {
+      const t = await fetchTest(DEFAULT_TEST_ID);
+      setTest(t);
+      setScreen('test');
+    } catch {
+      setLoadError('Could not load test. Make sure the backend is running.');
+      setScreen('name-entry');
+    }
+  };
+
+  const handleComplete = (r: CompletionResult) => {
+    setResult(r);
+    setScreen('complete');
+  };
+
+  const handleRetake = () => {
+    setResult(null);
+    setTest(null);
+    setScreen('name-entry');
+  };
+
+  return (
+    <div className="app">
+      {screen === 'name-entry' && (
+        <>
+          <NameEntry onStart={handleStart} />
+          {loadError && <p className="error" style={{ textAlign: 'center', marginTop: '1rem' }}>{loadError}</p>}
+        </>
+      )}
+      {screen === 'loading' && (
+        <div className="loading-screen">
+          <p>Loading test…</p>
+        </div>
+      )}
+      {screen === 'test' && test && (
+        <TestRunner
+          test={test}
+          studentName={studentName}
+          onComplete={handleComplete}
+        />
+      )}
+      {screen === 'complete' && result && (
+        <CompletionScreen
+          score={result.score}
+          total={result.total}
+          responses={result.responses}
+          test={result.test}
+          studentName={result.studentName}
+          sessionInfo={result.sessionInfo}
+          onRetake={handleRetake}
+        />
+      )}
+    </div>
+  );
+}
