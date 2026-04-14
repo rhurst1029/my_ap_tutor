@@ -76,7 +76,11 @@ def run_review_agent(
 
     # Always include sessions.py for the named regression checks
     sessions_path = BASE_DIR / "backend" / "routers" / "sessions.py"
-    sessions_content = sessions_path.read_text() if sessions_path.exists() else "(not found)"
+    if sessions_path.exists():
+        sessions_content = sessions_path.read_text()
+    else:
+        logger.warning(f"sessions.py not found at {sessions_path} — regression checks may be incomplete")
+        sessions_content = "(not found — regression checks may be incomplete)"
 
     cfg = AGENT_CONFIGS["review"]
     user_message = (
@@ -112,6 +116,11 @@ def run_review_agent(
         issues = []
         route = "docs_agent"
         logger.success("Review Agent: APPROVED")
+    elif tool_call["name"] == "transfer_to_user":
+        reason = tool_call["input"].get("reason", "Review Agent escalated to user")
+        issues = [reason]
+        route = "code_agent"
+        logger.warning(f"Review Agent: escalated to user — {reason}")
     else:
         issues = tool_call["input"].get("issues", [])
         if not isinstance(issues, list):
@@ -162,7 +171,6 @@ if __name__ == "__main__":
         retry_count=RetryCount(),
     )
     try:
-        import tempfile
         run_review_agent(bad_state, Path(tempfile.mktemp()))
         all_validation_failures.append("Should have raised ValueError for missing testing result")
     except ValueError:
