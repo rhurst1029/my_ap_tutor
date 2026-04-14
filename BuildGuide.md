@@ -1842,3 +1842,62 @@ System (not pip):
 - bella_ap_csa_test.docx       — source test document (read-only input to conversion script)
 - bella_ap_calcbc_test.docx    — not used in this build (AP Calc BC scope deferred)
 - bella_tutor_guide.docx       — source guiding questions (read-only input to conversion script)
+
+---
+
+## Phase 5: Multi-Agent Development Pipeline
+
+> Design: `MultiAgentDesign.md` | Implementation plan: `MultiAgentImplementation.md`
+
+### Overview
+
+A Python orchestrator pipeline that runs: Planning → [Code — human/Claude Code step] → Testing → Review → Docs. Each agent is an Anthropic API call with a scoped system prompt loaded from `.claude/rules/`. Shared state lives in `HANDOFF_STATE.json` (the "blackboard").
+
+### Files Created
+
+| File | Role |
+|------|------|
+| `backend/agents/__init__.py` | Package marker |
+| `backend/agents/handoff.py` | HandoffState Pydantic schema + read/write/delete |
+| `backend/agents/transfers.py` | Transfer tool definitions (Claude tool schemas) |
+| `backend/agents/config.py` | Agent system prompts loaded from `.claude/rules/` |
+| `backend/agents/planning.py` | Planning Agent — reads blackboard, scopes one task |
+| `backend/agents/testing.py` | Testing Agent — 5-step validation sequence |
+| `backend/agents/review.py` | Review Agent — fixed security/schema/regression checklist |
+| `backend/agents/docs.py` | Documentation Agent — updates blackboard files |
+| `backend/orchestrator.py` | Pipeline runner with max-3 retry guard |
+
+### Usage
+
+```bash
+# Start a new session (runs Planning Agent, then pauses for Code Agent)
+PYTHONPATH=backend python backend/orchestrator.py "Add /api/report endpoint"
+
+# Resume after Code Agent (human/Claude Code) completes
+PYTHONPATH=backend python backend/orchestrator.py --resume
+```
+
+### HANDOFF_STATE.json Lifecycle
+
+```
+Planning creates it
+  → Code Agent reads scoped_task (human step — Claude Code)
+  → Testing appends testing result
+  → Review appends review result
+  → Docs archives key parts to PROGRESS.md
+  → File deleted at session end
+```
+
+### Retry Guard
+
+Testing and Review loops are capped at `MAX_RETRIES = 3` in `backend/orchestrator.py`. On hitting the limit, the pipeline exits with code 1 and preserves `HANDOFF_STATE.json` for debugging.
+
+### Agent Tool Restrictions
+
+| Agent | Can write | Cannot write |
+|-------|-----------|--------------|
+| Planning | TASKS.md, PROGRESS.md | Source files, data/ |
+| Code | backend/, frontend/src/ | data/students/, .env |
+| Testing | (none — validates only) | All files |
+| Review | (none — read-only) | All files |
+| Docs | BuildGuide.md, PROGRESS.md, DECISIONS.md, TASKS.md, PARKING_LOT.md | Source files, data/ |
