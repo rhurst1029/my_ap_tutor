@@ -168,7 +168,6 @@ def run_docs_agent(
     _mark_task_complete(state.scoped_task.id)
 
     state.agent = "docs"
-    write_handoff_state(state, handoff_path)
 
     # Delete HANDOFF_STATE.json — session is complete
     delete_handoff_state(handoff_path)
