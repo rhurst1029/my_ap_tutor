@@ -44,8 +44,8 @@ def build_question_summary(responses: dict, test: dict) -> list[dict]:
         summaries.append({
             "question_id": q["id"],
             "topic_tags": q["topic_tags"],
-            "difficulty": q["difficulty"],
-            "question_text": q["text"],
+            "difficulty": q.get("difficulty", "medium"),
+            "question_text": q.get("text") or q.get("prompt", ""),
             "code_block": q.get("code_block"),
             "selected_answer": r.get("selected_answer"),
             "correct_answer": q["answer_key"],
