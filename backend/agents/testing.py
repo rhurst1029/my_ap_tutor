@@ -46,9 +46,10 @@ def _check_health(failures: List[str]) -> bool:
 
     # Start uvicorn in background
     subprocess.Popen(
-        "source backend/venv/bin/activate && uvicorn backend.main:app --port 8000",
-        shell=True, cwd=str(BASE_DIR),
+        [str(BASE_DIR / "backend" / "venv" / "bin" / "uvicorn"), "backend.main:app", "--port", "8000"],
+        cwd=str(BASE_DIR),
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        env={**__import__("os").environ, "PYTHONPATH": str(BASE_DIR / "backend")},
     )
     time.sleep(3)  # Wait for startup
 
