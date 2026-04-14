@@ -58,8 +58,9 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
 
     const response: QuestionResponse = {
       question_id: question.id,
+      question_type: question.type,
       selected_answer: answer,
-      free_response_text: null,
+      frq_parts: [],
       is_correct: answer === question.answer_key,
       time_spent_seconds: timeSpent,
       guiding_question_responses: guidingResponses.map(gr => ({

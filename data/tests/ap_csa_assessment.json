@@ -1,0 +1,306 @@
+{
+  "$schema": "ap_csa_question_schema_v1",
+  "test_id": "ap_csa_assessment",
+  "title": "AP Computer Science A — Diagnostic Assessment",
+  "created_at": "2026-04-13",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "code_trace",
+      "topic_tags": ["strings"],
+      "unit": 2,
+      "prompt": "What is printed when this code runs?",
+      "code_block": "String s = \"computer\";\nSystem.out.println(s.substring(3, 6));",
+      "options": {
+        "A": "put",
+        "B": "pute",
+        "C": "com",
+        "D": "ter"
+      },
+      "answer_key": "A",
+      "explanation": "substring(3, 6) returns characters at indices 3, 4, and 5 — 'p', 'u', 't' → \"put\".",
+      "guiding_questions": [
+        {
+          "id": "q1_g1",
+          "text": "What index does the character 'c' have in the string 'computer'?"
+        },
+        {
+          "id": "q1_g2",
+          "text": "When you call substring(a, b), is the character at index b included in the result?"
+        },
+        {
+          "id": "q1_g3",
+          "text": "Write out the index table for 'computer'. What character is at index 5?"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "code_trace",
+      "topic_tags": ["operators", "variables_and_types"],
+      "unit": 1,
+      "prompt": "What is printed?",
+      "code_block": "int x = 7;\nint y = 2;\ndouble result = x / y;\nSystem.out.println(result);",
+      "options": {
+        "A": "3.5",
+        "B": "3.0",
+        "C": "3",
+        "D": "Compile error"
+      },
+      "answer_key": "B",
+      "explanation": "7 / 2 performs integer division yielding 3, which is then widened to 3.0 when assigned to a double.",
+      "guiding_questions": [
+        {
+          "id": "q2_g1",
+          "text": "What is the data type of the expression x / y before it is assigned to result?"
+        },
+        {
+          "id": "q2_g2",
+          "text": "If you wanted the result to be 3.5, what one change would you make to the code?"
+        },
+        {
+          "id": "q2_g3",
+          "text": "What would happen if you changed 'int y = 2' to 'double y = 2.0'?"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "topic_tags": ["conditionals", "operators"],
+      "unit": 3,
+      "prompt": "What is the value of this expression?  !(true && false) || (false || true)",
+      "options": {
+        "A": "true",
+        "B": "false",
+        "C": "Compile error",
+        "D": "Cannot be determined"
+      },
+      "answer_key": "A",
+      "explanation": "!(true && false) = !(false) = true. true || anything = true.",
+      "guiding_questions": [
+        {
+          "id": "q3_g1",
+          "text": "Walk through each sub-expression step by step, starting inside the parentheses."
+        },
+        {
+          "id": "q3_g2",
+          "text": "What does the ! operator do to a boolean value?"
+        },
+        {
+          "id": "q3_g3",
+          "text": "If the left side of || is true, does Java even evaluate the right side? What is the result?"
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "code_trace",
+      "topic_tags": ["loops"],
+      "unit": 4,
+      "prompt": "What value is printed?",
+      "code_block": "int count = 0;\nfor (int i = 1; i <= 5; i++) {\n  if (i % 2 == 0) count++;\n}\nSystem.out.println(count);",
+      "options": {
+        "A": "5",
+        "B": "3",
+        "C": "2",
+        "D": "1"
+      },
+      "answer_key": "C",
+      "explanation": "i takes values 1–5. Only i=2 and i=4 satisfy i%2==0, so count increments twice.",
+      "guiding_questions": [
+        {
+          "id": "q4_g1",
+          "text": "What does the % operator compute? What is 4 % 2?"
+        },
+        {
+          "id": "q4_g2",
+          "text": "Trace the loop: write down the value of i and count at the end of each iteration."
+        },
+        {
+          "id": "q4_g3",
+          "text": "Which numbers between 1 and 5 are even (i.e., have no remainder when divided by 2)?"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "code_trace",
+      "topic_tags": ["loops"],
+      "unit": 4,
+      "prompt": "What is printed?",
+      "code_block": "int sum = 0;\nfor (int i = 0; i < 3; i++) {\n  for (int j = 0; j < i; j++) {\n    sum++;\n  }\n}\nSystem.out.println(sum);",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "3",
+        "D": "0"
+      },
+      "answer_key": "C",
+      "explanation": "When i=0: inner loop runs 0 times. When i=1: runs 1 time. When i=2: runs 2 times. Total = 3.",
+      "guiding_questions": [
+        {
+          "id": "q5_g1",
+          "text": "When i=1, what is the condition of the inner loop? How many times does it execute?"
+        },
+        {
+          "id": "q5_g2",
+          "text": "Make a table: for each value of i, how many times does sum increment?"
+        },
+        {
+          "id": "q5_g3",
+          "text": "When i=0, how many times does the inner loop run? Why?"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "code_trace",
+      "topic_tags": ["classes_and_objects"],
+      "unit": 5,
+      "prompt": "What is printed?",
+      "code_block": "public class Rectangle {\n  private int width, height;\n  public Rectangle(int w, int h) {\n    width = w; height = h;\n  }\n  public int area() { return width * height; }\n}\n// In main:\nRectangle r = new Rectangle(4, 5);\nSystem.out.println(r.area());",
+      "options": {
+        "A": "9",
+        "B": "20",
+        "C": "0",
+        "D": "Compile error: area() is not static"
+      },
+      "answer_key": "B",
+      "explanation": "The constructor sets width=4, height=5. area() returns 4 * 5 = 20.",
+      "guiding_questions": [
+        {
+          "id": "q6_g1",
+          "text": "What happens inside the constructor when we call new Rectangle(4, 5)?"
+        },
+        {
+          "id": "q6_g2",
+          "text": "After the constructor runs, what are the values of width and height?"
+        },
+        {
+          "id": "q6_g3",
+          "text": "Why doesn't calling r.area() cause a compile error even though area() isn't static?"
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "topic_tags": ["classes_and_objects"],
+      "unit": 5,
+      "prompt": "Why are instance variables typically declared private in Java?",
+      "options": {
+        "A": "Private variables execute faster than public ones",
+        "B": "To prevent the variable from ever being changed after the object is created",
+        "C": "To enforce encapsulation — controlled access through public accessor/mutator methods",
+        "D": "Java requires all instance variables to be private"
+      },
+      "answer_key": "C",
+      "explanation": "Private enforces encapsulation, not immutability. Setters can still change the value.",
+      "guiding_questions": [
+        {
+          "id": "q7_g1",
+          "text": "If a variable is private, can a method inside the same class access it?"
+        },
+        {
+          "id": "q7_g2",
+          "text": "What is the difference between private and final in Java?"
+        },
+        {
+          "id": "q7_g3",
+          "text": "If private meant 'can never be changed,' how would a setter method work?"
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "code_trace",
+      "topic_tags": ["arrays"],
+      "unit": 6,
+      "prompt": "What is printed?",
+      "code_block": "int[] arr = {5, 3, 8, 1, 9};\nint max = arr[0];\nfor (int i = 1; i < arr.length; i++) {\n  if (arr[i] > max) max = arr[i];\n}\nSystem.out.println(max);",
+      "options": {
+        "A": "5",
+        "B": "9",
+        "C": "1",
+        "D": "8"
+      },
+      "answer_key": "B",
+      "explanation": "The loop finds the maximum element. 9 (at index 4) is the largest value.",
+      "guiding_questions": [
+        {
+          "id": "q8_g1",
+          "text": "What is the value of max after the loop processes arr[2]=8?"
+        },
+        {
+          "id": "q8_g2",
+          "text": "Does the loop check arr[4]=9? What happens to max at that point?"
+        },
+        {
+          "id": "q8_g3",
+          "text": "How many iterations does the loop run? What is arr.length for this array?"
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "code_trace",
+      "topic_tags": ["arraylist"],
+      "unit": 7,
+      "prompt": "What is printed?",
+      "code_block": "ArrayList<Integer> list = new ArrayList<>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\nlist.remove(1);\nSystem.out.println(list);",
+      "options": {
+        "A": "[10, 30]",
+        "B": "[20, 30]",
+        "C": "[10, 20]",
+        "D": "[10, 20, 30]"
+      },
+      "answer_key": "A",
+      "explanation": "remove(1) removes the element at index 1 (which is 20), leaving [10, 30].",
+      "guiding_questions": [
+        {
+          "id": "q9_g1",
+          "text": "ArrayList has two remove methods — one takes an index, one takes an Object. Which is being called here?"
+        },
+        {
+          "id": "q9_g2",
+          "text": "After all three add() calls, what does the list look like? What are the indices of each element?"
+        },
+        {
+          "id": "q9_g3",
+          "text": "What index does the element 20 have in the list [10, 20, 30]?"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "code_trace",
+      "topic_tags": ["2d_arrays"],
+      "unit": 8,
+      "prompt": "What is printed?",
+      "code_block": "int[][] grid = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};\nSystem.out.println(grid[1][2]);",
+      "options": {
+        "A": "6",
+        "B": "8",
+        "C": "5",
+        "D": "2"
+      },
+      "answer_key": "A",
+      "explanation": "grid[1] is the second row {4, 5, 6}. grid[1][2] is the third element of that row: 6.",
+      "guiding_questions": [
+        {
+          "id": "q10_g1",
+          "text": "In a 2D array, what does the first index represent? What does the second index represent?"
+        },
+        {
+          "id": "q10_g2",
+          "text": "Can you list out all three rows of this grid with their indices?"
+        },
+        {
+          "id": "q10_g3",
+          "text": "What is grid[2][1]? How is that different from grid[1][2]?"
+        }
+      ]
+    }
+  ]
+}
