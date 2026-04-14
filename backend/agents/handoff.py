@@ -3,11 +3,20 @@
 # Planning Agent, appended to by Code/Testing/Review agents, archived by
 # Docs Agent, then deleted.
 #
+# Pydantic v2 docs: https://docs.pydantic.dev/latest/concepts/models/
 # Schema reference: MultiAgentDesign.md § "Shared State: The Blackboard"
+#
+# Sample input (write_handoff_state):
+#   state = HandoffState(agent="planning", session_goal="Add /api/report",
+#                        scoped_task=ScopedTask(id="x", label="MUST", ...))
+#   write_handoff_state(state, Path("HANDOFF_STATE.json"))
+#
+# Expected output: HANDOFF_STATE.json written with pretty-printed JSON.
 import json
 import sys
 from pathlib import Path
 from typing import List, Literal, Optional
+from loguru import logger
 from pydantic import BaseModel, Field
 
 # ── Task priority label ───────────────────────────────────────────────────────
@@ -66,17 +75,20 @@ class HandoffState(BaseModel):
 
 def write_handoff_state(state: HandoffState, path: Path) -> None:
     """Write HandoffState to disk as pretty-printed JSON."""
+    logger.debug(f"Writing HandoffState (agent={state.agent}) to {path}")
     path.write_text(json.dumps(state.model_dump(), indent=2))
 
 
 def read_handoff_state(path: Path) -> HandoffState:
     """Read and validate HANDOFF_STATE.json from disk."""
+    logger.debug(f"Reading HandoffState from {path}")
     return HandoffState.model_validate(json.loads(path.read_text()))
 
 
 def delete_handoff_state(path: Path) -> None:
     """Delete HANDOFF_STATE.json at session end. No-op if file doesn't exist."""
     if path.exists():
+        logger.debug(f"Deleting HandoffState at {path}")
         path.unlink()
 
 
