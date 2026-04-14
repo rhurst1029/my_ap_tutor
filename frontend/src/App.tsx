@@ -24,7 +24,7 @@ interface CompletionResult {
   sessionInfo: SessionInfo;
 }
 
-const DEFAULT_TEST_ID = 'ap_csa_test_1';
+const DEFAULT_TEST_ID = 'ap_csa_assessment';
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('name-entry');
