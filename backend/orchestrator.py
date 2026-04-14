@@ -19,7 +19,7 @@ from loguru import logger
 
 sys.path.insert(0, str(Path(__file__).parent))
 from config import ANTHROPIC_API_KEY
-from agents.handoff import read_handoff_state, delete_handoff_state
+from agents.handoff import read_handoff_state
 from agents.planning import run_planning_agent
 from agents.testing import run_testing_agent
 from agents.review import run_review_agent
