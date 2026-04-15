@@ -33,6 +33,13 @@ frontend/.vite/
 # All per-student directories are runtime-generated and must not be committed.
 data/students/
 
+# ─── Adaptive / personalized tests (generated per student) ────────────────────
+# These are session-specific and contain student-targeted content.
+data/tests/generated/
+
+# ─── Student transcripts and raw session notes ────────────────────────────────
+data/*.txt
+
 # ─── Generated PDFs (contain student work) ────────────────────────────────────
 *.pdf
 
@@ -43,3 +50,6 @@ data/vosk-model/
 java-tracer/out/
 java-tracer/*.class
 *.docx
+
+# ClaudePoint checkpoint system
+.claudepoint/

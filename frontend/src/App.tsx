@@ -2,7 +2,7 @@ import { useState } from 'react';
 import NameEntry from './components/NameEntry';
 import TestRunner from './components/TestRunner/TestRunner';
 import CompletionScreen from './components/CompletionScreen';
-import { fetchTest } from './api';
+import { fetchTest, fetchNextTest } from './api';
 import type { Test } from './types/test';
 import type { QuestionResponse } from './types/session';
 import './App.css';
@@ -24,8 +24,6 @@ interface CompletionResult {
   sessionInfo: SessionInfo;
 }
 
-const DEFAULT_TEST_ID = 'ap_csa_assessment';
-
 export default function App() {
   const [screen, setScreen] = useState<Screen>('name-entry');
   const [studentName, setStudentName] = useState('');
@@ -38,7 +36,8 @@ export default function App() {
     setScreen('loading');
     setLoadError('');
     try {
-      const t = await fetchTest(DEFAULT_TEST_ID);
+      const { test_id } = await fetchNextTest(name);
+      const t = await fetchTest(test_id);
       setTest(t);
       setScreen('test');
     } catch {

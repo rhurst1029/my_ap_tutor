@@ -17,6 +17,8 @@ async def list_tests():
 async def get_test(test_id: str):
     path = TESTS_DIR / f"{test_id}.json"
     if not path.exists():
+        path = TESTS_DIR / "generated" / f"{test_id}.json"
+    if not path.exists():
         raise HTTPException(404, "Test not found")
     return json.loads(path.read_text())
 

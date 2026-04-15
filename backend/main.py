@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import sessions, tests
+from routers import sessions, tests, execute
 
 app = FastAPI(title="AP CSA Tutor API")
 app.add_middleware(
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 app.include_router(tests.router,    prefix="/api/tests",    tags=["tests"])
 app.include_router(sessions.router, prefix="/api/sessions", tags=["sessions"])
+app.include_router(execute.router,  prefix="/api/execute",  tags=["execute"])
 # Add in Phase 2: from routers import audio; app.include_router(audio.router, ...)
 # Add in Phase 3: from routers import ai;    app.include_router(ai.router, ...)
 

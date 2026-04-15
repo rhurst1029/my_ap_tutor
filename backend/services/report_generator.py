@@ -184,7 +184,7 @@ def generate_report_and_practice(student_name: str, session_id: str) -> None:
             datetime.fromisoformat(metadata["timestamp"])
         ).total_seconds() / 60
 
-        client = anthropic.Anthropic(api_key=api_key)
+        client = anthropic.Anthropic(api_key=api_key, timeout=300.0)
 
         # ── Report ────────────────────────────────────────────────────────────
         report_prompt = REPORT_PROMPT.format(
@@ -197,11 +197,12 @@ def generate_report_and_practice(student_name: str, session_id: str) -> None:
             score_pct=round(correct / total * 100),
             questions_json=json.dumps(summaries, indent=2),
         )
-        msg = client.messages.create(
+        with client.messages.stream(
             model=CLAUDE_MODEL, max_tokens=4096,
             messages=[{"role": "user", "content": report_prompt}],
-        )
-        report = _parse_json(msg.content[0].text)
+        ) as stream:
+            report_text = stream.get_final_text()
+        report = _parse_json(report_text)
         report["report_id"]    = f"report_{metadata['iteration']}"
         report["student_name"] = student_name.capitalize()
         report["session_id"]   = session_id
@@ -227,11 +228,12 @@ def generate_report_and_practice(student_name: str, session_id: str) -> None:
             performance_notes=perf_notes,
             now=datetime.now(timezone.utc).isoformat(),
         )
-        msg2 = client.messages.create(
+        with client.messages.stream(
             model=CLAUDE_MODEL, max_tokens=8192,
             messages=[{"role": "user", "content": practice_prompt}],
-        )
-        practice = _parse_json(msg2.content[0].text)
+        ) as stream:
+            practice_text = stream.get_final_text()
+        practice = _parse_json(practice_text)
         practice_path = student_dir / f"practice_{metadata['iteration']}.json"
         practice_path.write_text(json.dumps(practice, indent=2))
         logger.info(f"Practice saved -> {practice_path}")

@@ -37,3 +37,9 @@ export async function fetchHistory(studentName: string): Promise<{ sessions: Ses
   if (!res.ok) throw new Error('Failed to fetch history');
   return res.json();
 }
+
+export async function fetchNextTest(studentName: string): Promise<{ test_id: string; iteration: number }> {
+  const res = await fetch(`${BASE}/sessions/${encodeURIComponent(studentName)}/next-test`);
+  if (!res.ok) throw new Error('Failed to fetch next test');
+  return res.json();
+}

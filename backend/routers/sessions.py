@@ -137,6 +137,20 @@ async def mark_study_complete(student_name: str, session_id: str):
     return {"status": "updated"}
 
 
+@router.get("/{student_name}/next-test")
+async def get_next_test(student_name: str):
+    """Return the test_id and iteration for this student's next session without creating it."""
+    normalized = normalize_name(student_name)
+    if is_admin(normalized):
+        return {"test_id": ASSESSMENT_TEST, "iteration": 0}
+    student_dir = get_student_dir(normalized)
+    if student_dir.exists():
+        _cleanup_orphan(student_dir)
+    iteration = next_iteration(student_dir)
+    test_id   = resolve_test_id(student_dir, iteration)
+    return {"test_id": test_id, "iteration": iteration}
+
+
 @router.get("/{student_name}/history")
 async def get_history(student_name: str):
     if is_admin(student_name):

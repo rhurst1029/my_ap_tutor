@@ -32,9 +32,12 @@ interface Props {
 
 export default function TestRunner({ test, studentName, onComplete }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [responses, setResponses] = useState<QuestionResponse[]>([]);
   const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null);
   const [error, setError] = useState('');
+
+  // Keep responses in a ref so handleAnswer/handleNext always see the latest
+  // value without stale closure issues.
+  const responsesRef = useRef<QuestionResponse[]>([]);
   const questionStartTime = useRef<number>(Date.now());
 
   useEffect(() => {
@@ -50,6 +53,9 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
     questionStartTime.current = Date.now();
   }, [currentIndex]);
 
+  // Called when the student clicks "Next" (or "Finish" on the last question).
+  // Receives the final guiding responses so they're recorded after the student
+  // has had a chance to answer the reflection MC questions.
   const handleAnswer = async (answer: string, guidingResponses: GuidingResponse[]) => {
     if (!sessionInfo) return;
 
@@ -72,8 +78,8 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
       })),
     };
 
-    const updatedResponses = [...responses, response];
-    setResponses(updatedResponses);
+    const updated = [...responsesRef.current, response];
+    responsesRef.current = updated;
 
     const isLast = currentIndex === test.questions.length - 1;
 
@@ -87,29 +93,33 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
           iteration: sessionInfo.iteration,
           started_at: sessionInfo.started_at,
           completed_at,
-          responses: updatedResponses,
+          responses: updated,
         });
       } catch {
         // Non-fatal — still show results
       }
-      const score = updatedResponses.filter(r => r.is_correct).length;
+      const score = updated.filter(r => r.is_correct).length;
       onComplete({
         score,
         total: test.questions.length,
-        responses: updatedResponses,
+        responses: updated,
         test,
         studentName,
         sessionInfo,
       });
-    } else {
-      setTimeout(() => setCurrentIndex(i => i + 1), 800);
     }
+  };
+
+  // Called by QuestionCard "Next Question" button on non-final questions.
+  const handleNext = () => {
+    setCurrentIndex(i => i + 1);
   };
 
   if (error) return <div className="error-screen">{error}</div>;
   if (!sessionInfo) return <div className="loading">Starting session…</div>;
 
   const question = test.questions[currentIndex];
+  const isLast = currentIndex === test.questions.length - 1;
 
   return (
     <div className="test-runner">
@@ -118,7 +128,7 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
         <div className="progress-bar">
           <div
             className="progress-fill"
-            style={{ width: `${((currentIndex) / test.questions.length) * 100}%` }}
+            style={{ width: `${(currentIndex / test.questions.length) * 100}%` }}
           />
         </div>
       </div>
@@ -127,7 +137,9 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
         question={question}
         index={currentIndex}
         total={test.questions.length}
+        isLast={isLast}
         onAnswer={handleAnswer}
+        onNext={handleNext}
       />
     </div>
   );

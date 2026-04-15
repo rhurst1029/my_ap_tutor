@@ -244,13 +244,126 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .feedback {
   margin-top: 1rem;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   border-radius: var(--radius);
-  font-weight: 600;
   font-size: 0.95rem;
 }
-.feedback-correct  { background: #052e16; color: var(--success); border: 1px solid #166534; }
-.feedback-incorrect { background: #2d0a0a; color: var(--danger); border: 1px solid #7f1d1d; }
+.feedback-correct {
+  background: #052e16;
+  color: var(--success);
+  border: 1px solid #166534;
+  font-weight: 600;
+}
+.feedback-incorrect {
+  background: #2d0a0a;
+  border: 1px solid #7f1d1d;
+}
+.feedback-wrong-header {
+  color: var(--danger);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.feedback-correct-text {
+  color: #fca5a5;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ─── Next / Finish button ─────────────────────────────────────────────────── */
+.btn-next {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-next:hover { background: var(--border); border-color: var(--primary); }
+
+/* ─── Guiding Questions ───────────────────────────────────────────────────── */
+.guiding-questions {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+.guiding-questions h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+.guiding-question { margin-bottom: 1rem; }
+.guiding-question:last-child { margin-bottom: 0; }
+
+.guiding-prompt {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.guiding-num {
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 0.25rem;
+}
+
+/* ─── Guiding MC options ──────────────────────────────────────────────────── */
+.guiding-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.guiding-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  width: 100%;
+  transition: border-color 0.12s, background 0.12s;
+  color: var(--text);
+}
+.guiding-option:hover:not(:disabled) { border-color: var(--primary); background: #1a1d27; }
+.guiding-option:disabled { cursor: default; }
+
+.guiding-option.guiding-selected { border-color: var(--primary); background: #1e1b4b; }
+.guiding-option.guiding-correct  { border-color: var(--success); background: #052e16; color: #86efac; }
+.guiding-option.guiding-incorrect { border-color: var(--danger);  background: #2d0a0a; color: #fca5a5; }
+
+.guiding-option-key {
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 1rem;
+  flex-shrink: 0;
+}
+.guiding-option-text { flex: 1; }
+
+.guiding-question textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  resize: vertical;
+  font-family: inherit;
+}
+.guiding-question textarea:focus { outline: none; border-color: var(--primary); }
 
 /* ─── Completion Screen ───────────────────────────────────────────────────── */
 .completion-screen {
