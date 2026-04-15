@@ -16,7 +16,8 @@ interface SessionInfo {
 }
 
 interface CompletionResult {
-  score: number;
+  score: number;        // weighted: sum of score_weight values
+  rawCorrect: number;   // unweighted: how many they eventually got right
   total: number;
   responses: QuestionResponse[];
   test: Test;
@@ -100,9 +101,11 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
       } catch {
         // Non-fatal — still show results
       }
-      const score = updated.filter(r => r.is_correct).length;
+      const weightedScore = parseFloat(updated.reduce((sum, r) => sum + r.score_weight, 0).toFixed(1));
+      const rawCorrect = updated.filter(r => r.is_correct).length;
       onComplete({
-        score,
+        score: weightedScore,
+        rawCorrect,
         total: test.questions.length,
         responses: updated,
         test,

@@ -16,7 +16,8 @@ interface SessionInfo {
 }
 
 interface CompletionResult {
-  score: number;
+  score: number;        // weighted: sum of score_weight values
+  rawCorrect: number;   // unweighted: how many they eventually got right
   total: number;
   responses: QuestionResponse[];
   test: Test;
@@ -80,6 +81,7 @@ export default function App() {
       {screen === 'complete' && result && (
         <CompletionScreen
           score={result.score}
+          rawCorrect={result.rawCorrect}
           total={result.total}
           responses={result.responses}
           test={result.test}

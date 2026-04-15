@@ -9,6 +9,7 @@ interface SessionInfo {
 
 interface Props {
   score: number;
+  rawCorrect?: number;  // added in Task 3, will be required in Task 4
   total: number;
   responses: QuestionResponse[];
   test: Test;
