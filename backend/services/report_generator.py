@@ -238,6 +238,17 @@ def generate_report_and_practice(student_name: str, session_id: str) -> None:
         practice_path.write_text(json.dumps(practice, indent=2))
         logger.info(f"Practice saved -> {practice_path}")
 
+        # ── Take-home + Quiz generation (assessment sessions only) ───────────
+        if metadata.get("session_type", "assessment") == "assessment":
+            try:
+                from services.takehome_generator import generate_takehome
+                from services.quiz_generator import generate_quiz
+                generate_takehome(student_name, session_id, report, client)
+                takehome_topics = report.get("weak_topics", [])
+                generate_quiz(student_name, session_id, report, takehome_topics, client)
+            except Exception as th_e:
+                logger.error(f"Take-home/quiz generation error: {th_e}")
+
     except Exception as e:
         logger.error(f"Report generation failed for {student_name}/{session_id}: {e}")
 

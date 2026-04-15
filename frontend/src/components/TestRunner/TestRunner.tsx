@@ -28,10 +28,11 @@ interface CompletionResult {
 interface Props {
   test: Test;
   studentName: string;
+  sessionType: 'assessment' | 'quiz';
   onComplete: (result: CompletionResult) => void;
 }
 
-export default function TestRunner({ test, studentName, onComplete }: Props) {
+export default function TestRunner({ test, studentName, sessionType, onComplete }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null);
   const [error, setError] = useState('');
@@ -129,7 +130,7 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
   return (
     <div className="test-runner">
       <div className="test-header">
-        <h2>{test.title}</h2>
+        <h2>{sessionType === 'quiz' ? `Quiz — ${test.title}` : test.title}</h2>
         <div className="progress-bar">
           <div
             className="progress-fill"

@@ -31,13 +31,15 @@ export default function App() {
   const [test, setTest] = useState<Test | null>(null);
   const [result, setResult] = useState<CompletionResult | null>(null);
   const [loadError, setLoadError] = useState('');
+  const [sessionType, setSessionType] = useState<'assessment' | 'quiz'>('assessment');
 
   const handleStart = async (name: string) => {
     setStudentName(name);
     setScreen('loading');
     setLoadError('');
     try {
-      const { test_id } = await fetchNextTest(name);
+      const { test_id, session_type } = await fetchNextTest(name);
+      setSessionType(session_type);
       const t = await fetchTest(test_id);
       setTest(t);
       setScreen('test');
@@ -75,6 +77,7 @@ export default function App() {
         <TestRunner
           test={test}
           studentName={studentName}
+          sessionType={sessionType}
           onComplete={handleComplete}
         />
       )}

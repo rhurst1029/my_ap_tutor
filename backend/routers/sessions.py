@@ -23,16 +23,26 @@ def get_student_dir(name: str) -> Path:
     safe = re.sub(r'[^\w]', '_', normalize_name(name).lower())
     return STUDENTS_DIR / f"{safe}_data"
 
-def resolve_test_id(student_dir: Path, iteration: int) -> str:
+QUIZ_PREFIX       = "quiz"
+ASSESSMENT_PREFIX = "assessment"
+
+def resolve_test_id(student_dir: Path, iteration: int) -> tuple:
     """
-    Session 1 always uses the standard assessment.
-    Later sessions use the Claude-generated adaptive test if it exists,
-    otherwise fall back to the standard assessment.
+    Returns (test_id, session_type).
+    Session 1 is always the standard assessment.
+    Subsequent sessions check for a generated quiz first, then a generated assessment.
     """
     if iteration == 1:
-        return ASSESSMENT_TEST
-    adaptive = GENERATED_DIR / f"{student_dir.name}_test_{iteration}.json"
-    return adaptive.stem if adaptive.exists() else ASSESSMENT_TEST
+        return (ASSESSMENT_TEST, "assessment")
+    # Quiz check: quiz files are named {student_dir.name}_quiz_{iteration}.json
+    quiz_path = GENERATED_DIR / f"{student_dir.name}_{QUIZ_PREFIX}_{iteration}.json"
+    if quiz_path.exists():
+        return (quiz_path.stem, "quiz")
+    # Assessment check: generated assessments named {student_dir.name}_assessment_{iteration}.json
+    assessment_path = GENERATED_DIR / f"{student_dir.name}_{ASSESSMENT_PREFIX}_{iteration}.json"
+    if assessment_path.exists():
+        return (assessment_path.stem, "assessment")
+    return (ASSESSMENT_TEST, "assessment")
 
 def next_iteration(student_dir: Path) -> int:
     """Use highest existing session number + 1 to handle abandoned sessions correctly."""
@@ -66,7 +76,7 @@ async def start_session(req: SessionStartRequest):
     if student_dir.exists():
         _cleanup_orphan(student_dir)
     iteration  = next_iteration(student_dir)
-    test_id    = resolve_test_id(student_dir, iteration)
+    test_id, session_type = resolve_test_id(student_dir, iteration)
     session_id = f"session_{iteration}"
     session_dir = student_dir / session_id
     session_dir.mkdir(parents=True, exist_ok=True)
@@ -76,6 +86,7 @@ async def start_session(req: SessionStartRequest):
         "student_name":     normalized_name,
         "test_id":          test_id,
         "iteration":        iteration,
+        "session_type":     session_type,
         "phase":            "assessment",
         "timestamp":        datetime.now(timezone.utc).isoformat(),
         "total_questions":  req.total_questions,
@@ -83,7 +94,7 @@ async def start_session(req: SessionStartRequest):
         "study_completed":  False,
     }
     (session_dir / "metadata.json").write_text(json.dumps(metadata, indent=2))
-    return {"session_id": session_id, "iteration": iteration, "test_id": test_id}
+    return {"session_id": session_id, "iteration": iteration, "test_id": test_id, "session_type": session_type}
 
 
 @router.post("/{student_name}/{session_id}/save")
@@ -142,13 +153,13 @@ async def get_next_test(student_name: str):
     """Return the test_id and iteration for this student's next session without creating it."""
     normalized = normalize_name(student_name)
     if is_admin(normalized):
-        return {"test_id": ASSESSMENT_TEST, "iteration": 0}
+        return {"test_id": ASSESSMENT_TEST, "iteration": 0, "session_type": "assessment"}
     student_dir = get_student_dir(normalized)
     if student_dir.exists():
         _cleanup_orphan(student_dir)
     iteration = next_iteration(student_dir)
-    test_id   = resolve_test_id(student_dir, iteration)
-    return {"test_id": test_id, "iteration": iteration}
+    test_id, session_type = resolve_test_id(student_dir, iteration)
+    return {"test_id": test_id, "iteration": iteration, "session_type": session_type}
 
 
 @router.get("/{student_name}/history")
