@@ -135,12 +135,6 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
     return classes.join(' ');
   };
 
-  // ── Derived booleans for rendering ───────────────────────────────────────
-  const showNext =
-    submitState === 'submitted_correct' ||
-    submitState === 'submitted_correct_retry' ||
-    submitState === 'submitted_wrong_final';
-
   return (
     <div className="question-card">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -327,13 +321,6 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
                 {isLast ? 'Finish Quiz' : 'Next Question →'}
               </button>
             </>
-          )}
-
-          {/* Safety net: Next button for any other final state (should not occur) */}
-          {!showNext && submitState !== 'idle' && submitState !== 'submitted_wrong_retry' && (
-            <button className="btn-next" onClick={handleNext}>
-              {isLast ? 'Finish Quiz' : 'Next Question →'}
-            </button>
           )}
         </>
       )}

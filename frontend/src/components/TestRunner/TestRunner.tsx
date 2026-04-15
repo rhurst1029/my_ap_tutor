@@ -67,7 +67,7 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
       question_type: question.type,
       selected_answer: answer,
       frq_parts: [],
-      is_correct: answer === question.answer_key,
+      is_correct: scoreWeight > 0,
       attempt_number: attemptNumber,
       score_weight: scoreWeight,
       time_spent_seconds: timeSpent,
