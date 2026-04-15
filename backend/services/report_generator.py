@@ -128,7 +128,20 @@ def _parse_json(text: str) -> dict:
     if text.startswith("```"):
         text = re.sub(r'^```[a-z]*\n?', '', text)
         text = re.sub(r'\n?```$', '', text)
-    return json.loads(text.strip())
+    text = text.strip()
+    # Find the outermost JSON object in case Claude appends trailing text
+    brace_start = text.find('{')
+    if brace_start != -1:
+        depth = 0
+        for i, ch in enumerate(text[brace_start:], brace_start):
+            if ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    text = text[brace_start:i + 1]
+                    break
+    return json.loads(text)
 
 
 def _build_question_summary(responses: dict, test: dict) -> list:

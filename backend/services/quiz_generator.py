@@ -195,7 +195,20 @@ def generate_quiz(
         if raw.startswith("```"):
             raw = re.sub(r'^```[a-z]*\n?', '', raw)
             raw = re.sub(r'\n?```$', '', raw)
-        data = json.loads(raw.strip())
+        raw = raw.strip()
+        # Find the outermost JSON object in case Claude appended trailing text
+        brace_start = raw.find('{')
+        if brace_start != -1:
+            depth = 0
+            for i, ch in enumerate(raw[brace_start:], brace_start):
+                if ch == '{':
+                    depth += 1
+                elif ch == '}':
+                    depth -= 1
+                    if depth == 0:
+                        raw = raw[brace_start:i + 1]
+                        break
+        data = json.loads(raw)
 
         GENERATED_DIR.mkdir(parents=True, exist_ok=True)
         quiz_test_id = f"{student_dir.name}_quiz_{quiz_iteration}"

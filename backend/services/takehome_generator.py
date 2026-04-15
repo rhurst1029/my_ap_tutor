@@ -284,7 +284,19 @@ def generate_takehome(
         if raw.startswith("```"):
             raw = re.sub(r'^```[a-z]*\n?', '', raw)
             raw = re.sub(r'\n?```$', '', raw)
-        data = json.loads(raw.strip())
+        raw = raw.strip()
+        brace_start = raw.find('{')
+        if brace_start != -1:
+            depth = 0
+            for i, ch in enumerate(raw[brace_start:], brace_start):
+                if ch == '{':
+                    depth += 1
+                elif ch == '}':
+                    depth -= 1
+                    if depth == 0:
+                        raw = raw[brace_start:i + 1]
+                        break
+        data = json.loads(raw)
         questions = data["questions"]
 
         overview = (

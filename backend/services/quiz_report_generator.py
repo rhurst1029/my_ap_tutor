@@ -239,7 +239,19 @@ def generate_quiz_report_and_next_assessment(
         if raw.startswith("```"):
             raw = re.sub(r'^```[a-z]*\n?', '', raw)
             raw = re.sub(r'\n?```$', '', raw)
-        quiz_report = json.loads(raw.strip())
+        raw = raw.strip()
+        brace_start = raw.find('{')
+        if brace_start != -1:
+            depth = 0
+            for i, ch in enumerate(raw[brace_start:], brace_start):
+                if ch == '{':
+                    depth += 1
+                elif ch == '}':
+                    depth -= 1
+                    if depth == 0:
+                        raw = raw[brace_start:i + 1]
+                        break
+        quiz_report = json.loads(raw)
         quiz_report["report_id"] = f"quiz_report_{quiz_iteration}"
         quiz_report["student_name"] = student_name.capitalize()
         quiz_report["session_id"] = session_id
@@ -277,7 +289,19 @@ def generate_quiz_report_and_next_assessment(
         if raw2.startswith("```"):
             raw2 = re.sub(r'^```[a-z]*\n?', '', raw2)
             raw2 = re.sub(r'\n?```$', '', raw2)
-        assessment_data = json.loads(raw2.strip())
+        raw2 = raw2.strip()
+        brace_start2 = raw2.find('{')
+        if brace_start2 != -1:
+            depth2 = 0
+            for i2, ch2 in enumerate(raw2[brace_start2:], brace_start2):
+                if ch2 == '{':
+                    depth2 += 1
+                elif ch2 == '}':
+                    depth2 -= 1
+                    if depth2 == 0:
+                        raw2 = raw2[brace_start2:i2 + 1]
+                        break
+        assessment_data = json.loads(raw2)
 
         GENERATED_DIR.mkdir(parents=True, exist_ok=True)
         assessment_id = f"{student_dir.name}_assessment_{next_iteration}"
