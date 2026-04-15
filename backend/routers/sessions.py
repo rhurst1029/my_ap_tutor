@@ -116,7 +116,13 @@ async def save_responses(
     meta["completed_at"] = datetime.now(timezone.utc).isoformat()
     meta["phase"]        = "report_ready"
     meta_path.write_text(json.dumps(meta, indent=2))
-    background_tasks.add_task(generate_report_and_practice, student_name, session_id)
+
+    session_type = meta.get("session_type", "assessment")
+    if session_type == "assessment":
+        background_tasks.add_task(generate_report_and_practice, student_name, session_id)
+    else:
+        from services.quiz_report_generator import generate_quiz_report_and_next_assessment
+        background_tasks.add_task(generate_quiz_report_and_next_assessment, student_name, session_id)
     return {"status": "saved"}
 
 
