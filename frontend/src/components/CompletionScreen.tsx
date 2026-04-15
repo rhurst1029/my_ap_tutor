@@ -8,8 +8,8 @@ interface SessionInfo {
 }
 
 interface Props {
-  score: number;
-  rawCorrect?: number;  // added in Task 3, will be required in Task 4
+  score: number;        // weighted: sum of score_weight values
+  rawCorrect: number;   // unweighted: how many they eventually got right
   total: number;
   responses: QuestionResponse[];
   test: Test;
@@ -47,9 +47,10 @@ const CONFIDENCE_LABELS: Record<ConfidenceLevel, string> = {
 };
 
 export default function CompletionScreen({
-  score, total, responses, test, studentName, sessionInfo, onRetake,
+  score, rawCorrect, total, responses, test, studentName, sessionInfo, onRetake,
 }: Props) {
-  const pct = Math.round((score / total) * 100);
+  const weightedPct = Math.round((score / total) * 100);
+  const rawPct = Math.round((rawCorrect / total) * 100);
   const avgTime = Math.round(responses.reduce((s, r) => s + r.time_spent_seconds, 0) / responses.length);
 
   // Build per-question detail rows
@@ -82,9 +83,13 @@ export default function CompletionScreen({
         <h1>Session Complete</h1>
         <p className="student-name">{studentName} — Session {sessionInfo.iteration}</p>
         <div className="score-display">
-          <span className="score-big">{score}/{total}</span>
-          <span className="score-pct">{pct}%</span>
+          <span className="score-big">{score.toFixed(1)}/{total}</span>
+          <span className="score-pct">{weightedPct}%</span>
         </div>
+        <p className="score-subtext">
+          {rawCorrect}/{total} answered correctly ({rawPct}%)
+          {rawCorrect > score && ` · ${rawCorrect - Math.round(score)} answered correctly on 2nd try (70% credit)`}
+        </p>
         <p className="avg-time">Average time per question: {formatTime(avgTime)}</p>
       </div>
 
@@ -123,12 +128,15 @@ export default function CompletionScreen({
             <div className="q-row-left">
               <span className="q-num">Q{i + 1}</span>
               <span className={`q-result ${r.is_correct ? 'correct' : 'incorrect'}`}>
-                {r.is_correct ? '✓' : '✗'}
+                {r.is_correct ? (r.attempt_number === 2 ? '✓₂' : '✓') : '✗'}
               </span>
               <span className="q-topic">{q.topic_tags.join(', ').replace(/_/g, ' ')}</span>
             </div>
             <div className="q-row-right">
               <span className="q-time">{formatTime(r.time_spent_seconds)}</span>
+              {r.attempt_number === 2 && r.is_correct && (
+                <span className="attempt-badge">2nd try</span>
+              )}
               <span className={`conf-badge conf-${conf}`}>{CONFIDENCE_LABELS[conf]}</span>
             </div>
           </div>
