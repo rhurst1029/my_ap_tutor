@@ -29,6 +29,7 @@ export interface Question {
   options: Record<string, string>;   // empty for frq
   answer_key: string;                // empty for frq
   guiding_questions: GuidingQuestion[];
+  explanation?: string;
   // FRQ only
   parts?: FRQPart[];
   total_points?: number;

@@ -9,12 +9,19 @@ interface GuidingResponse {
   text_response: string;
 }
 
+type SubmitState =
+  | 'idle'
+  | 'submitted_correct'
+  | 'submitted_wrong_retry'     // attempt 1 wrong — show guiding + Try Again
+  | 'submitted_wrong_final'     // attempt 2 wrong — show explanation forced open
+  | 'submitted_correct_retry';  // attempt 2 correct — show 70% credit
+
 interface Props {
   question: Question;
   index: number;
   total: number;
   isLast: boolean;
-  onAnswer: (answer: string, guidingResponses: GuidingResponse[]) => void;
+  onAnswer: (answer: string, guidingResponses: GuidingResponse[], attemptNumber: number, scoreWeight: number) => void;
   onNext: () => void;
 }
 
@@ -43,19 +50,45 @@ const TYPE_LABELS: Record<string, string> = {
 
 export default function QuestionCard({ question, index, total, isLast, onAnswer, onNext }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
-  // submitted = main answer locked in; shows feedback + guiding questions
-  const [submitted, setSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [explanationOpen, setExplanationOpen] = useState(false);
   // MC guiding questions: track which option was chosen per guiding question id
   const [guidingSelections, setGuidingSelections] = useState<Record<string, string>>({});
   // Free-text guiding questions (fallback for questions without MC options)
   const [guidingTexts, setGuidingTexts] = useState<Record<string, string>>({});
 
-  const isCorrect = selected === question.answer_key;
+  // ── Build guiding responses helper ───────────────────────────────────────
+  const buildGuidingResponses = (): GuidingResponse[] =>
+    question.guiding_questions.map(gq => ({
+      guiding_question_id: gq.id,
+      text_response: gq.options
+        ? (guidingSelections[gq.id] ?? '')
+        : (guidingTexts[gq.id] ?? ''),
+    }));
 
-  // ── Main answer submit ────────────────────────────────────────────────────
+  // ── Main answer submit (attempt 1) ────────────────────────────────────────
   const handleMCSubmit = () => {
     if (!selected) return;
-    setSubmitted(true);
+    const isCorrect = selected === question.answer_key;
+    if (isCorrect) {
+      setSubmitState('submitted_correct');
+      onAnswer(selected, buildGuidingResponses(), 1, 1.0);
+    } else {
+      setSubmitState('submitted_wrong_retry');
+    }
+  };
+
+  // ── Retry submit (attempt 2) ──────────────────────────────────────────────
+  const handleRetrySubmit = () => {
+    if (!selected) return;
+    const isCorrect = selected === question.answer_key;
+    if (isCorrect) {
+      setSubmitState('submitted_correct_retry');
+      onAnswer(selected, buildGuidingResponses(), 2, 0.7);
+    } else {
+      setSubmitState('submitted_wrong_final');
+      onAnswer(selected, buildGuidingResponses(), 2, 0.0);
+    }
   };
 
   // ── Guiding MC select (auto-locks on first pick) ──────────────────────────
@@ -66,31 +99,26 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
 
   // ── Next / Finish button ──────────────────────────────────────────────────
   const handleNext = () => {
-    if (!selected) return;
-    // Build guiding responses from whichever mode each question used
-    const guidingResponses: GuidingResponse[] = question.guiding_questions.map(gq => ({
-      guiding_question_id: gq.id,
-      text_response: gq.options
-        ? (guidingSelections[gq.id] ?? '')
-        : (guidingTexts[gq.id] ?? ''),
-    }));
-    onAnswer(selected, guidingResponses);
     if (!isLast) onNext();
   };
 
   // ── FRQ (unchanged) ───────────────────────────────────────────────────────
   const handleFRQComplete = (frqParts: FRQPartResponse[]) => {
     const allPassed = frqParts.every(p => p.passed);
-    onAnswer(allPassed ? 'PASSED' : 'FAILED', []);
+    onAnswer(allPassed ? 'PASSED' : 'FAILED', [], 1, allPassed ? 1.0 : 0.0);
     if (!isLast) onNext();
   };
+
+  // ── Option disabled logic ─────────────────────────────────────────────────
+  const isOptionsDisabled = submitState !== 'idle' && submitState !== 'submitted_wrong_retry';
 
   // ── Option CSS class helper ───────────────────────────────────────────────
   const optionClass = (key: string) => {
     const classes = ['option'];
     if (selected === key) classes.push('selected');
-    if (submitted && key === question.answer_key) classes.push('correct');
-    if (submitted && selected === key && key !== question.answer_key) classes.push('incorrect');
+    const isSubmitted = submitState !== 'idle' && submitState !== 'submitted_wrong_retry';
+    if (isSubmitted && key === question.answer_key) classes.push('correct');
+    if (isSubmitted && selected === key && key !== question.answer_key) classes.push('incorrect');
     return classes.join(' ');
   };
 
@@ -106,6 +134,12 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
     }
     return classes.join(' ');
   };
+
+  // ── Derived booleans for rendering ───────────────────────────────────────
+  const showNext =
+    submitState === 'submitted_correct' ||
+    submitState === 'submitted_correct_retry' ||
+    submitState === 'submitted_wrong_final';
 
   return (
     <div className="question-card">
@@ -149,7 +183,7 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
                   type="radio"
                   name={`q-${question.id}`}
                   value={key}
-                  disabled={submitted}
+                  disabled={isOptionsDisabled}
                   checked={selected === key}
                   onChange={() => setSelected(key)}
                 />
@@ -159,8 +193,8 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
             ))}
           </div>
 
-          {/* Submit button — only before submission */}
-          {!submitted && (
+          {/* ── Idle: Submit button ─────────────────────────────────────── */}
+          {submitState === 'idle' && (
             <button
               className="btn-primary submit-btn"
               disabled={!selected}
@@ -170,38 +204,45 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
             </button>
           )}
 
-          {/* ── Post-submit: feedback + guiding questions + Next ──────────── */}
-          {submitted && (
+          {/* ── Attempt 1 correct ──────────────────────────────────────── */}
+          {submitState === 'submitted_correct' && (
             <>
-              {/* Feedback banner */}
-              <div className={`feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`}>
-                {isCorrect
-                  ? '✓ Correct!'
-                  : (
-                    <>
-                      <div className="feedback-wrong-header">✗ Not quite — the correct answer is {question.answer_key}</div>
-                      <div className="feedback-correct-text">
-                        {question.options[question.answer_key]}
-                      </div>
-                    </>
-                  )
-                }
-              </div>
+              <div className="feedback feedback-correct">✓ Correct!</div>
 
-              {/* Guiding / reflection questions */}
+              {question.explanation && (
+                <div>
+                  <button
+                    className="btn-explanation-toggle"
+                    onClick={() => setExplanationOpen(o => !o)}
+                  >
+                    {explanationOpen ? 'Hide Explanation' : 'View Explanation'}
+                  </button>
+                  {explanationOpen && (
+                    <div className="explanation-body">{question.explanation}</div>
+                  )}
+                </div>
+              )}
+
+              <button className="btn-next" onClick={handleNext}>
+                {isLast ? 'Finish Quiz' : 'Next Question →'}
+              </button>
+            </>
+          )}
+
+          {/* ── Attempt 1 wrong — show guiding + Try Again ─────────────── */}
+          {submitState === 'submitted_wrong_retry' && (
+            <>
+              <div className="feedback feedback-retry">↩ Not quite — take another look and try again.</div>
+
+              {/* Guiding questions */}
               {question.guiding_questions.length > 0 && (
                 <div className="guiding-questions">
-                  <h4>
-                    {isCorrect ? 'Reflect' : 'Work through these to understand why'}
-                  </h4>
-
+                  <h4>Work through these to understand why</h4>
                   {question.guiding_questions.map((gq, gi) => (
                     <div key={gq.id} className="guiding-question">
                       <p className="guiding-prompt">
                         <span className="guiding-num">{gi + 1}.</span> {gq.text}
                       </p>
-
-                      {/* MC guiding question */}
                       {gq.options ? (
                         <div className="guiding-options">
                           {Object.entries(gq.options).map(([key, val]) => (
@@ -217,7 +258,6 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
                           ))}
                         </div>
                       ) : (
-                        /* Fallback: free-text (for older tests without MC guiding questions) */
                         <textarea
                           placeholder="Type your thoughts here (optional)…"
                           value={guidingTexts[gq.id] ?? ''}
@@ -232,11 +272,68 @@ export default function QuestionCard({ question, index, total, isLast, onAnswer,
                 </div>
               )}
 
-              {/* Next / Finish button */}
+              <button
+                className="btn-retry"
+                disabled={!selected}
+                onClick={handleRetrySubmit}
+              >
+                Try Again
+              </button>
+            </>
+          )}
+
+          {/* ── Attempt 2 correct — 70% credit ─────────────────────────── */}
+          {submitState === 'submitted_correct_retry' && (
+            <>
+              <div className="feedback feedback-correct-retry">
+                ✓ Correct on the second try — 70% credit
+              </div>
+
+              {question.explanation && (
+                <div>
+                  <button
+                    className="btn-explanation-toggle"
+                    onClick={() => setExplanationOpen(o => !o)}
+                  >
+                    {explanationOpen ? 'Hide Explanation' : 'View Explanation'}
+                  </button>
+                  {explanationOpen && (
+                    <div className="explanation-body">{question.explanation}</div>
+                  )}
+                </div>
+              )}
+
               <button className="btn-next" onClick={handleNext}>
                 {isLast ? 'Finish Quiz' : 'Next Question →'}
               </button>
             </>
+          )}
+
+          {/* ── Attempt 2 wrong — forced explanation ────────────────────── */}
+          {submitState === 'submitted_wrong_final' && (
+            <>
+              <div className="feedback feedback-incorrect">
+                <div className="feedback-wrong-header">✗ Incorrect — the correct answer is {question.answer_key}</div>
+                <div className="feedback-correct-text">
+                  {question.options[question.answer_key]}
+                </div>
+              </div>
+
+              {question.explanation && (
+                <div className="explanation-body">{question.explanation}</div>
+              )}
+
+              <button className="btn-next" onClick={handleNext}>
+                {isLast ? 'Finish Quiz' : 'Next Question →'}
+              </button>
+            </>
+          )}
+
+          {/* Safety net: Next button for any other final state (should not occur) */}
+          {!showNext && submitState !== 'idle' && submitState !== 'submitted_wrong_retry' && (
+            <button className="btn-next" onClick={handleNext}>
+              {isLast ? 'Finish Quiz' : 'Next Question →'}
+            </button>
           )}
         </>
       )}

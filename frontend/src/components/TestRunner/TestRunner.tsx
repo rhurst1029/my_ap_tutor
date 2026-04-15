@@ -56,7 +56,7 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
   // Called when the student clicks "Next" (or "Finish" on the last question).
   // Receives the final guiding responses so they're recorded after the student
   // has had a chance to answer the reflection MC questions.
-  const handleAnswer = async (answer: string, guidingResponses: GuidingResponse[]) => {
+  const handleAnswer = async (answer: string, guidingResponses: GuidingResponse[], attemptNumber: number, scoreWeight: number) => {
     if (!sessionInfo) return;
 
     const question: Question = test.questions[currentIndex];
@@ -68,6 +68,8 @@ export default function TestRunner({ test, studentName, onComplete }: Props) {
       selected_answer: answer,
       frq_parts: [],
       is_correct: answer === question.answer_key,
+      attempt_number: attemptNumber,
+      score_weight: scoreWeight,
       time_spent_seconds: timeSpent,
       guiding_question_responses: guidingResponses.map(gr => ({
         guiding_question_id: gr.guiding_question_id,
