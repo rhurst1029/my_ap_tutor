@@ -13,8 +13,10 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import List, Tuple
 from loguru import logger
+from dotenv import load_dotenv
 
 ROOT = Path(__file__).parent.parent.parent
+load_dotenv(ROOT / "backend" / ".env")
 GENERATED_DIR = ROOT / "data" / "tests" / "generated"
 REFERENCE_BANK_PATH = ROOT / "data" / "ap_csa_reference_bank.md"
 
@@ -84,17 +86,16 @@ Reference bank excerpt for context:
 {reference_bank_excerpt}
 ---
 
-Create a complete mock AP CSA exam following the EXACT structure of the real exam:
-- 40 multiple choice questions (mix of standalone MC and code-trace)
-- 4 FRQ questions (one of each type: Methods & Control Structures, Class Design, Array/ArrayList, 2D Array)
+Create 15 adaptive multiple-choice questions targeting the student's weak topics.
 
 Rules:
-1. Cover ALL AP CSA topics proportionally to their exam weight
-2. For topics in weak_topics: include 1-2 extra questions OR modify an existing relevant question to highlight that concept
-3. FRQs must have the same structure as real AP FRQs: multi-part, realistic Java context
-4. Every question must have a meaningful explanation
+1. At least 8 questions must directly target topics in weak_topics
+2. Remaining questions cover a mix of other AP CSA topics
+3. Include a mix of concept questions and short code-trace questions
+4. Every question must have a concise explanation (1-2 sentences)
+5. CRITICAL JSON RULES: All string values must be valid JSON. Escape newlines as \\n and quotes as \\". Do NOT use actual newline characters inside string values.
 
-Return raw JSON matching this schema (no markdown fences):
+Return ONLY raw JSON (no markdown fences, no text before or after):
 {{
   "questions": [
     {{
@@ -102,18 +103,15 @@ Return raw JSON matching this schema (no markdown fences):
       "type": "multiple_choice",
       "topic_tags": ["<topic>"],
       "unit": <1-10>,
-      "prompt": "<question>",
-      "code_block": "<Java or null>",
+      "prompt": "<question text — single line, no newlines>",
+      "code_block": "<Java snippet with \\n for newlines, or null>",
       "options": {{"A": "<>", "B": "<>", "C": "<>", "D": "<>"}},
       "answer_key": "<A|B|C|D>",
-      "explanation": "<why correct>",
+      "explanation": "<1-2 sentence explanation>",
       "guiding_questions": [{{"id": "mock_q1_g1", "text": "<hint>"}}]
     }}
   ]
 }}
-
-FRQ questions use the same frq schema as the quiz generator (parts array, options: {{}}, answer_key: "").
-The 44 questions total (40 MC + 4 FRQ) should be ordered: MC questions first, then FRQs.
 """
 
 
@@ -281,7 +279,7 @@ def generate_quiz_report_and_next_assessment(
         )
 
         with client.messages.stream(
-            model="claude-opus-4-6", max_tokens=16384,
+            model="claude-opus-4-6", max_tokens=8192,
             messages=[{"role": "user", "content": assessment_prompt}],
         ) as stream:
             raw2 = stream.get_final_text().strip()
