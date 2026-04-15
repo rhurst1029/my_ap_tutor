@@ -52,9 +52,11 @@ class FRQPartResponse(BaseModel):
 class QuestionResponse(BaseModel):
     question_id: str
     question_type: Literal["multiple_choice", "code_trace", "frq"] = "multiple_choice"
-    selected_answer: Optional[str] = None        # MC / code_trace
+    selected_answer: Optional[str] = None        # MC / code_trace final answer
     frq_parts: list[FRQPartResponse] = []        # FRQ only
     is_correct: bool
+    attempt_number: int = 1                      # 1 = first try, 2 = second try
+    score_weight: float = 1.0                    # 1.0 | 0.7 | 0.0
     time_spent_seconds: int
     guiding_question_responses: list[GuidingQuestionResponse] = []
 

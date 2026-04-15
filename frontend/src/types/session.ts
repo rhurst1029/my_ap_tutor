@@ -36,6 +36,8 @@ export interface QuestionResponse {
   selected_answer: string | null;
   frq_parts: FRQPartResponse[];
   is_correct: boolean;
+  attempt_number: number;      // 1 = first try, 2 = second try
+  score_weight: number;        // 1.0 | 0.7 | 0.0
   time_spent_seconds: number;
   guiding_question_responses: GuidingQuestionResponse[];
 }
