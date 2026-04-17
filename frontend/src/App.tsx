@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NameEntry from './components/NameEntry';
 import TestRunner from './components/TestRunner/TestRunner';
 import CompletionScreen from './components/CompletionScreen';
+import TakeHomeRunner from './components/TakeHome/TakeHomeRunner';
 import { fetchTest, fetchNextTest } from './api';
 import type { Test } from './types/test';
 import type { QuestionResponse } from './types/session';
 import './App.css';
 
-type Screen = 'name-entry' | 'loading' | 'test' | 'complete';
+type Screen = 'name-entry' | 'loading' | 'test' | 'complete' | 'takehome';
 
 interface SessionInfo {
   session_id: string;
@@ -32,6 +33,17 @@ export default function App() {
   const [result, setResult] = useState<CompletionResult | null>(null);
   const [loadError, setLoadError] = useState('');
   const [sessionType, setSessionType] = useState<'assessment' | 'quiz'>('assessment');
+  const [takeHomePath, setTakeHomePath] = useState('');
+
+  // Check URL params for take-home mode: ?takehome=bella_data/take_home_session_6
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const th = params.get('takehome');
+    if (th) {
+      setTakeHomePath(th);
+      setScreen('takehome');
+    }
+  }, []);
 
   const handleStart = async (name: string) => {
     setStudentName(name);
@@ -79,6 +91,12 @@ export default function App() {
           studentName={studentName}
           sessionType={sessionType}
           onComplete={handleComplete}
+        />
+      )}
+      {screen === 'takehome' && takeHomePath && (
+        <TakeHomeRunner
+          manifestPath={`${takeHomePath}/manifest.json`}
+          basePath={takeHomePath}
         />
       )}
       {screen === 'complete' && result && (

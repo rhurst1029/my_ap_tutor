@@ -122,6 +122,150 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 /* ─── Test Runner ─────────────────────────────────────────────────────────── */
 .test-runner { max-width: 760px; width: 100%; }
 
+/* When the active question is an FRQ, let the card fill the viewport like an IDE. */
+.test-runner:has(.frq-card) { max-width: none; padding: 0 1rem; }
+.test-runner:has(.frq-card) .question-card { max-width: none; }
+.frq-editor { min-height: 400px; }
+
+/* ─── FRQ Controls ───────────────────────────────────────────────────────── */
+.frq-card { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.frq-parts-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.frq-part-tab {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  background: var(--surface2);
+  color: var(--text-muted);
+}
+.frq-part-tab.active { background: var(--primary); color: #fff; }
+.frq-part-tab.done { background: var(--success); color: #fff; opacity: 0.7; }
+
+.frq-part-header { margin-bottom: 0.25rem; }
+.frq-points {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.frq-description {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.frq-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.btn-run {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--success);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--success);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-run:hover:not(:disabled) { background: var(--success); color: #fff; }
+.btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ─── FRQ Terminal Output ────────────────────────────────────────────────── */
+.frq-output {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.frq-output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.frq-verdict {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+.frq-verdict.passed { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+.frq-verdict.failed { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+.frq-stdout {
+  margin: 0;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #c9d1d9;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: transparent;
+  border: none;
+}
+.frq-stdout.correct { color: var(--success); }
+
+.frq-stderr {
+  margin: 0;
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #f85149;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(239, 68, 68, 0.05);
+  border-top: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.frq-expected {
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid #30363d;
+  background: rgba(245, 158, 11, 0.05);
+}
+.frq-expected span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--warning);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.frq-expected pre {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--warning);
+  white-space: pre-wrap;
+}
+
+.frq-run-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
 .test-header { margin-bottom: 1.5rem; }
 .test-header h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
 
