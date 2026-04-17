@@ -7,7 +7,7 @@ import sys, os
 from pathlib import Path
 import pytest
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
 # Dummy key so config.py doesn't fail on import

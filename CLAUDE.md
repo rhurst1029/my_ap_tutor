@@ -5,7 +5,7 @@
 > and shorthand commands defined there are in effect here. This file adds only what is
 > project-specific.
 
-> **For task implementation details:** see [BuildGuide.md](./BuildGuide.md)
+> **For task implementation details:** see [BuildGuide.md](./docs/BuildGuide.md)
 
 ---
 
@@ -51,9 +51,9 @@ Never modify or suggest modifying:
 ## Documentation Rules
 
 - **`CLAUDE.md`** (this file) — update when project structure, phases, or conventions change
-- **`BuildGuide.md`** — update when endpoints, components, schemas, or dependencies are added
-- **`MultiAgentDesign.md`** — design doc for the five-agent development pipeline (Planning, Code, Testing, Review, Docs); update when agent roles, tools, or handoff protocols change
-- **`README.md`** (once created) — quickstart only; architecture lives in BuildGuide.md
+- **`docs/BuildGuide.md`** — update when endpoints, components, schemas, or dependencies are added
+- **`docs/MultiAgentDesign.md`** — design doc for the five-agent development pipeline (Planning, Code, Testing, Review, Docs); update when agent roles, tools, or handoff protocols change
+- **`README.md`** (once created) — quickstart only; architecture lives in docs/BuildGuide.md
 - No JSDoc/docstrings on code that wasn't changed; comments only where logic is non-obvious
 
 ---
