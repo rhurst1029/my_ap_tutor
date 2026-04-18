@@ -159,12 +159,36 @@ export default function TakeHomeRunner({ manifestPath, basePath }: Props) {
   const handleRunTests = async () => {
     if (!variant) return;
     setRunning(true);
+    setActivePanel('tests');
     const results: TestResult[] = [];
 
     for (const tc of variant.test_cases) {
+      // Build the main() body for this test case.
+      // Rules:
+      //   1. If method_call already ends with `;`, use as-is (full statement).
+      //   2. If it starts with System.out.print(...), just append `;`.
+      //   3. If the method is declared `void` in the code, call bare + `;`.
+      //   4. Otherwise wrap in System.out.println(...) to capture the return value.
+      const startsWithPrint = /^\s*System\.out\.(print|println)/.test(tc.method_call);
+      const callAlreadyStatement = /;\s*$/.test(tc.method_call);
+      const methodNameMatch = tc.method_call.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(/);
+      const methodName = methodNameMatch?.[1];
+      const voidRegex = methodName
+        ? new RegExp(`\\bstatic\\s+void\\s+${methodName}\\b`)
+        : null;
+      const isVoid = voidRegex ? voidRegex.test(code) : false;
+
+      const mainBody = callAlreadyStatement
+        ? tc.method_call
+        : startsWithPrint
+          ? `${tc.method_call};`
+          : isVoid
+            ? `${tc.method_call};`
+            : `System.out.println(${tc.method_call});`;
+
       const testCode = code.replace(
-        /public static void main\(String\[\] args\)\s*\{[\s\S]*?\}/,
-        `public static void main(String[] args) {\n        System.out.println(${tc.method_call});\n    }`
+        /public static void main\(String\[\] args\)\s*\{[\s\S]*?\n\s*\}/,
+        `public static void main(String[] args) {\n        ${mainBody}\n    }`
       );
 
       const start = Date.now();
@@ -294,16 +318,26 @@ export default function TakeHomeRunner({ manifestPath, basePath }: Props) {
           <div className="takehome-editor-container">
             <div className="editor-toolbar">
               <button className="btn-run-code" onClick={handleRun} disabled={running}>
-                {running ? 'Running...' : '▶ Run Code'}
-              </button>
-              <button className="btn-run-tests" onClick={handleRunTests} disabled={running}>
-                {running ? 'Testing...' : '🧪 Run Tests'}
+                {running ? 'Running…' : '▶ Run Code'}
               </button>
               <button
-                className="btn-visualize"
+                className={`btn-panel ${activePanel === 'tests' ? 'active' : ''}`}
+                onClick={handleRunTests}
+                disabled={running}
+              >
+                {running ? 'Testing…' : '🧪 Tests'}
+              </button>
+              <button
+                className={`btn-panel btn-visualize ${activePanel === 'visualizer' ? 'active' : ''}`}
                 onClick={() => { setShowVisualizer(true); setActivePanel('visualizer'); }}
               >
                 🔬 Visualize
+              </button>
+              <button
+                className={`btn-panel ${activePanel === 'info' ? 'active' : ''}`}
+                onClick={() => setActivePanel('info')}
+              >
+                📖 Info
               </button>
               <button className="btn-reset" onClick={() => setCode(javaTemplate)}>
                 ↺ Reset
@@ -340,25 +374,10 @@ export default function TakeHomeRunner({ manifestPath, basePath }: Props) {
 
           {/* Right panel */}
           <div className="takehome-panel">
-            <div className="panel-tabs">
-              <button
-                className={`panel-tab ${activePanel === 'tests' ? 'active' : ''}`}
-                onClick={() => setActivePanel('tests')}
-              >
-                🧪 Tests
-              </button>
-              <button
-                className={`panel-tab ${activePanel === 'visualizer' ? 'active' : ''}`}
-                onClick={() => { setActivePanel('visualizer'); setShowVisualizer(true); }}
-              >
-                🔬 Visualizer
-              </button>
-              <button
-                className={`panel-tab ${activePanel === 'info' ? 'active' : ''}`}
-                onClick={() => setActivePanel('info')}
-              >
-                📖 Info
-              </button>
+            <div className="panel-title-bar">
+              {activePanel === 'tests' && <span>🧪 Test Cases</span>}
+              {activePanel === 'visualizer' && <span>🔬 Environment Diagram</span>}
+              {activePanel === 'info' && <span>📖 Concept Info</span>}
             </div>
 
             {/* Tests panel */}

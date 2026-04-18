@@ -193,7 +193,7 @@
   border-bottom: 1px solid #333;
 }
 
-.btn-run-code, .btn-run-tests, .btn-visualize, .btn-reset {
+.btn-run-code, .btn-panel, .btn-reset {
   padding: 0.35rem 0.8rem;
   border-radius: 5px;
   font-size: 0.8rem;
@@ -211,20 +211,21 @@
 .btn-run-code:hover:not(:disabled) { background: var(--success); color: #fff; }
 .btn-run-code:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-run-tests {
+.btn-panel {
   background: transparent;
   border-color: var(--primary);
   color: var(--primary);
 }
-.btn-run-tests:hover:not(:disabled) { background: var(--primary); color: #fff; }
-.btn-run-tests:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-panel:hover:not(:disabled) { background: var(--primary); color: #fff; }
+.btn-panel.active { background: var(--primary); color: #fff; }
+.btn-panel:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-visualize {
-  background: transparent;
+.btn-panel.btn-visualize {
   border-color: #a78bfa;
   color: #a78bfa;
 }
-.btn-visualize:hover { background: #a78bfa; color: #fff; }
+.btn-panel.btn-visualize:hover:not(:disabled) { background: #a78bfa; color: #fff; }
+.btn-panel.btn-visualize.active { background: #a78bfa; color: #fff; }
 
 .btn-reset {
   background: transparent;
@@ -233,6 +234,15 @@
   margin-left: auto;
 }
 .btn-reset:hover { background: var(--surface2); color: var(--text); }
+
+.panel-title-bar {
+  padding: 0.55rem 0.85rem;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
 
 /* ─── Terminal output (below editor) ──────────────────────────────────────── */
 .takehome-terminal {
@@ -278,25 +288,6 @@
   background: var(--surface);
   overflow: hidden;
 }
-
-.panel-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-}
-.panel-tab {
-  flex: 1;
-  padding: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.1s ease;
-}
-.panel-tab:hover { color: var(--text); background: var(--surface2); }
-.panel-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
 .panel-content {
   flex: 1;
