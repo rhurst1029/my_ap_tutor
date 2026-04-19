@@ -18,6 +18,7 @@ __pycache__/
 *.py[cod]
 *.pyo
 .python-version
+.pytest_cache/
 
 # ─── Secrets — never commit ───────────────────────────────────────────────────
 backend/.env
@@ -25,9 +26,17 @@ backend/.env
 *.env
 
 # ─── Node / Frontend ──────────────────────────────────────────────────────────
+node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+testing/node_modules/
+
+# ─── MCP / Playwright local artifacts (screenshots, snapshots, console logs) ─
+.playwright-mcp/
+
+# ─── Third-party tooling clones (kept locally, never committed) ──────────────
+claude-esp/
 
 # ─── Student data (PII + session history) ─────────────────────────────────────
 # All per-student directories are runtime-generated and must not be committed.

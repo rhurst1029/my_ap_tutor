@@ -10,6 +10,7 @@ interface TestCase {
   id: string;
   description: string;
   method_call: string;
+  method_type?: 'value_return' | 'void_print';
   expected_output: string;
   what_it_tests: string;
   wrong_means: string;
@@ -164,19 +165,25 @@ export default function TakeHomeRunner({ manifestPath, basePath }: Props) {
 
     for (const tc of variant.test_cases) {
       // Build the main() body for this test case.
-      // Rules:
-      //   1. If method_call already ends with `;`, use as-is (full statement).
-      //   2. If it starts with System.out.print(...), just append `;`.
-      //   3. If the method is declared `void` in the code, call bare + `;`.
-      //   4. Otherwise wrap in System.out.println(...) to capture the return value.
+      // Prefer explicit method_type from the variant JSON (v2 generator).
+      // Fall back to heuristics for older variants without the field.
       const startsWithPrint = /^\s*System\.out\.(print|println)/.test(tc.method_call);
       const callAlreadyStatement = /;\s*$/.test(tc.method_call);
-      const methodNameMatch = tc.method_call.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(/);
-      const methodName = methodNameMatch?.[1];
-      const voidRegex = methodName
-        ? new RegExp(`\\bstatic\\s+void\\s+${methodName}\\b`)
-        : null;
-      const isVoid = voidRegex ? voidRegex.test(code) : false;
+
+      let isVoid: boolean;
+      if (tc.method_type === 'void_print') {
+        isVoid = true;
+      } else if (tc.method_type === 'value_return') {
+        isVoid = false;
+      } else {
+        // Heuristic fallback — detect `static void <methodName>` in the code.
+        const methodNameMatch = tc.method_call.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(/);
+        const methodName = methodNameMatch?.[1];
+        const voidRegex = methodName
+          ? new RegExp(`\\bstatic\\s+void\\s+${methodName}\\b`)
+          : null;
+        isVoid = voidRegex ? voidRegex.test(code) : false;
+      }
 
       const mainBody = callAlreadyStatement
         ? tc.method_call

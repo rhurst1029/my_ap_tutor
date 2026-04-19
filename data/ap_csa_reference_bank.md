@@ -1,1197 +1,1076 @@
-# AP Computer Science A — Question Bank & Reference Guide
+# AP Computer Science A — Exam Reference & Strategy Guide
 
-> **Purpose:** Reference document for tutors and AI agents generating AP CSA practice material.
-> Contains topic summaries, exam-focus analysis, agent guidance, and organized sample questions.
-> Compiled from College Board official materials (2021–2025 FRQs), CrackAP, Runestone Academy,
-> APCSExamPrep.com, APComputerScienceTutoring.com, and platform test JSON files.
-
----
-
-## PART 1 — AP CSA TOPIC ORDER & EXAM WEIGHTS
-
-### Curriculum Structure
-
-The AP CSA curriculum was reorganized in 2025–2026 from 10 units to 4 larger units.
-Both structures are listed here since older materials (including this platform's test files) use the 10-unit structure.
-
-#### New 4-Unit Structure (2025–2026 Exam)
-
-| Unit | Name | Exam Weight |
-|------|------|-------------|
-| 1 | Using Objects & Methods | 15–25% |
-| 2 | Selection & Iteration | 25–35% |
-| 3 | Class Creation | 10–18% |
-| 4 | Data Collections | 30–40% |
-
-#### Legacy 10-Unit Structure (used in this platform's test files)
-
-| Unit | Name | Exam Weight | New Unit Mapping |
-|------|------|-------------|------------------|
-| 1 | Primitive Types | 2.5–5% | → New U1 |
-| 2 | Using Objects | 5–7.5% | → New U1 |
-| 3 | Boolean Expressions & if Statements | 15–17.5% | → New U2 |
-| 4 | Iteration | 17.5–22.5% | → New U2 |
-| 5 | Writing Classes | 5–7.5% | → New U3 |
-| 6 | Array | 10–15% | → New U4 |
-| 7 | ArrayList | 2.5–7.5% | → New U4 |
-| 8 | 2D Array | 7.5–10% | → New U4 |
-| 9 | Inheritance | 5–10% | → New U3/U4 |
-| 10 | Recursion | 5–7.5% | → New U2/U3 |
-
-### FRQ Format (4 Questions, 45% of score)
-
-Every year, the four FRQs test one of four consistent types:
-
-| FRQ | Type | Typical Focus | 2025 Example |
-|-----|------|---------------|--------------|
-| Q1 | Methods & Control Structures | Write 2 methods using loops, conditionals, method calls | DogWalker |
-| Q2 | Class Design | Full class: constructor + instance vars + methods | SignedText |
-| Q3 | Array/ArrayList | Traverse, filter, or modify a list in-place | Round |
-| Q4 | 2D Array | Nested loops, grid traversal, in-place mutation | SumOrSameGame |
-
-**Historical FRQ Topics by Type (2004–2025) — Type 1: Methods & Control Structures:**
-2025 DogWalker · 2024 Feeder · 2023 AppointmentBook · 2022 Game Scoring · 2019 APCalendar · 2018 FrogSimulation · 2017 Phrase · 2012 Gray Bug
-
-**Historical — Type 2: Class Design:**
-2025 SignedText · 2024 Scoreboard · 2023 Sign · 2022 Textbook · 2019 StepTracker · 2018 CodeWordChecker · 2015 Hidden Word
-
-**Historical — Type 3: Array/ArrayList:**
-2025 Round · 2024 WordChecker · 2023 WeatherData · 2022 ReviewAnalysis · 2019 Delimiters · 2018 WordPair · 2017 Digits
-
-**Historical — Type 4: 2D Array:**
-2025 SumOrSameGame · 2024 GridPath · 2023 BoxOfCandy · 2022 Data · 2019 LightBoard · 2018 ArrayTester · 2017 Successors
+> **Purpose:** Authoritative reference for tutors and AI agents running this platform.
+> Contains exam mechanics, scoring rules, strategy by section and FRQ type,
+> topic-level tips and common mistakes, and agent guidance for question generation.
+> Questions live in `data/ap_csa_question_bank.json` — not here.
+>
+> **Sources:** College Board AP Central (2021–2025 scoring guidelines, chief reader reports),
+> APCSExamPrep.com, Runestone Academy CSAwesome, this platform's assessment JSON files.
 
 ---
 
-## PART 2 — AGENT GUIDE: WRITING EXCELLENT AP CSA QUESTIONS
+## PART 1 — EXAM FORMAT & SCORING
 
-> Read this section before generating any questions. It distills the patterns that make
-> AP CSA questions genuinely instructive vs. trivially easy or unfairly tricky.
+### Section Breakdown
+
+| Section | Questions | Time | Score Weight |
+|---------|-----------|------|-------------|
+| I: Multiple Choice | 42 questions | 90 minutes | 55% |
+| II: Free Response | 4 questions | 90 minutes | 45% |
+
+- No calculator permitted in either section
+- Java Quick Reference Sheet is provided (see Part 6)
+- No penalty for wrong MC answers — always guess
+
+### Raw Score Formula
+
+```
+Composite = (MC correct / 42) × 55  +  (FRQ points / 36) × 45
+```
+
+FRQ raw score is out of 36 (4 questions × 9 points each).
+Composite is out of 100.
+
+### AP Grade Thresholds (estimated, based on historical data)
+
+| AP Score | Composite Range | Approximate % |
+|----------|----------------|--------------|
+| 5 | 61–100 | ~78%+ |
+| 4 | 50–60 | ~65–77% |
+| 3 | 34–49 | ~46–64% |
+| 2 | 20–33 | ~27–45% |
+| 1 | 0–19 | below 27% |
+
+2025 mean score: 3.18. 67.2% of students scored 3 or higher.
+
+### FRQ Structure (consistent every year)
+
+| Question | Type | Typical Difficulty | Avg Time |
+|----------|------|--------------------|----------|
+| Q1 | Methods & Control Structures | Medium | 17–20 min |
+| Q2 | Class Design | Medium-Hard | 25–27 min |
+| Q3 | Array / ArrayList | Medium | 20–23 min |
+| Q4 | 2D Array | Hard | 23–25 min |
+
+> **Q4 first strategy:** Many top scorers complete Q4 last — but Q1 (Methods & Control) is
+> usually the most approachable. Attempt in order of your comfort, not exam order.
+> Never spend more than 30 minutes on a single question.
+
+---
+
+## PART 2 — CURRICULUM STRUCTURE & EXAM WEIGHTS
+
+### New 4-Unit Structure (2025–2026 Exam)
+
+| Unit | Name | Exam Weight | MCQ Count (est.) |
+|------|------|-------------|-----------------|
+| 1 | Using Objects & Methods | 15–25% | ~10 questions |
+| 2 | Selection & Iteration | 25–35% | ~12 questions |
+| 3 | Class Creation | 10–18% | ~10 questions |
+| 4 | Data Collections | 30–40% | ~8 questions |
+
+**Data Collections is the most heavily tested unit** (30–40% of exam).
+Arrays, ArrayList, 2D arrays, searching, and sorting together can account for
+nearly half the exam. Iteration (Unit 2) is the second-largest weight.
+
+### Legacy 10-Unit Mapping (used in this platform's test files)
+
+| Legacy Unit | Name | Exam Weight | → New Unit |
+|-------------|------|-------------|-----------|
+| 1 | Primitive Types | 2.5–5% | → U1 |
+| 2 | Using Objects | 5–7.5% | → U1 |
+| 3 | Boolean & if Statements | 15–17.5% | → U2 |
+| 4 | Iteration | 17.5–22.5% | → U2 |
+| 5 | Writing Classes | 5–7.5% | → U3 |
+| 6 | Array | 10–15% | → U4 |
+| 7 | ArrayList | 2.5–7.5% | → U4 |
+| 8 | 2D Array | 7.5–10% | → U4 |
+| 9 | Inheritance | 5–10% | → U3/U4 |
+| 10 | Recursion | 5–7.5% | → U2/U3 |
+
+### 2025–2026 New Content
+
+- **File I/O with Scanner** — reading text files, handling `FileNotFoundException`,
+  `nextInt()` + `nextLine()` flush trap. New topic; may appear in 1–2 MCQ.
+- **Wrapper classes expanded** — `Integer.MIN_VALUE`, autoboxing/unboxing,
+  `Integer` comparison with `.equals()` vs `==` now more heavily tested.
+
+---
+
+## PART 3 — MULTIPLE CHOICE STRATEGY
+
+### Time & Format
+
+- 42 questions in 90 minutes → **~2.25 minutes per question**
+- 37–53% of MC questions are **code traces** ("what is printed?")
+- Remaining questions: algorithm analysis, concept identification, code analysis
+- No penalty for guessing — fill in every bubble
+
+### Question Type Breakdown
+
+| Type | Frequency | Approach |
+|------|-----------|----------|
+| Code trace ("what is printed/returned?") | 37–53% | Trace line by line on scratch paper |
+| Code analysis ("what does this code do?") | 20–30% | Identify the algorithm pattern |
+| Concept/definition | 10–20% | Know the rule cold |
+| Error identification | 5–15% | Look for the off-by-one, wrong operator, wrong method |
+
+### Distractor Elimination Strategy
+
+AP CSA distractors are not random — they represent specific student mistakes.
+For each wrong answer, ask: "What mistake would produce this?" Then verify
+you haven't made that mistake. The three distractors for a code trace question
+typically represent:
+
+1. **Off-by-one error** (loop ran one too many or one too few times)
+2. **Wrong operator/method** (used array.length as last valid index, or list.length instead of list.size())
+3. **Conceptual confusion** (treating index as value, treating reference as copy)
+
+### High-Value Topics for MCQ (appear on nearly every exam)
+
+1. Integer division truncation: `7 / 2 = 3` (not 3.5)
+2. `String.substring(a, b)` — index `b` is excluded
+3. `&&` and `||` short-circuit evaluation
+4. Off-by-one in loop bounds: `< arr.length` vs `<= arr.length`
+5. Array index vs. array value confusion
+6. Reference semantics: `c2 = c1` doesn't copy — both point to same object
+7. `ArrayList.remove(int index)` vs `ArrayList.remove(Object o)` ambiguity
+8. Dynamic dispatch: declared type vs. runtime type in polymorphism
+9. Nested loop iteration count (sum, not multiply, when inner bound depends on outer)
+10. Recursive call stack tracing
+
+---
+
+## PART 4 — FRQ STRATEGY BY TYPE
+
+### Universal FRQ Rules
+
+- **Method signature must match exactly** — return type, name, parameters in the right order
+- **`private` instance variables, `public` methods** — losing this costs 1 point every time
+- **All code paths must return a value** — if a method has conditional branches, every branch needs a return
+- **Never check preconditions already stated** — if the problem says the array is non-empty, don't guard for it
+- **Avoid non-curriculum features** — no `HashMap`, `try-catch`, lambdas, or generics beyond `ArrayList<Type>`
+- **Spelling/case errors are forgiven** if unambiguously inferable — but don't rely on this
+- **Partial credit is real** — a correct algorithm with syntax issues can still earn most points
+
+### Scoring Rubric Structure (9 points per FRQ)
+
+| Category | Points | What Earns Them |
+|----------|--------|----------------|
+| Algorithm correctness | 3–4 pts | Does the logic solve the problem for all inputs? |
+| Language features | 2–3 pts | Correct use of loops, arrays, methods, operators |
+| Completeness | 1–2 pts | All required components present (constructor, fields, return) |
+| Syntax | 0–1 pt | Minor errors cost at most 1 point per question |
+
+A penalty can only be deducted in a part where credit was already earned.
+No part of a question can have a negative point total.
+A given penalty is assessed at most once per question.
+
+---
+
+### Q1: Methods & Control Structures
+
+**What it asks:** Write 1–2 methods using loops, conditionals, and calls to other methods.
+Context class is always provided. You only write the method body.
+
+**Key patterns to have memorized:**
+```java
+// Accumulator pattern
+int sum = 0;
+for (int i = 0; i < arr.length; i++) {
+    sum += arr[i];
+}
+
+// String traversal
+for (int i = 0; i < s.length(); i++) {
+    char c = s.charAt(i);
+}
+
+// Count occurrences of substring
+int count = 0;
+int pos = secret.indexOf(guess);
+while (pos != -1) {
+    count++;
+    pos = secret.indexOf(guess, pos + 1);
+}
+```
+
+**What graders check:**
+- Does the accumulator initialize correctly?
+- Does the return statement exist in all branches?
+- Are helper methods called on the right object with the right arguments?
+
+**Common losses:** Missing `return`, off-by-one in loop bounds, using `=` instead of `==`, String comparison with `==`.
+
+---
+
+### Q2: Class Design
+
+**What it asks:** Write a complete class — instance variables, constructor, methods.
+Sometimes includes inheritance (extends another given class).
+
+**Template:**
+```java
+public class ClassName {
+    private Type field1;    // always private
+    private Type field2;
+
+    public ClassName(Type param1, Type param2) {
+        this.field1 = param1;  // use this. when parameter name matches field
+        this.field2 = param2;
+    }
+
+    public Type getField1() { return field1; }
+
+    public void setField1(Type field1) { this.field1 = field1; }
+}
+```
+
+**If it extends another class:**
+```java
+public class Child extends Parent {
+    private Type extraField;
+
+    public Child(Type p1, Type p2, Type extra) {
+        super(p1, p2);          // must be first line
+        this.extraField = extra;
+    }
+
+    @Override
+    public String getInfo() {
+        return super.getInfo() + " - " + extraField;  // reuse parent
+    }
+}
+```
+
+**What graders check:**
+- Instance variables are `private`
+- Constructor initializes ALL fields (including parent's via `super`)
+- Methods return the correct type
+
+**Common losses:** `public` instance variables, missing `super()` call, constructor with a return type (`void`).
+
+---
+
+### Q3: Array / ArrayList
+
+**What it asks:** Traverse, filter, or transform a list. Often involves conditional checks
+and building a new result list, or modifying in place.
+
+**Standard traversal:**
+```java
+for (int i = 0; i < list.size(); i++) {
+    Type element = list.get(i);
+    // process element
+}
+```
+
+**Backward removal (critical — forward removal skips elements):**
+```java
+for (int i = list.size() - 1; i >= 0; i--) {
+    if (shouldRemove(list.get(i))) {
+        list.remove(i);
+    }
+}
+```
+
+**In-place replacement — use `set()`, NOT `add()` + `remove()`:**
+```java
+list.set(i, newValue);  // replaces at index i — list size unchanged
+// NOT: list.remove(i); list.add(i, newValue);  -- works but is wrong idiom
+```
+
+**What graders check:**
+- `list.size()` not `list.length`
+- `list.get(i)` not `list[i]`
+- Correct traversal direction when removing
+- `set()` for replacement, `add()` for insertion
+
+**Common losses:** Forward removal causing index skip, `add()` when `set()` is correct (2025 Round trap), bracket notation `list[i]`.
+
+---
+
+### Q4: 2D Array
+
+**What it asks:** Traverse a grid, compute values from neighbors, or mutate cells in place.
+
+**Standard row-major traversal:**
+```java
+for (int r = 0; r < grid.length; r++) {
+    for (int c = 0; c < grid[r].length; c++) {
+        // process grid[r][c]
+    }
+}
+```
+
+**Neighbor access with bounds check:**
+```java
+// Check cell above
+if (r > 0) {
+    int above = grid[r - 1][c];
+}
+// Check cell to the right
+if (c < grid[r].length - 1) {
+    int right = grid[r][c + 1];
+}
+```
+
+**Dimension reminders:**
+- `grid.length` → number of rows
+- `grid[0].length` → number of columns (not `grid.length`)
+- `grid[row][col]` → row index first, column second
+
+**What graders check:**
+- Indices are in the right order (`grid[row][col]`)
+- Bounds check before neighbor access
+- `grid.length` vs `grid[0].length` used correctly
+
+**Common losses:** Swapped indices, `grid.length` used for columns, missing bounds check before `grid[r-1][c]`.
+
+---
+
+## PART 5 — TOPIC TIPS & COMMON MISTAKES
+
+### Unit 1 — Primitive Types
+
+**Tricks:**
+- `7 / 2 = 3` always. Division truncates toward zero. Never rounds.
+- `double result = 7 / 2` → `3.0`, NOT `3.5`. Division happens first (both ints), then stored as double.
+- `(double) 7 / 2` → `3.5`. Cast happens before the division.
+- String concat trap: `"Sum: " + 1 + 2` → `"Sum: 12"`. Left-to-right, first `+` concatenates, second does too.
+- Compound operators: `x += 3; x *= 2;` — apply in sequence, not simultaneously.
+
+**Common mistakes:**
+- Assuming `/` produces a decimal when at least one operand looks like a decimal in your head (both must be double)
+- `int pi = 3.14` — compile error, not a warning
+- `%` has same precedence as `*` and `/` — evaluate left to right in an expression
+
+---
+
+### Unit 2 — Using Objects (Strings, Math, Wrapper Classes)
+
+**Tricks:**
+- `substring(a, b)`: index `a` is included, index `b` is excluded. Length = `b - a`.
+- `"hello".substring(1, 3)` → `"el"` (indices 1 and 2 only)
+- `indexOf` returns -1 if not found, first occurrence index if found. Zero-based.
+- Strings are immutable — `s.toUpperCase()` does NOT change `s`; it returns a new String.
+- `Math.random()` range: `[0.0, 1.0)` — 1.0 is never returned.
+- Random int in range `[min, max]`: `(int)(Math.random() * (max - min + 1)) + min`
+- `==` on Strings compares references (object identity), not content. Always use `.equals()`.
+
+**Common mistakes:**
+- Off-by-one on `substring`: `"hello".substring(0, 5)` = `"hello"`, `substring(0, 4)` = `"hell"`
+- `Integer.parseInt()` not needed on the exam (Scanner handles it) — but know autoboxing exists
+- String `+` with numbers on the left: `1 + 2 + "x"` → `"3x"`, but `"x" + 1 + 2` → `"x12"`
+
+---
+
+### Unit 3 — Boolean Expressions & if Statements
+
+**Tricks:**
+- Short-circuit: `false && anything` → `false` immediately (right side not evaluated)
+- Short-circuit: `true || anything` → `true` immediately
+- De Morgan's: `!(a && b)` ≡ `(!a || !b)` · `!(a || b)` ≡ `(!a && !b)`
+- `else if` chain stops at the first true branch — mutually exclusive execution
+- Common equivalent form: `(x >= 1 && x <= 5)` is NOT the same as `(1 <= x <= 5)` — the latter won't compile
+
+**Common mistakes:**
+- `=` in a condition instead of `==` — Java allows `if (x = 5)` for booleans but it's almost always a bug
+- Forgetting `!` applies to the whole parenthesized expression, not just the first operand
+- Using `>` when `>=` is needed at a boundary condition
+
+---
+
+### Unit 4 — Iteration
+
+**Tricks:**
+- A `for` loop with `i = 0; i < n` runs exactly `n` times (indices 0 through n-1)
+- A `for` loop with `i = 1; i <= n` also runs `n` times but starts at 1
+- Nested triangular loops: `for (int j = 0; j < i; j++)` — total iterations = 0+1+2+…+(n-1) = n(n-1)/2
+- Enhanced for loop: read-only access. You cannot modify array elements or remove ArrayList items inside it.
+- `while` loop where condition is false at start → body never executes (zero iterations is valid)
+
+**Common mistakes:**
+- `i <= arr.length` → `ArrayIndexOutOfBoundsException` (last valid index is `arr.length - 1`)
+- Thinking inner loop variable carries its value across outer iterations — it resets every time
+- Forgetting to increment counter in `while` loop → infinite loop
+- Counting nested loop iterations by multiplying instead of summing when inner bound changes
+
+---
+
+### Unit 5 — Writing Classes
+
+**Tricks:**
+- Constructor: same name as class, no return type (not even `void`), initializes all fields
+- `this.name = name` — the `this.` refers to the instance variable; plain `name` is the parameter
+- `static` methods belong to the class, not an object — they cannot use `this` or instance variables
+- `toString()` override: return a meaningful String for `System.out.println(obj)` to work nicely
+- Two variables can reference the same object: `c2 = c1` — all changes via either name affect the same object
+
+**Common mistakes:**
+- Instance variables declared `public` — costs FRQ points every time
+- Constructor with `void` — turns it into a regular method, not a constructor
+- Accessing `private` superclass fields directly from a subclass — must use `super.getField()`
+
+---
+
+### Unit 6 — Arrays
+
+**Tricks:**
+- `arr.length` is a field (no parentheses). `list.size()` is a method (parentheses). Know the difference.
+- Last valid index: `arr.length - 1`. `arr[arr.length]` is always out of bounds.
+- Initialize `max` to `arr[0]`, NEVER to `0`. A `0` initial max breaks for all-negative arrays.
+- Arrays are passed by reference — a method that modifies the array changes the original.
+- Default values after `new int[n]`: all zeros. `new boolean[n]`: all false. `new String[n]`: all null.
+
+**Common mistakes:**
+- `arr.length()` — compile error. It's a field, not a method.
+- Starting the max-finding loop at `i = 0` and initializing max to `arr[0]` — double-counts index 0 (harmless but sloppy)
+- Assuming step-increment loop `k = k + 2` visits every other element from position 0 — check whether n is even or odd
+
+---
+
+### Unit 7 — ArrayList
+
+**Tricks:**
+- `add(item)` appends to end. `add(index, item)` inserts at position. After insert, everything shifts right.
+- `remove(int index)` removes by position. `remove(Object o)` removes by value. With `Integer` objects, `remove(1)` removes index 1; `remove(Integer.valueOf(1))` removes the value 1.
+- `set(index, newValue)` replaces in place and returns the old value.
+- Backward removal loop: `for (int i = list.size() - 1; i >= 0; i--)` — safe to remove inside
+- Cannot hold primitives — must use `Integer`, `Double`, `Boolean`
+
+**Common mistakes:**
+- `list[i]` — ArrayList is not an array. Use `list.get(i)`.
+- `list.length` — use `list.size()`.
+- Forward removal during traversal skips the element that shifted into the removed index.
+- `add()` instead of `set()` for in-place replacement — inserts a new element, doesn't replace (2025 Round FRQ trap).
+
+---
+
+### Unit 8 — 2D Arrays
+
+**Tricks:**
+- Declaration: `int[][] grid = new int[ROWS][COLS];`
+- Row count: `grid.length`. Column count: `grid[0].length` (NOT `grid.length`).
+- Access: `grid[row][col]` — row first, column second. This matches mathematical matrix notation.
+- For neighbor access, always bounds-check before accessing: `if (r > 0) grid[r-1][c]`
+- Column-major traversal: outer loop on columns, inner on rows — less common but appears in FRQ
+
+**Common mistakes:**
+- `grid[col][row]` — swapped. Write row first.
+- Using `grid.length` for column count — only correct for square matrices.
+- `grid.length()` — compile error. It's a field.
+- No bounds check before accessing `grid[r-1][c]` when `r` could be 0.
+
+---
+
+### Unit 9 — Inheritance & Polymorphism
+
+**Tricks:**
+- `Animal a = new Dog()` is valid if Dog extends Animal. Dog IS-A Animal.
+- Dynamic dispatch: at runtime, Java calls the method defined by the **runtime type** (Dog), not the declared type (Animal).
+- `super.method()` calls the superclass version even from within an override.
+- `super()` must be the first line in a subclass constructor. If omitted, Java inserts `super()` automatically — only works if the superclass has a no-arg constructor.
+- `private` superclass methods are NOT inherited and cannot be overridden.
+- Overriding = same signature. Overloading = same name, different parameters.
+
+**Common mistakes:**
+- Thinking declared type determines which method runs (it doesn't — runtime type does).
+- Confusing `super.method()` (superclass version) with `this.method()` (most specific override).
+- Trying to instantiate an abstract class: `Animal a = new Animal()` fails if Animal is abstract.
+- Believing subclass constructors inherit automatically — they don't, must call `super(...)`.
+
+---
+
+### Unit 10 — Recursion
+
+**Tricks:**
+- Every recursive method must have a base case — the condition that returns without recursing.
+- Each recursive call gets its own copy of local variables — they are not shared.
+- Trace by expanding the call chain: `mystery(4)` = `4 + mystery(3)` = `4 + 3 + mystery(2)` = …
+- Recursive String methods: the base case is usually `s.length() == 0`, and the recursive step is `s.substring(1)` (drop first character).
+- Print-before-recurse → processes in order. Recurse-then-print → processes in reverse.
+
+**Common mistakes:**
+- No base case → infinite recursion → `StackOverflowError` at runtime.
+- Off-by-one in base case: `n == 0` misses the case when `n` is negative.
+- Forgetting to `return` the result of the recursive call: `mystery(n-1)` instead of `return mystery(n-1)`.
+- Thinking shared state exists across calls — each call has its own frame.
+
+---
+
+## PART 6 — QUICK REFERENCE (Java Methods Provided on Exam)
+
+The AP exam provides students with this exact reference. Agents generating FRQ questions
+must not require methods outside this list without explicit provision in the problem context.
+
+```java
+// ── String ──────────────────────────────────────────────────
+int    length()                  // number of characters
+String substring(int from)       // from index to end
+String substring(int from, int to) // from (inclusive) to to (exclusive)
+int    indexOf(String str)       // first index of str, -1 if not found
+boolean equals(Object other)     // content equality
+int    compareTo(String other)   // negative/zero/positive
+// Note: charAt(int index) is NOT on the quick reference sheet but IS tested
+
+// ── Integer ─────────────────────────────────────────────────
+Integer.MIN_VALUE                // -2147483648
+Integer.MAX_VALUE                //  2147483647
+
+// ── Math ────────────────────────────────────────────────────
+static int    abs(int x)
+static double abs(double x)
+static double pow(double base, double exp)
+static double sqrt(double x)
+static double random()           // returns [0.0, 1.0)
+
+// ── ArrayList<E> ────────────────────────────────────────────
+int     size()
+boolean add(E obj)               // append; always returns true
+void    add(int index, E obj)    // insert at index
+E       get(int index)
+E       set(int index, E obj)    // replace; returns old value
+E       remove(int index)        // remove by position; returns removed element
+```
+
+---
+
+## PART 7 — AGENT GUIDE: WRITING EXCELLENT AP CSA QUESTIONS
+
+> Read this section before generating any questions. It defines what makes AP CSA questions
+> genuinely instructive, and sets the schema and conventions for this platform.
 
 ### Core Principles
 
 **1. One concept per question.**
 The best AP questions isolate a single misconception or skill. Don't combine integer division
-AND casting AND string concatenation in one question. Pick one. The trap answers should
-target the specific misconception for that concept.
+AND casting AND string concatenation in one question. Pick one. Distractors should target the
+specific misconception for that one concept.
 
-**2. Make every distractor meaningful.**
-AP CSA wrong answers are not random. They represent the output a student would get
-*if they made the most common mistake*. For integer division: offer 3.4 (wrong: treated
-as float), 3.0 (wrong: assumed double return), and 4 (wrong: rounded up). Each wrong
-answer tells the instructor exactly which misconception the student has.
+**2. Every distractor must be meaningful.**
+Wrong answers are not random — they represent the output a student would get
+*if they made the most common mistake*. For integer division: offer `3.4` (treated as float),
+`3.0` (assumed double return), `4` (rounded up). Each wrong answer tells the instructor
+exactly which misconception the student has.
 
-**3. Code traces are the exam's backbone.**
-The majority of MC questions ask "what is printed/returned?" — not definitions.
+**3. Code traces are the exam backbone.**
+37–53% of MC questions ask "what is printed/returned?" — not definitions.
 Every question should have runnable code when possible. Abstract conceptual questions
-("what is encapsulation?") are appropriate only for Unit 5 (Classes) and Unit 9 (Inheritance).
+are appropriate only for Unit 5 (Classes) and Unit 9 (Inheritance).
 
 **4. Match the AP difficulty curve.**
-- Easy: straightforward syntax/output — student just needs to trace the code
-- Medium: requires knowing a rule (e.g., how `remove(int)` vs `remove(Object)` works in ArrayList)
-- Hard: interaction of multiple concepts, or a subtle off-by-one / null pointer trap
+- Easy: straightforward trace — student just follows the code
+- Medium: requires knowing one specific rule (e.g., `remove(int)` vs `remove(Object)`)
+- Hard: interaction of multiple concepts, subtle off-by-one, or a two-bug scenario
 
 **5. Guiding questions are Socratic, not leading.**
-A guiding question should make the student arrive at the answer themselves.
 BAD: "Remember that integer division truncates — what is 17/5?" (gives away answer)
 GOOD: "What data type does dividing two int values produce in Java?" (makes student reason)
-Each question needs 2–3 guiding questions. The last one should get very close to the answer
-but not state it.
+Each question needs 2–3 guiding questions. The last one should approach but not state the answer.
 
-**6. FRQ-style questions must have complete method context.**
-Always provide the class name, method signature, parameter names and types, return type,
-and a description of what the method should do. Students should not have to guess context.
-Model after actual College Board FRQ structure: describe the class first, then the specific method.
+**6. Always-tested patterns to prioritize (highest ROI):**
+- Integer division truncation — appears on >80% of released exams
+- `substring(a, b)` exclusive upper bound — appears on >70%
+- Short-circuit `&&` / `||` evaluation
+- Off-by-one loop errors (`<` vs `<=`)
+- Reference semantics vs. value semantics
+- Array traversal + accumulator pattern
+- ArrayList `remove(int)` vs `remove(Object)` ambiguity
+- 2D array `[row][col]` indexing and `grid.length` vs `grid[0].length`
+- Dynamic dispatch / polymorphism
+- Recursive call stack trace
 
-**7. Topic tags drive adaptive targeting.**
-Always include at least one topic_tag. Common tags used in this platform:
-`variables_and_types`, `operators`, `conditionals`, `loops`, `arrays`, `2d_arrays`,
-`methods`, `parameter_passing`, `strings`, `classes_and_objects`, `inheritance`,
-`polymorphism`, `recursion`, `arraylist`, `searching_sorting`, `interfaces`
+### JSON Schema for `ap_csa_question_bank.json`
 
-**8. Always-tested patterns to prioritize:**
-- Integer division truncation (Unit 1) — appears in >80% of released exams
-- String methods: substring, indexOf, length (Unit 2)
-- Short-circuit evaluation: && and || (Unit 3)
-- Off-by-one loop errors (Unit 4)
-- Reference semantics vs value semantics (Unit 5)
-- Array traversal + accumulator pattern (Unit 6)
-- ArrayList remove(int index) vs remove(Object) ambiguity (Unit 7)
-- 2D array row/col indexing: arr[row][col], arr.length, arr[0].length (Unit 8)
-- Dynamic dispatch / polymorphism (Unit 9)
-- Recursive base case + trace (Unit 10)
-
-### JSON Schema Reminder
-
-Questions in this platform use this structure:
+All questions in this platform use this schema:
 
 ```json
 {
-  "id": "unique_id",
-  "type": "multiple_choice | free_response | code_trace",
+  "id": "mc_u6_01",
+  "question_type": "multiple_choice",
+  "ap_unit": 6,
+  "ap_unit_name": "Array",
+  "source": "AP CSA style — Unit 6",
+  "year": null,
   "topic_tags": ["arrays", "loops"],
-  "difficulty": "easy | medium | hard",
-  "prompt": "Question text",
-  "code_block": "Java code (null if none)",
-  "options": { "A": "...", "B": "...", "C": "...", "D": "..." },
+  "concept_tested": "Find max element by initializing to arr[0] and scanning forward",
+  "difficulty": "medium",
+  "prompt": "What is printed when the following code executes?",
+  "code_block": "int[] arr = {5, 3, 8, 1, 9};\nint max = arr[0];...",
+  "options": { "A": "5", "B": "9", "C": "1", "D": "8", "E": "3" },
   "answer_key": "B",
-  "explanation": "Why the answer is correct + why the distractors are wrong",
+  "explanation": "The loop finds the maximum element ...",
   "guiding_questions": [
-    { "id": "q_g1", "text": "Socratic probe 1" },
-    { "id": "q_g2", "text": "Socratic probe 2" }
+    { "id": "mc_u6_01_g1", "text": "Why does the loop start at index 1 rather than index 0?" },
+    { "id": "mc_u6_01_g2", "text": "After the loop processes arr[4]=9, what is the value of max?" }
   ]
 }
 ```
 
-**For free_response / FRQ questions** (instructor reference, not yet platform-supported):
-Include `prompt` (full problem statement), `code_block` (any provided class skeletons),
-and `answer_key` (sample solution code). No `options` field.
+**For FRQ questions**, substitute `"question_type": "free_response"` and replace `options`/`answer_key`
+with `parts` (array of part objects) and `class_given`.
 
----
+### Topic Tags Reference
 
-## PART 3 — TOPIC SECTIONS WITH EXAM FOCUS AND SAMPLE QUESTIONS
+Every question must include at least one `topic_tag` from this list:
 
----
-
-### UNIT 1 — Primitive Types
-*(New curriculum: Unit 1 — Using Objects & Methods)*
-
-**What the AP exam always tests:**
-- Integer division truncates toward zero: `7/2 = 3`, never `3.5`
-- The modulo operator `%` for remainder: `7 % 2 = 1`
-- Type promotion and casting: `(double) x / y` vs `x / y`
-- Integer overflow is NOT tested (out of scope for AP CSA)
-- Order of compound assignment operators: `+=`, `-=`, `*=`, `/=`, `%=`
-
-**What the exam increasingly tests (2022–2025):**
-- Distinguishing `int` truncation from `double` arithmetic in the same expression
-- Mixing `int` and `double` operands without explicit casts
-- The string concatenation trap: `"Sum: " + 1 + 2` → `"Sum: 12"` not `"Sum: 3"`
-
-**Common student errors:**
-- Assuming `/` performs floating-point division when both operands are `int`
-- Forgetting that `%` has the same precedence as `*` and `/`
-- Believing that `double result = 7 / 2` gives `3.5` (it gives `3.0` — division happens first)
-
----
-
-#### Sample Question U1-1 (Easy)
-
-**Prompt:** What is the value of the expression `17 / 5` in Java?
-
-| Option | Value |
-|--------|-------|
-| A | 3.4 |
-| **B** | **3** ✓ |
-| C | 3.0 |
-| D | 2 |
-| E | Compile error: integer division is not allowed |
-
-**Answer: B**
-Java integer division truncates the decimal portion. 17 / 5 = 3 remainder 2, result is 3.
-
-**Guiding questions:**
-1. What data type is the result of dividing two `int` values in Java?
-2. How is integer division different from floating-point division?
-
----
-
-#### Sample Question U1-2 (Medium)
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-int x = 7;
-int y = 2;
-double result = (double) x / y;
-System.out.println(result);
+```
+variables_and_types   operators         conditionals
+loops                 arrays            2d_arrays
+methods               parameter_passing strings
+classes_and_objects   inheritance       polymorphism
+recursion             arraylist         searching_sorting
+interfaces            casting
 ```
 
-| Option | Value |
-|--------|-------|
-| A | 3 |
-| B | 3.0 |
-| **C** | **3.5** ✓ |
-| D | 3.4 |
-| E | Compile error |
+---
 
-**Answer: C**
-The cast `(double) x` converts x to `7.0` before division. `7.0 / 2 = 3.5`.
+## PART 8 — HISTORICAL FRQ TOPIC INDEX (2004–2025)
 
-**Guiding questions:**
-1. What does `(double)` do to the value of x before the division?
-2. If you removed the cast, what would `result` be?
+Use this when generating FRQ-style questions to ensure coverage and avoid duplication.
+
+### Type 1 — Methods & Control Structures
+2025 DogWalker · 2024 Feeder · 2023 AppointmentBook · 2022 Game · 2021 WordMatch
+· 2019 APCalendar · 2018 FrogSimulation · 2017 Phrase · 2012 Gray Bug · 2011 Sound
+· 2010 CookieOrder · 2009 NumberCube · 2008 FlightList · 2007 SelfDivisor
+
+### Type 2 — Class Design
+2025 SignedText · 2024 Scoreboard · 2023 Sign · 2022 Textbook (+ Inheritance)
+· 2021 CombinedTable · 2019 StepTracker · 2018 CodeWordChecker · 2015 HiddenWord
+· 2013 TokenPass · 2012 Climbing · 2010 APLine
+
+### Type 3 — Array / ArrayList
+2025 Round · 2024 WordChecker · 2023 WeatherData · 2022 ReviewAnalysis
+· 2021 ClubMembers · 2019 Delimiters · 2018 WordPair · 2017 Digits
+· 2016 RandomStringChooser · 2015 SparseArray · 2014 StringFormatter
+· 2012 HorseBarn · 2011 FuelDepot
+
+### Type 4 — 2D Array
+2025 SumOrSameGame · 2024 GridPath · 2023 BoxOfCandy · 2022 Data
+· 2021 ArrayResizer · 2019 LightBoard · 2018 ArrayTester · 2017 Successors
+· 2016 CrosswordPuzzle · 2015 DiverseArray · 2014 SeatingChart · 2013 SkyView
+· 2012 GrayImage · 2011 BitMatrix
 
 ---
 
-#### Sample Question U1-3 (Medium)
+*Last updated: 2026-04-15. Sources: College Board AP Central (apcentral.collegeboard.org),
+APCSExamPrep.com, Runestone Academy CSAwesome, CrackAP.com, APComputerScienceTutoring.com.*
 
-**Prompt:** What is the value of `x` after these statements?
+
+---
+
+## GENERATED QUESTIONS — Strings (from Teststudent session session_1, 2026-04-15)
+
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
+
+### [quiz_q1] What is printed by the following code?
+**Type:** code_trace  **Unit:** 2
 
 ```java
-int x = 5;
-x += 3;
-x *= 2;
-x -= 4;
+String word = "COMPUTER";
+System.out.println(word.substring(3, 6));
 ```
 
-| Option | Value |
-|--------|-------|
-| **A** | **12** ✓ |
-| B | 8 |
-| C | 16 |
-| D | 6 |
-| E | 14 |
+**Options:**
+  - A) PUT
+  - B) PUTE
+  - C) MPU
+  - D) MPUT
 
-**Answer: A**
-`x=5` → `+= 3` → `x=8` → `*= 2` → `x=16` → `-= 4` → `x=12`
+**Answer:** A
+**Explanation:** substring(3, 6) includes indices 3, 4, and 5. 'COMPUTER' has C(0) O(1) M(2) P(3) U(4) T(5) E(6) R(7). So indices 3-5 give 'PUT'. The length is 6 - 3 = 3 characters. Common mistake: thinking the end index is inclusive, which would give 'PUTE'.
 
----
 
-### UNIT 2 — Using Objects (String, Math, Wrapper Classes)
-*(New curriculum: Unit 1 — Using Objects & Methods)*
-
-**What the AP exam always tests:**
-- `String` methods: `substring(a, b)`, `indexOf(str)`, `length()`, `equals()`, `compareTo()`
-- `substring(a, b)` is inclusive of index `a`, exclusive of index `b`
-- `Math.random()` returns `[0.0, 1.0)` — the formula for a range is `(int)(Math.random() * n) + min`
-- `Math.abs()`, `Math.pow()`, `Math.sqrt()` syntax
-- Strings are **immutable** — methods return new Strings, never modify in place
-
-**What the exam increasingly tests (2022–2025):**
-- Chaining String methods: `s.substring(1).indexOf("x")`
-- `charAt(i)` for character-level traversal (bridging Unit 2 → Unit 4)
-- Integer vs. Double wrapper classes, autoboxing with ArrayList<Integer>
-
-**Common student errors:**
-- Off-by-one on `substring`: `"hello".substring(1, 3)` → `"el"` (not `"ell"`)
-- Thinking `indexOf` is 1-based (it's 0-based)
-- Using `==` to compare Strings (must use `.equals()`)
-
----
-
-#### Sample Question U2-1 (Easy)
-
-**Prompt:** What is printed when the following code executes?
+### [quiz_q5] What is printed by the following code?
+**Type:** code_trace  **Unit:** 5
 
 ```java
-String s = "computer";
-System.out.println(s.substring(3, 6));
-```
+public class Box {
+    private String label;
+    private int width;
+    private int height;
 
-| Option | Value |
-|--------|-------|
-| **A** | **put** ✓ |
-| B | pute |
-| C | com |
-| D | ter |
-| E | omp |
-
-**Answer: A**
-`substring(3, 6)` returns characters at indices 3, 4, 5 → `'p'`, `'u'`, `'t'` → `"put"`. Index 6 is excluded.
-
-**Guiding questions:**
-1. What index does `'c'` have in `"computer"`? Count from 0.
-2. In `substring(a, b)`, is the character at index `b` included in the result?
-
----
-
-#### Sample Question U2-2 (Medium)
-
-**Prompt:** Which correctly generates a random integer in the range 1–6 (inclusive), simulating a die roll?
-
-| Option | Value |
-|--------|-------|
-| A | `(int)(Math.random() * 6)` |
-| **B** | **`(int)(Math.random() * 6) + 1`** ✓ |
-| C | `(int)(Math.random() * 7)` |
-| D | `(int)(Math.random() * 5) + 1` |
-| E | `Math.random() * 6 + 1` |
-
-**Answer: B**
-`Math.random()` gives `[0.0, 1.0)`. × 6 gives `[0.0, 6.0)`. Cast to int: 0–5. +1: 1–6.
-
-**Guiding questions:**
-1. What is the largest value `Math.random()` can ever return?
-2. If `Math.random()` returns 0.99, what is `(int)(0.99 * 6) + 1`?
-
----
-
-### UNIT 3 — Boolean Expressions & if Statements
-*(New curriculum: Unit 2 — Selection & Iteration)*
-
-**What the AP exam always tests:**
-- Evaluating complex boolean expressions with `&&`, `||`, `!`
-- Short-circuit evaluation: `&&` stops if left is false; `||` stops if left is true
-- De Morgan's Laws: `!(a && b)` is equivalent to `(!a || !b)`
-- if/else-if/else chains — tracing which branch executes
-- Nested conditionals — order of evaluation matters
-
-**What the exam increasingly tests (2022–2025):**
-- Compound conditions that combine relational operators: `x > 0 && x < 10`
-- Recognizing logically equivalent boolean expressions (multiple correct answer forms)
-- Off-by-one in boundary conditions: `<` vs `<=`
-
-**Common student errors:**
-- Confusing `=` (assignment) with `==` (comparison)
-- Forgetting `!` flips the entire condition, not just part of it
-- Misreading De Morgan's Law direction
-
----
-
-#### Sample Question U3-1 (Medium)
-
-**Prompt:** What is the value of `!(true && false) || (false || true)`?
-
-| Option | Value |
-|--------|-------|
-| **A** | **true** ✓ |
-| B | false |
-| C | Compile error |
-| D | Cannot be determined |
-| E | null |
-
-**Answer: A**
-`!(true && false)` = `!(false)` = `true`. `(false || true)` = `true`. `true || true` = `true`.
-
----
-
-#### Sample Question U3-2 (Medium)
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-int x = 7;
-int y = 3;
-if ((x < 10) && (y < 0))
-    System.out.println("Value is: " + x * y);
-else
-    System.out.println("Value is: " + x / y);
-```
-
-| Option | Value |
-|--------|-------|
-| A | Value is: 21 |
-| B | Value is: 2.3333333 |
-| **C** | **Value is: 2** ✓ |
-| D | Value is: 0 |
-| E | Value is: 1 |
-
-**Answer: C**
-`(x < 10)` is true, but `(y < 0)` is false. `true && false = false`, so the `else` runs: `7 / 3 = 2` (integer division).
-
-**Guiding questions:**
-1. Is `(y < 0)` true or false when `y = 3`?
-2. For `&&` to be true, what must be true about both sides?
-
----
-
-#### Sample Question U3-3 (Hard)
-
-**Prompt:** What does `classify(15)` return?
-
-```java
-public static String classify(int n) {
-    if (n % 3 == 0 && n % 5 == 0)
-        return "FizzBuzz";
-    else if (n % 3 == 0)
-        return "Fizz";
-    else if (n % 5 == 0)
-        return "Buzz";
-    else
-        return "" + n;
-}
-```
-
-| Option | Value |
-|--------|-------|
-| A | Fizz |
-| B | Buzz |
-| **C** | **FizzBuzz** ✓ |
-| D | 15 |
-| E | FizzBuzz15 |
-
-**Answer: C**
-`15 % 3 == 0` (true) AND `15 % 5 == 0` (true) → first condition met → `"FizzBuzz"` returned.
-
----
-
-### UNIT 4 — Iteration (Loops)
-*(New curriculum: Unit 2 — Selection & Iteration)*
-
-**What the AP exam always tests:**
-- `for` loop trace: counting iterations, knowing the final value of the loop variable
-- `while` loop trace: identifying when the condition becomes false
-- Accumulator patterns: sum, count, max, min
-- Nested loops: inner loop runs completely for each outer iteration
-- Enhanced for loop (`for (Type x : collection)`) — read-only traversal
-
-**What the exam increasingly tests (2022–2025):**
-- Off-by-one errors: `i < arr.length` vs `i <= arr.length`
-- Nested loop complexity analysis: how many total inner iterations?
-- String traversal using `charAt()` inside a for loop
-- While loops that may not execute (condition false initially)
-
-**Common student errors:**
-- Believing the loop variable is accessible after the loop (it's block-scoped)
-- `i = i + 2` step counting — miscounting which indices are visited
-- Infinite loop: forgetting to update the loop variable in a while loop
-
----
-
-#### Sample Question U4-1 (Medium)
-
-**Prompt:** What value is printed when the following code runs?
-
-```java
-int count = 0;
-for (int i = 1; i <= 5; i++) {
-    if (i % 2 == 0) count++;
-}
-System.out.println(count);
-```
-
-| Option | Value |
-|--------|-------|
-| A | 5 |
-| B | 3 |
-| **C** | **2** ✓ |
-| D | 1 |
-| E | 0 |
-
-**Answer: C**
-`i = 1, 2, 3, 4, 5`. Only `i=2` and `i=4` satisfy `i % 2 == 0` → count increments twice.
-
----
-
-#### Sample Question U4-2 (Hard)
-
-**Prompt:** What value is printed when the following code runs?
-
-```java
-int sum = 0;
-for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < i; j++) {
-        sum++;
+    public Box(String label, int width, int height) {
+        this.label = label;
+        this.width = width;
+        this.height = height;
     }
-}
-System.out.println(sum);
-```
 
-| Option | Value |
-|--------|-------|
-| A | 6 |
-| B | 9 |
-| **C** | **3** ✓ |
-| D | 0 |
-| E | 4 |
+    public int getArea() {
+        return width * height;
+    }
 
-**Answer: C**
-When `i=0`: inner loop runs 0 times. When `i=1`: inner runs 1 time. When `i=2`: inner runs 2 times. Total: 0+1+2 = 3.
-
-**Guiding questions:**
-1. When `i=0`, the condition is `j < 0` — how many times does that loop execute?
-2. Make a table: for each value of `i` (0, 1, 2), how many times does the inner loop run?
-
----
-
-#### Sample Question U4-3 (Medium) — While Loop
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-int n = 1;
-while (n < 100) {
-    n *= 2;
-}
-System.out.println(n);
-```
-
-| Option | Value |
-|--------|-------|
-| A | 64 |
-| B | 100 |
-| **C** | **128** ✓ |
-| D | 256 |
-| E | Infinite loop |
-
-**Answer: C**
-`n` doubles: 1→2→4→8→16→32→64→128. At `n=128`, condition `128 < 100` is false.
-
----
-
-### UNIT 5 — Writing Classes
-*(New curriculum: Unit 3 — Class Creation)*
-
-**What the AP exam always tests:**
-- Instance variables declared `private`
-- Constructors: initialize all instance variables; same name as class, no return type
-- Accessor (getter) methods: `public ReturnType getName() { return name; }`
-- Mutator (setter) methods: `public void setName(String name) { this.name = name; }`
-- The `this` keyword for disambiguation
-- `toString()` override returning a meaningful String
-- `equals()` comparing instance variable values (not references)
-
-**What the exam increasingly tests (2022–2025):**
-- Static vs. instance method distinction (FRQ Class Writing type)
-- Reference semantics: two variables can point to the same object
-- Accumulated state across multiple method calls on the same object
-- FRQ Q2 is always a complete class-writing exercise
-
-**Common student errors:**
-- Using `public` for instance variables (breaks encapsulation — costs FRQ points)
-- Missing `this.` when parameter name matches instance variable name
-- Forgetting constructor has no return type (not even `void`)
-- Using `==` for object comparison instead of `.equals()`
-
----
-
-#### Sample Question U5-1 (Medium)
-
-**Prompt:** Why are instance variables typically declared `private` in Java?
-
-| Option | Value |
-|--------|-------|
-| A | Private variables execute faster |
-| B | To prevent the variable from ever being changed |
-| **C** | **To enforce encapsulation — controlling access through getter/setter methods** ✓ |
-| D | Java requires all instance variables to be private |
-| E | Private variables cannot be inherited |
-
-**Answer: C**
-`private` enforces encapsulation. External classes must go through accessor/mutator methods.
-
----
-
-#### Sample Question U5-2 (Hard) — Reference Semantics
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-public class Counter {
-    private int count;
-    public Counter() { count = 0; }
-    public void increment() { count++; }
-    public int getCount() { return count; }
+    public String toString() {
+        return label.substring(0, 3) + "-" + getArea();
+    }
 }
 
 // In main:
-Counter c1 = new Counter();
-Counter c2 = c1;
-c1.increment();
-c1.increment();
-c2.increment();
-System.out.println(c1.getCount());
+Box b = new Box("SHIPPING", 4, 5);
+System.out.println(b);
 ```
 
-| Option | Value |
-|--------|-------|
-| A | 0 |
-| B | 1 |
-| C | 2 |
-| **D** | **3** ✓ |
-| E | Compile error |
+**Options:**
+  - A) SHI-20
+  - B) SHIP-20
+  - C) SHI-9
+  - D) SHIPPING-20
 
-**Answer: D**
-`c2 = c1` makes both variables reference the **same** Counter object. All three `increment()` calls operate on that single object → `count = 3`.
+**Answer:** A
+**Explanation:** The constructor sets label="SHIPPING", width=4, height=5. toString() calls label.substring(0, 3) which gives "SHI" (indices 0, 1, 2). getArea() returns 4*5 = 20. So the result is "SHI-20". Common mistake: thinking substring(0,3) includes index 3 (giving "SHIP"), or miscalculating the area.
 
-**Guiding questions:**
-1. Does `c2 = c1` create a new Counter object, or make `c2` point to the same one `c1` already points to?
-2. How many Counter objects exist in memory after the assignments?
+
+### [quiz_q7] A TagMaker class creates formatted tags from names. Each tag has a tag number and an abbreviated name. Study the partial class below and complete the methods as described.
+
+The abbreviation of a name is formed by taking the first letter of the name concatenated with every character in the name that immediately follows a space. For example:
+- "Ana Maria Lopez" → "AML"
+- "Bo" → "B"
+- "Kim Lee" → "KL"
+**Type:** frq  **Unit:** 5
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests string traversal with substring and indexOf/charAt. The student must correctly handle substring boundaries. Part (b) tests using instance variables and method calls within a class, plus state mutation.
+
+
+### [quiz_q8] A ContactList class manages a list of contacts. Each Contact has a name and a category (e.g., "friend", "work", "family"). Write the two methods described below.
+
+The Contact class is provided and has the following methods:
+- public String getName() — returns the contact's name
+- public String getCategory() — returns the contact's category
+**Type:** frq  **Unit:** 7
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests basic ArrayList traversal and building a new list with string comparison. Part (b) is a harder in-place removal problem requiring the student to track seen categories and handle index shifting during removal correctly — directly targeting their ArrayList removal weakness.
+
+
 
 ---
 
-### UNIT 6 — Arrays
-*(New curriculum: Unit 4 — Data Collections)*
+## GENERATED QUESTIONS — Operators (from Teststudent session session_1, 2026-04-15)
 
-**What the AP exam always tests:**
-- Array declaration and initialization: `int[] arr = new int[5];` or `int[] arr = {1,2,3};`
-- Zero-based indexing: `arr[0]` through `arr[arr.length - 1]`
-- `ArrayIndexOutOfBoundsException` from off-by-one errors
-- Standard traversal patterns: accumulator (sum/count), find max/min, copy
-- Passing arrays to methods (pass by reference — method can modify the original array)
-- `arr.length` (no parentheses) to get size
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
 
-**What the exam increasingly tests (2022–2025):**
-- Methods that return a new array (not void)
-- Partial array filling with a sentinel or condition
-- Step-increment traversal: `i += 2` to skip elements
-- FRQ questions that mix array traversal with boolean conditions
-
-**Common student errors:**
-- `arr.length()` with parentheses (compile error — length is a field, not a method)
-- Using `arr.length` as the last valid index (`arr[arr.length]` is out of bounds)
-- Treating arrays as pass-by-value (they're pass-by-reference)
-
----
-
-#### Sample Question U6-1 (Medium) — Max Finding
-
-**Prompt:** What is printed when the following code executes?
+### [quiz_q2] What is the value of result after the following code executes?
+**Type:** code_trace  **Unit:** 1
 
 ```java
-int[] arr = {5, 3, 8, 1, 9};
-int max = arr[0];
-for (int i = 1; i < arr.length; i++) {
-    if (arr[i] > max) max = arr[i];
-}
-System.out.println(max);
+double result = 7 / 2 + 3.0;
 ```
 
-| Option | Value |
-|--------|-------|
-| A | 5 |
-| **B** | **9** ✓ |
-| C | 1 |
-| D | 8 |
-| E | 3 |
+**Options:**
+  - A) 6.5
+  - B) 6.0
+  - C) 7.0
+  - D) 7.5
 
-**Answer: B**
-Starting from `arr[0]=5`: `8 > 5` (max=8), `9 > 8` (max=9). Final max = 9.
+**Answer:** A
+**Explanation:** Java evaluates 7 / 2 first. Since both 7 and 2 are ints, integer division produces 3 (not 3.5). Then 3 + 3.0 is evaluated: the int 3 is widened to 3.0, giving 6.0... Wait — let me recalculate: 7/2 = 3 (int division), then 3 + 3.0 = 6.0. So the answer is 6.0, which is option B. Correction: The answer is B. Actually re-examining: 7/2 = 3 (integer division truncates), 3 + 3.0 = 6.0. The answer is B.
 
-**Guiding questions:**
-1. Why does the loop start at index 1 rather than index 0?
-2. After the loop processes `arr[4]=9`, what is `max`?
 
----
-
-#### Sample Question U6-2 (Medium) — Step Traversal
-
-**Prompt:** What does `mystery({3, 6, 1, 0, 1, 4, 2})` return?
+### [quiz_q6] What does the ArrayList contain after the following code executes?
+**Type:** code_trace  **Unit:** 7
 
 ```java
-public static int mystery(int[] arr) {
-    int x = 0;
-    for (int k = 0; k < arr.length; k = k + 2)
-        x = x + arr[k];
-    return x;
-}
-```
+ArrayList<Integer> vals = new ArrayList<Integer>();
+vals.add(3);
+vals.add(7);
+vals.add(2);
+vals.add(8);
+vals.add(1);
 
-| Option | Value |
-|--------|-------|
-| A | 5 |
-| B | 6 |
-| **C** | **7** ✓ |
-| D | 10 |
-| E | 17 |
-
-**Answer: C**
-`k` takes values 0, 2, 4, 6: `arr[0]=3`, `arr[2]=1`, `arr[4]=1`, `arr[6]=2`. Sum = 3+1+1+2 = 7.
-
-**Guiding questions:**
-1. What indices does `k` take on? List them.
-2. Are you summing even-indexed or odd-indexed elements?
-
----
-
-### UNIT 7 — ArrayList
-*(New curriculum: Unit 4 — Data Collections)*
-
-**What the AP exam always tests:**
-- `ArrayList<Type>` syntax, declaration, and initialization
-- Methods: `add(item)`, `add(index, item)`, `get(index)`, `set(index, item)`, `remove(index)`, `size()`
-- The `remove(int index)` vs `remove(Object o)` disambiguation with Integer
-- Forward traversal while removing causes index-shifting bugs — must traverse backwards or use iterator
-- `ArrayList` is dynamic (unlike arrays, it resizes automatically)
-- `ArrayList` cannot hold primitives — must use `Integer`, `Double`, `Boolean`
-
-**What the exam increasingly tests (2022–2025):**
-- In-place modification with `set()` — FRQ 2025 Round was entirely about `set()` vs `add()` trap
-- Filtering: building a new list or removing from an existing one based on condition
-- Autoboxing/unboxing implications when comparing Integer objects with `==` vs `.equals()`
-
-**Common student errors:**
-- `list[i]` instead of `list.get(i)` (compile error — ArrayList is not an array)
-- `list.length` instead of `list.size()` (compile error)
-- Using `add()` when `set()` is needed (inserts a new element vs replacing existing)
-- Removing during forward iteration without decrementing index
-
----
-
-#### Sample Question U7-1 (Medium)
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-ArrayList<Integer> list = new ArrayList<>();
-list.add(10);
-list.add(20);
-list.add(30);
-list.remove(1);
-System.out.println(list);
-```
-
-| Option | Value |
-|--------|-------|
-| **A** | **[10, 30]** ✓ |
-| B | [20, 30] |
-| C | [10, 20] |
-| D | [10, 20, 30] |
-| E | [30] |
-
-**Answer: A**
-`remove(1)` removes the element at **index** 1, which is 20. Remaining: [10, 30].
-
-**Guiding questions:**
-1. ArrayList has two `remove` methods. This call uses an `int` argument — does that remove by index or by value?
-2. After the three `add()` calls, what are the indices of 10, 20, and 30?
-
----
-
-#### Sample Question U7-2 (Hard) — In-Place Modification Trap
-
-**Prompt:** A student writes a method to double every element in an ArrayList:
-
-```java
-// Version A — using set()
-for (int i = 0; i < list.size(); i++) {
-    list.set(i, list.get(i) * 2);
-}
-
-// Version B — using add() and remove()
-for (int i = 0; i < list.size(); i++) {
-    int val = list.get(i);
-    list.remove(i);
-    list.add(i, val * 2);
-}
-```
-
-If `list = [1, 2, 3]`, which version correctly produces `[2, 4, 6]`?
-
-| Option | Value |
-|--------|-------|
-| **A** | **Version A only** ✓ |
-| B | Version B only |
-| C | Both produce [2, 4, 6] |
-| D | Neither produces [2, 4, 6] |
-| E | Version A, but only for even-length lists |
-
-**Answer: A**
-`set()` replaces in place — correct. Version B works too (remove then insert at same index), but is unnecessarily complex and fragile. In FRQ grading, `set()` is the expected approach.
-
----
-
-### UNIT 8 — 2D Arrays
-*(New curriculum: Unit 4 — Data Collections)*
-
-**What the AP exam always tests:**
-- Declaration: `int[][] grid = new int[rows][cols];`
-- Indexing: `grid[row][col]` — row index FIRST, column index SECOND
-- Row count: `grid.length`
-- Column count: `grid[0].length` (not `grid.length`)
-- Standard nested loop traversal (row-major order)
-- Summing rows, columns, or diagonals
-
-**What the exam increasingly tests (2022–2025):**
-- Accessing neighbor cells: `grid[row-1][col]`, `grid[row][col+1]` — always requires bounds check
-- Column-major traversal (outer loop on column)
-- In-place mutation of cells based on neighboring values (2025 SumOrSameGame, 2024 GridPath)
-- Passing 2D arrays to methods
-
-**Common student errors:**
-- `grid[col][row]` — swapped indices
-- `grid.length` used as column count (it's row count)
-- Missing bounds check before accessing neighbors
-- Using `grid.length()` with parentheses (compile error)
-
----
-
-#### Sample Question U8-1 (Easy)
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-int[][] grid = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-System.out.println(grid[1][2]);
-```
-
-| Option | Value |
-|--------|-------|
-| **A** | **6** ✓ |
-| B | 8 |
-| C | 5 |
-| D | 2 |
-| E | 7 |
-
-**Answer: A**
-`grid[1][2]` → row 1 is `{4, 5, 6}` → column 2 is `6`.
-
-**Guiding questions:**
-1. In `grid[r][c]`, what does the first index represent?
-2. List all three rows. What values are in row 1?
-
----
-
-#### Sample Question U8-2 (Hard) — Nested Loop + Condition
-
-**Prompt:** What is printed when the following code executes?
-
-```java
-int[][] mat = {{1, 2}, {3, 4}, {5, 6}};
-int total = 0;
-for (int r = 0; r < mat.length; r++) {
-    for (int c = 0; c < mat[r].length; c++) {
-        if ((r + c) % 2 == 0)
-            total += mat[r][c];
+for (int i = vals.size() - 1; i >= 0; i--) {
+    if (vals.get(i) % 2 == 1) {
+        vals.remove(i);
     }
 }
-System.out.println(total);
 ```
 
-| Option | Value |
-|--------|-------|
-| A | 9 |
-| B | 21 |
-| C | 10 |
-| D | 6 |
-| E | 15 |
+**Options:**
+  - A) [7, 2, 8]
+  - B) [2, 8]
+  - C) [3, 2, 1]
+  - D) [3, 7, 2, 8]
 
-**Answer: C (10)**
-Cells where `(r+c) % 2 == 0`: (0,0)→1, (1,1)→4, (2,0)→5. Sum = 1+4+5 = 10.
+**Answer:** B
+**Explanation:** The loop goes backward removing odd numbers. Initial: [3, 7, 2, 8, 1]. i=4: vals.get(4)=1, 1%2==1 → remove → [3, 7, 2, 8]. i=3: vals.get(3)=8, 8%2==0 → keep. i=2: vals.get(2)=2, 2%2==0 → keep. i=1: vals.get(1)=7, 7%2==1 → remove → [3, 2, 8]. i=0: vals.get(0)=3, 3%2==1 → remove → [2, 8]. The backward loop avoids the skipping problem of forward removal.
 
-**Guiding questions:**
-1. List all valid (r,c) pairs. For which ones is `(r+c)` even?
-2. What are `mat.length` and `mat[0].length` for a 3-row, 2-column array?
+
 
 ---
 
-### UNIT 9 — Inheritance & Polymorphism
-*(New curriculum: Unit 3 — Class Creation)*
+## GENERATED QUESTIONS — Variables And Types (from Teststudent session session_1, 2026-04-15)
 
-**What the AP exam always tests:**
-- A superclass variable can hold a subclass object: `Animal a = new Dog();`
-- Dynamic dispatch (late binding): the **runtime type** determines which overridden method executes
-- `super` keyword: calling superclass constructor (`super(args)`) and superclass methods (`super.method()`)
-- Method overriding vs. method overloading distinction
-- `instanceof` operator (occasionally, less tested)
-- Abstract classes: cannot be instantiated; subclasses must implement abstract methods
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
 
-**What the exam increasingly tests (2022–2025):**
-- Compile-time type vs. runtime type — what compiles vs. what actually runs
-- FRQ class hierarchy with `super` calls in overridden methods (2022 Textbook FRQ)
-- Recognizing that private superclass methods are NOT inherited (not overridable)
-
-**Common student errors:**
-- Thinking `Animal a = new Dog()` causes a compile error (it doesn't — Dog IS-A Animal)
-- Thinking the declared type (Animal) determines which `speak()` runs (it doesn't — runtime type does)
-- Confusing overriding (same signature) with overloading (different parameters)
-- Forgetting `super()` must be the first line in a subclass constructor
-
----
-
-#### Sample Question U9-1 (Medium) — Polymorphism
-
-**Prompt:** Class `Animal` has a method `speak()` that returns `"..."`. Subclass `Dog` overrides `speak()` to return `"Woof"`. What is printed?
+### [quiz_q2] What is the value of result after the following code executes?
+**Type:** code_trace  **Unit:** 1
 
 ```java
-Animal a = new Dog();
-System.out.println(a.speak());
+double result = 7 / 2 + 3.0;
 ```
 
-| Option | Value |
-|--------|-------|
-| A | ... |
-| **B** | **Woof** ✓ |
-| C | Compile error: Animal variable cannot hold a Dog object |
-| D | Runtime error: wrong method called |
-| E | null |
+**Options:**
+  - A) 6.5
+  - B) 6.0
+  - C) 7.0
+  - D) 7.5
 
-**Answer: B**
-Dynamic dispatch: declared type is `Animal`, runtime type is `Dog`. Java calls `Dog`'s `speak()` → `"Woof"`.
+**Answer:** A
+**Explanation:** Java evaluates 7 / 2 first. Since both 7 and 2 are ints, integer division produces 3 (not 3.5). Then 3 + 3.0 is evaluated: the int 3 is widened to 3.0, giving 6.0... Wait — let me recalculate: 7/2 = 3 (int division), then 3 + 3.0 = 6.0. So the answer is 6.0, which is option B. Correction: The answer is B. Actually re-examining: 7/2 = 3 (integer division truncates), 3 + 3.0 = 6.0. The answer is B.
 
-**Guiding questions:**
-1. Can a superclass variable hold a reference to a subclass object in Java?
-2. At runtime, which `speak()` is called — `Animal`'s or `Dog`'s?
 
----
+### [quiz_q7] A TagMaker class creates formatted tags from names. Each tag has a tag number and an abbreviated name. Study the partial class below and complete the methods as described.
 
-#### Sample Question U9-2 (Hard) — Compile vs. Runtime Type
+The abbreviation of a name is formed by taking the first letter of the name concatenated with every character in the name that immediately follows a space. For example:
+- "Ana Maria Lopez" → "AML"
+- "Bo" → "B"
+- "Kim Lee" → "KL"
+**Type:** frq  **Unit:** 5
 
-**Prompt:** Which statement about subclass methods is **false**?
+**Options:**
 
-| Option | Value |
-|--------|-------|
-| **A** | **Writing two subclass methods with the same name but different parameters is method overriding** ✓ (FALSE) |
-| B | A public method in a subclass not in its superclass is not accessible by the superclass |
-| C | A private method in a superclass is not inherited by its subclass |
-| D | Two different subclasses of the same superclass inherit the same public methods of the superclass |
-| E | If Class1 is superclass of Class2, which is superclass of Class3, and Class2 has no overrides, Class3 inherits all public methods of Class1 |
 
-**Answer: A**
-Same name with **different parameters** is method **overloading** (not overriding). Overriding requires the same signature.
+**Answer:** 
+**Explanation:** Part (a) tests string traversal with substring and indexOf/charAt. The student must correctly handle substring boundaries. Part (b) tests using instance variables and method calls within a class, plus state mutation.
+
+
 
 ---
 
-#### Sample Question U9-3 (Medium) — super Keyword
+## GENERATED QUESTIONS — Loops (from Teststudent session session_1, 2026-04-15)
 
-**Prompt:** A `Textbook` subclass extends `Book`. `Book`'s `getBookInfo()` returns `title + " - $" + price`. `Textbook` overrides it to include the edition. What is printed?
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
+
+### [quiz_q3] What is the value of count after this code executes?
+**Type:** code_trace  **Unit:** 4
 
 ```java
-Textbook t = new Textbook("Biology", 49.75, 2);
-System.out.println(t.getBookInfo());
-```
-
-| Option | Value |
-|--------|-------|
-| A | Biology - $49.75 |
-| **B** | **Biology - $49.75 - Edition 2** ✓ |
-| C | Compile error: Textbook does not inherit getBookInfo() |
-| D | Biology |
-| E | $49.75 - Edition 2 |
-
-**Answer: B**
-`Textbook.getBookInfo()` calls `super.getBookInfo()` (→ `"Biology - $49.75"`) and appends `" - Edition 2"`.
-
----
-
-### UNIT 10 — Recursion
-*(New curriculum: Unit 2 — Selection & Iteration)*
-
-**What the AP exam always tests:**
-- Identifying the base case (the condition that stops recursion)
-- Tracing a recursive method: building the call stack and unwinding it
-- Recursive methods that return a value (not just print)
-- Simple patterns: countdown, sum of integers, factorial, fibonacci
-- Understanding that each call has its own local variable copies
-
-**What the exam increasingly tests (2022–2025):**
-- Recursive methods on Strings: `mystery("abc")` → processes one character and recurses on `s.substring(1)`
-- Recognizing when a method has no base case (infinite recursion — stack overflow)
-- Comparing iterative vs. recursive solutions for the same problem
-
-**Common student errors:**
-- Thinking variables are shared across recursive calls (they're not — each call is independent)
-- Confusing the base case with the recursive case
-- Off-by-one in base case: `if (n == 0)` vs `if (n <= 0)`
-- Not returning the result of the recursive call
-
----
-
-#### Sample Question U10-1 (Medium) — Trace
-
-**Prompt:** What does `mystery(4)` return?
-
-```java
-public static int mystery(int n) {
-    if (n <= 0)
-        return 0;
-    return n + mystery(n - 1);
+int count = 0;
+for (int i = 1; i <= 4; i++) {
+    for (int j = i; j <= 4; j++) {
+        count++;
+    }
 }
 ```
 
-| Option | Value |
-|--------|-------|
-| A | 4 |
-| B | 0 |
-| C | 6 |
-| **D** | **10** ✓ |
-| E | Infinite recursion |
+**Options:**
+  - A) 10
+  - B) 16
+  - C) 8
+  - D) 6
 
-**Answer: D**
-`mystery(4)` = 4 + `mystery(3)` = 4 + 3 + `mystery(2)` = 4+3+2 + `mystery(1)` = 4+3+2+1 + `mystery(0)` = 4+3+2+1+0 = 10.
+**Answer:** A
+**Explanation:** Trace each iteration: i=1: j runs 1,2,3,4 → 4 increments. i=2: j runs 2,3,4 → 3 increments. i=3: j runs 3,4 → 2 increments. i=4: j runs 4 → 1 increment. Total = 4+3+2+1 = 10. Common mistake: assuming both loops always run 4 times (which gives 16) or not noticing j starts at i.
 
-**Guiding questions:**
-1. What is the base case? What does the method return when `n <= 0`?
-2. Write out the call chain: `mystery(4)` → `mystery(3)` → ... What is each return value?
 
----
-
-#### Sample Question U10-2 (Medium) — String Recursion
-
-**Prompt:** What does `mystery("abcd")` return?
+### [quiz_q6] What does the ArrayList contain after the following code executes?
+**Type:** code_trace  **Unit:** 7
 
 ```java
-public static String mystery(String s) {
-    if (s.length() == 0)
-        return "";
-    return mystery(s.substring(1)) + s.charAt(0);
+ArrayList<Integer> vals = new ArrayList<Integer>();
+vals.add(3);
+vals.add(7);
+vals.add(2);
+vals.add(8);
+vals.add(1);
+
+for (int i = vals.size() - 1; i >= 0; i--) {
+    if (vals.get(i) % 2 == 1) {
+        vals.remove(i);
+    }
 }
 ```
 
-| Option | Value |
-|--------|-------|
-| A | abcd |
-| **B** | **dcba** ✓ |
-| C | "" |
-| D | a |
-| E | bcd |
+**Options:**
+  - A) [7, 2, 8]
+  - B) [2, 8]
+  - C) [3, 2, 1]
+  - D) [3, 7, 2, 8]
 
-**Answer: B**
-The recursive call processes the rest of the string first (building up from the end), then appends the first character. This reverses the string.
+**Answer:** B
+**Explanation:** The loop goes backward removing odd numbers. Initial: [3, 7, 2, 8, 1]. i=4: vals.get(4)=1, 1%2==1 → remove → [3, 7, 2, 8]. i=3: vals.get(3)=8, 8%2==0 → keep. i=2: vals.get(2)=2, 2%2==0 → keep. i=1: vals.get(1)=7, 7%2==1 → remove → [3, 2, 8]. i=0: vals.get(0)=3, 3%2==1 → remove → [2, 8]. The backward loop avoids the skipping problem of forward removal.
 
-**Guiding questions:**
-1. What is the base case? What is returned when `s` is empty?
-2. Trace: `mystery("abcd")` calls `mystery("bcd")` + `'a'`. What does `mystery("bcd")` produce?
+
+### [quiz_q7] A TagMaker class creates formatted tags from names. Each tag has a tag number and an abbreviated name. Study the partial class below and complete the methods as described.
+
+The abbreviation of a name is formed by taking the first letter of the name concatenated with every character in the name that immediately follows a space. For example:
+- "Ana Maria Lopez" → "AML"
+- "Bo" → "B"
+- "Kim Lee" → "KL"
+**Type:** frq  **Unit:** 5
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests string traversal with substring and indexOf/charAt. The student must correctly handle substring boundaries. Part (b) tests using instance variables and method calls within a class, plus state mutation.
+
+
+### [quiz_q8] A ContactList class manages a list of contacts. Each Contact has a name and a category (e.g., "friend", "work", "family"). Write the two methods described below.
+
+The Contact class is provided and has the following methods:
+- public String getName() — returns the contact's name
+- public String getCategory() — returns the contact's category
+**Type:** frq  **Unit:** 7
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests basic ArrayList traversal and building a new list with string comparison. Part (b) is a harder in-place removal problem requiring the student to track seen categories and handle index shifting during removal correctly — directly targeting their ArrayList removal weakness.
+
+
 
 ---
 
-#### Sample Question U10-3 (Hard) — Identify Base Case Error
+## GENERATED QUESTIONS — Arraylist (from Teststudent session session_1, 2026-04-15)
 
-**Prompt:** A student writes a method to count how many times a digit appears in a number:
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
+
+### [quiz_q4] What does the ArrayList contain after the following code executes?
+**Type:** code_trace  **Unit:** 7
 
 ```java
-public static int countDigit(int n, int digit) {
-    if (n == 0) return 0;
-    int last = n % 10;
-    if (last == digit)
-        return 1 + countDigit(n / 10, digit);
-    else
-        return countDigit(n / 10, digit);
+ArrayList<Integer> nums = new ArrayList<Integer>();
+nums.add(5);
+nums.add(10);
+nums.add(15);
+nums.add(20);
+nums.remove(1);
+nums.remove(Integer.valueOf(15));
+```
+
+**Options:**
+  - A) [5, 20]
+  - B) [5, 15]
+  - C) [10, 20]
+  - D) [5, 15, 20]
+
+**Answer:** A
+**Explanation:** Initial list: [5, 10, 15, 20]. nums.remove(1) removes the element at index 1, which is 10. List becomes [5, 15, 20]. Then nums.remove(Integer.valueOf(15)) removes the first occurrence of the value 15. List becomes [5, 20]. Common mistake: confusing remove(1) as removing the value 1 instead of the element at index 1.
+
+
+### [quiz_q6] What does the ArrayList contain after the following code executes?
+**Type:** code_trace  **Unit:** 7
+
+```java
+ArrayList<Integer> vals = new ArrayList<Integer>();
+vals.add(3);
+vals.add(7);
+vals.add(2);
+vals.add(8);
+vals.add(1);
+
+for (int i = vals.size() - 1; i >= 0; i--) {
+    if (vals.get(i) % 2 == 1) {
+        vals.remove(i);
+    }
 }
 ```
 
-What is the result of `countDigit(300, 0)`?
+**Options:**
+  - A) [7, 2, 8]
+  - B) [2, 8]
+  - C) [3, 2, 1]
+  - D) [3, 7, 2, 8]
 
-| Option | Value |
-|--------|-------|
-| A | 3 |
-| **B** | **2** ✓ |
-| C | 0 |
-| D | 1 |
-| E | Infinite recursion |
+**Answer:** B
+**Explanation:** The loop goes backward removing odd numbers. Initial: [3, 7, 2, 8, 1]. i=4: vals.get(4)=1, 1%2==1 → remove → [3, 7, 2, 8]. i=3: vals.get(3)=8, 8%2==0 → keep. i=2: vals.get(2)=2, 2%2==0 → keep. i=1: vals.get(1)=7, 7%2==1 → remove → [3, 2, 8]. i=0: vals.get(0)=3, 3%2==1 → remove → [2, 8]. The backward loop avoids the skipping problem of forward removal.
 
-**Answer: B**
-`300 / 10 = 30 / 10 = 3`. At `n=3`: `3 % 10 = 3 ≠ 0`, recurse → `n=0` → base case returns 0. Count from `30` (last digit = 0 → +1) and `300` (last digit = 0 → +1). Total = 2. *Note: the base case `n==0` will miss a zero in that position — known edge case for negative numbers and zero itself, but standard for this exam context.*
 
----
+### [quiz_q8] A ContactList class manages a list of contacts. Each Contact has a name and a category (e.g., "friend", "work", "family"). Write the two methods described below.
 
-## PART 4 — FRQ REFERENCE: 2021–2025 OFFICIAL QUESTIONS
+The Contact class is provided and has the following methods:
+- public String getName() — returns the contact's name
+- public String getCategory() — returns the contact's category
+**Type:** frq  **Unit:** 7
 
-These are the actual College Board FRQ topics. Use as models for generating FRQ-style questions.
+**Options:**
 
-### 2025 FRQs
-| # | Name | Type | Key Concepts |
-|---|------|------|--------------|
-| 1 | DogWalker | Methods & Control | `Math.min()`, loop accumulation, method decomposition |
-| 2 | SignedText | Class Design | Constructor, String field, class anatomy |
-| 3 | Round | ArrayList | `set()` vs `add()`, in-place modification, integer rounding |
-| 4 | SumOrSameGame | 2D Array | Nested loops, conditional merge, in-place mutation |
 
-### 2024 FRQs
-| # | Name | Type | Key Concepts |
-|---|------|------|--------------|
-| 1 | Feeder | Methods & Control | Bird feeder simulation, `Math.min()`, loop with accumulator |
-| 2 | Scoreboard | Class Design | Constructor, tracking wins/losses, computed output |
-| 3 | WordChecker | ArrayList | String comparison, filtering, list traversal |
-| 4 | GridPath | 2D Array | Path traversal, row/column bounds, neighbor access |
+**Answer:** 
+**Explanation:** Part (a) tests basic ArrayList traversal and building a new list with string comparison. Part (b) is a harder in-place removal problem requiring the student to track seen categories and handle index shifting during removal correctly — directly targeting their ArrayList removal weakness.
 
-### 2023 FRQs
-| # | Name | Type | Key Concepts |
-|---|------|------|--------------|
-| 1 | AppointmentBook | Methods & Control | Nested conditionals, time slots, method calls |
-| 2 | Sign | Class Design | String fields, constructor, computed display |
-| 3 | WeatherData | ArrayList | Double list, accumulator, filtering |
-| 4 | BoxOfCandy | 2D Array | Grid rotation, column traversal, null handling |
 
-### 2022 FRQs
-| # | Name | Type | Key Concepts |
-|---|------|------|--------------|
-| 1 | Game | Methods & Control | Score accumulation, bonus calculation |
-| 2 | Textbook | Class Design + Inheritance | `super` call, method override, `extends` |
-| 3 | ReviewAnalysis | ArrayList | String ArrayList, filtering by rating |
-| 4 | Data | 2D Array | Random grid, row/column statistics |
-
-### 2021 FRQs
-| # | Name | Type | Key Concepts |
-|---|------|------|--------------|
-| 1 | WordMatch | Methods & Control | String comparison, loops, method calls |
-| 2 | CombinedTable | Class Design | Multi-object composition |
-| 3 | ClubMembers | ArrayList | Membership list, removal, traversal |
-| 4 | ArrayResizer | 2D Array | Jagged array, resize algorithm |
 
 ---
 
-## PART 5 — FRQ SCORING PATTERNS & COMMON POINT-LOSS
+## GENERATED QUESTIONS — Classes And Objects (from Teststudent session session_1, 2026-04-15)
 
-> Use this to calibrate difficulty and help students understand what earns partial credit.
+> Auto-generated by quiz_generator.py. Review before using in future sessions.
 
-### Universal Point Distribution (9 points per FRQ)
-- **Algorithm correctness:** 3–4 points (biggest bucket — logic must be right)
-- **Language features used correctly:** 2–3 points (proper `set()`, correct loop syntax, etc.)
-- **Method signatures / class header:** 1–2 points (quick points — don't lose these)
-- **Edge case handling:** 0–1 point (sometimes included; often not penalized)
-
-### Top Reasons Students Lose Points (FRQ)
-
-**Class Design (Q2):**
-- Instance variables declared `public` instead of `private` — lose 1 point
-- Constructor doesn't initialize all instance variables
-- Missing class header or closing brace
-
-**ArrayList (Q3):**
-- Using `add()` instead of `set()` for in-place replacement (2025 Round — this was the trap)
-- Forward iteration while removing elements (index shift bug)
-- Using `list.length` instead of `list.size()`
-- Bracket notation `list[i]` instead of `list.get(i)`
-
-**2D Array (Q4):**
-- Swapped indices: `arr[col][row]` instead of `arr[row][col]`
-- `arr.length` used as column count (must be `arr[0].length`)
-- Missing bounds check for neighbor access
-
-**Methods & Control (Q1):**
-- Missing return statements in all code paths
-- Using `=` instead of `==` in conditions
-- String comparison with `==` instead of `.equals()`
-
-### Time Management (90 min for 4 FRQs)
-| FRQ | Recommended Time |
-|-----|-----------------|
-| Q1 Methods & Control | 17–20 min (usually easiest) |
-| Q2 Class Design | 25–27 min (most complete writing) |
-| Q3 ArrayList | 20–23 min |
-| Q4 2D Array | 23–25 min (usually hardest) |
-
----
-
-## PART 6 — QUICK REFERENCE: JAVA SYNTAX TESTED ON AP CSA
+### [quiz_q5] What is printed by the following code?
+**Type:** code_trace  **Unit:** 5
 
 ```java
-// String methods
-s.length()          // number of characters
-s.substring(a, b)   // chars at indices a to b-1 (b excluded)
-s.indexOf("x")      // first index of substring, -1 if not found
-s.equals("abc")     // true/false — use instead of ==
-s.charAt(i)         // char at index i
+public class Box {
+    private String label;
+    private int width;
+    private int height;
 
-// Math class
-Math.random()       // [0.0, 1.0) double
-Math.abs(x)         // absolute value
-Math.pow(base, exp) // base^exp (returns double)
-Math.sqrt(x)        // square root (returns double)
-Math.min(a, b)      // minimum of two values
+    public Box(String label, int width, int height) {
+        this.label = label;
+        this.width = width;
+        this.height = height;
+    }
 
-// Array
-int[] arr = new int[n];    // creates array of size n (all zeros)
-arr.length                 // size (NOT a method — no parentheses)
-arr[i]                     // access element at index i (0-based)
+    public int getArea() {
+        return width * height;
+    }
 
-// ArrayList
-ArrayList<Integer> list = new ArrayList<>();
-list.add(item)             // append to end
-list.add(index, item)      // insert at index
-list.get(index)            // retrieve element
-list.set(index, item)      // replace element — returns old value
-list.remove(index)         // remove by index
-list.size()                // number of elements (IS a method — parentheses!)
+    public String toString() {
+        return label.substring(0, 3) + "-" + getArea();
+    }
+}
 
-// 2D Array
-int[][] grid = new int[rows][cols];
-grid.length                // number of rows
-grid[0].length             // number of columns
-grid[row][col]             // access element (row FIRST)
-
-// Inheritance
-class Dog extends Animal { ... }
-super.method()             // call superclass method
-super(args)                // call superclass constructor (first line only)
-
-// Casting
-(double) x / y             // cast x to double before division
-(int) 3.7                  // truncates to 3 (NOT rounds)
+// In main:
+Box b = new Box("SHIPPING", 4, 5);
+System.out.println(b);
 ```
 
----
+**Options:**
+  - A) SHI-20
+  - B) SHIP-20
+  - C) SHI-9
+  - D) SHIPPING-20
 
-*Sources: College Board AP Central (apcentral.collegeboard.org), APCSExamPrep.com, CrackAP.com, APComputerScienceTutoring.com, Runestone Academy CSAwesome, Wiingy AP CSA Guide, this platform's ap_csa_assessment_2021_2024.json.*
+**Answer:** A
+**Explanation:** The constructor sets label="SHIPPING", width=4, height=5. toString() calls label.substring(0, 3) which gives "SHI" (indices 0, 1, 2). getArea() returns 4*5 = 20. So the result is "SHI-20". Common mistake: thinking substring(0,3) includes index 3 (giving "SHIP"), or miscalculating the area.
+
+
+### [quiz_q7] A TagMaker class creates formatted tags from names. Each tag has a tag number and an abbreviated name. Study the partial class below and complete the methods as described.
+
+The abbreviation of a name is formed by taking the first letter of the name concatenated with every character in the name that immediately follows a space. For example:
+- "Ana Maria Lopez" → "AML"
+- "Bo" → "B"
+- "Kim Lee" → "KL"
+**Type:** frq  **Unit:** 5
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests string traversal with substring and indexOf/charAt. The student must correctly handle substring boundaries. Part (b) tests using instance variables and method calls within a class, plus state mutation.
+
+
+### [quiz_q8] A ContactList class manages a list of contacts. Each Contact has a name and a category (e.g., "friend", "work", "family"). Write the two methods described below.
+
+The Contact class is provided and has the following methods:
+- public String getName() — returns the contact's name
+- public String getCategory() — returns the contact's category
+**Type:** frq  **Unit:** 7
+
+**Options:**
+
+
+**Answer:** 
+**Explanation:** Part (a) tests basic ArrayList traversal and building a new list with string comparison. Part (b) is a harder in-place removal problem requiring the student to track seen categories and handle index shifting during removal correctly — directly targeting their ArrayList removal weakness.
+

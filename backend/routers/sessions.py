@@ -16,6 +16,14 @@ GENERATED_DIR     = TESTS_DIR / "generated"
 def is_admin(name: str) -> bool:
     return normalize_name(name) == ADMIN_NAME
 
+
+def latest_generated_test_id() -> str:
+    """Admin preview: return the most recently modified generated test, or the canonical assessment."""
+    if not GENERATED_DIR.exists():
+        return ASSESSMENT_TEST
+    tests = sorted(GENERATED_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+    return tests[0].stem if tests else ASSESSMENT_TEST
+
 def normalize_name(name: str) -> str:
     return name.strip().title()
 
@@ -54,11 +62,21 @@ def next_iteration(student_dir: Path) -> int:
     return max(nums) + 1 if nums else 1
 
 def _cleanup_orphan(student_dir: Path) -> None:
-    """Delete the last session directory if it has no responses (browser refresh ghost)."""
-    dirs = sorted(student_dir.glob("session_*"), key=lambda d: d.name)
-    if not dirs:
+    """Delete the last numeric session directory if it has no responses (browser refresh ghost).
+
+    Must use the same numeric-suffix filter as next_iteration() so that non-iteration
+    directories (e.g. session_5_takehome holding an offline assignment) cannot hide
+    the real orphan by sorting alphabetically later.
+    """
+    numeric_dirs = [
+        d for d in student_dir.glob("session_*")
+        if d.is_dir()
+        and len(d.name.split("_")) == 2
+        and d.name.split("_")[1].isdigit()
+    ]
+    if not numeric_dirs:
         return
-    last = dirs[-1]
+    last = max(numeric_dirs, key=lambda d: int(d.name.split("_")[1]))
     if not (last / "responses.json").exists():
         meta_path = last / "metadata.json"
         if meta_path.exists():
@@ -71,7 +89,7 @@ def _cleanup_orphan(student_dir: Path) -> None:
 async def start_session(req: SessionStartRequest):
     normalized_name = normalize_name(req.student_name)
     if is_admin(normalized_name):
-        return {"session_id": "admin_preview", "iteration": 0, "test_id": ASSESSMENT_TEST}
+        return {"session_id": "admin_preview", "iteration": 0, "test_id": latest_generated_test_id()}
     student_dir = get_student_dir(normalized_name)
     if student_dir.exists():
         _cleanup_orphan(student_dir)
@@ -159,7 +177,7 @@ async def get_next_test(student_name: str):
     """Return the test_id and iteration for this student's next session without creating it."""
     normalized = normalize_name(student_name)
     if is_admin(normalized):
-        return {"test_id": ASSESSMENT_TEST, "iteration": 0, "session_type": "assessment"}
+        return {"test_id": latest_generated_test_id(), "iteration": 0, "session_type": "assessment"}
     student_dir = get_student_dir(normalized)
     if student_dir.exists():
         _cleanup_orphan(student_dir)

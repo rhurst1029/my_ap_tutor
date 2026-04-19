@@ -212,7 +212,7 @@ export default function FRQCard({ parts, onComplete }: Props) {
 
       <div className="frq-editor">
         <Editor
-          height="340px"
+          height="calc(100vh - 280px)"
           defaultLanguage="java"
           value={state.code}
           theme="vs-dark"

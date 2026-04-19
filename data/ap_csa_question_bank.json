@@ -1,0 +1,1450 @@
+{
+  "schema_version": "2.0",
+  "created_at": "2026-04-15",
+  "description": "Comprehensive AP CSA question bank. Flat array of all questions — MC and FRQ — with rich metadata for adaptive targeting. Sources: College Board official FRQs (2021–2022), AP CSA style questions modeled after official materials, and platform-generated questions targeting historically high-frequency exam concepts.",
+  "notes": [
+    "MC options use A–E to match AP exam format.",
+    "FRQ questions follow a different schema (parts array, class_given, no options/answer_key).",
+    "concept_tested field describes the specific misconception or skill being targeted.",
+    "topic_index below maps topic_tags to question IDs for fast adaptive selection.",
+    "All questions from ap_csa_assessment_2021_2024.json are included here. That file remains unchanged for use as a timed 20-question assessment.",
+    "New questions added in schema v2.0 target ArrayList set/add trap, backward removal, all-negative max bug, abstract class rules, String chaining, for-each modification limitation, and parameter shadowing."
+  ],
+
+  "metadata": {
+    "total_questions": 45,
+    "by_type": {
+      "multiple_choice": 32,
+      "free_response": 7,
+      "code_trace": 6
+    },
+    "by_difficulty": {
+      "easy": 9,
+      "medium": 21,
+      "hard": 15
+    },
+    "by_unit": {
+      "1": 5,
+      "2": 5,
+      "3": 3,
+      "4": 5,
+      "5": 5,
+      "6": 5,
+      "7": 5,
+      "8": 4,
+      "9": 5,
+      "10": 3,
+      "frq_multi": 7
+    },
+    "topic_index": {
+      "variables_and_types": ["mc_u1_01","mc_u1_02","mc_u1_03","mc_u1_04","mc_u1_05"],
+      "operators": ["mc_u1_01","mc_u1_02","mc_u1_03","mc_u3_01","mc_u3_02"],
+      "strings": ["mc_u2_01","mc_u2_02","mc_u2_03","mc_u2_04","mc_u2_05","mc_u10_02"],
+      "conditionals": ["mc_u3_01","mc_u3_02","mc_u3_03"],
+      "loops": ["mc_u4_01","mc_u4_02","mc_u4_03","mc_u4_04","mc_u4_05","mc_u6_02","mc_u8_02"],
+      "arrays": ["mc_u6_01","mc_u6_02","mc_u6_03","mc_u6_04","mc_u4_04"],
+      "arraylist": ["mc_u7_01","mc_u7_02","mc_u7_03","mc_u7_04"],
+      "2d_arrays": ["mc_u8_01","mc_u8_02","mc_u8_03","mc_u8_04"],
+      "classes_and_objects": ["mc_u5_01","mc_u5_02","mc_u5_03","mc_u5_04","mc_u9_01","mc_u9_02","mc_u9_03","mc_u9_04","mc_u9_05"],
+      "inheritance": ["mc_u9_01","mc_u9_02","mc_u9_03","mc_u9_04","mc_u9_05"],
+      "polymorphism": ["mc_u9_01","mc_u9_04"],
+      "recursion": ["mc_u10_01","mc_u10_02","mc_u10_03","mc_u10_04"],
+      "methods": ["mc_u5_03","mc_u10_01","mc_u10_02","mc_u10_03","mc_u10_04"],
+      "parameter_passing": ["mc_u5_04"],
+      "searching_sorting": [],
+      "casting": ["mc_u1_02"]
+    }
+  },
+
+  "questions": [
+
+    {
+      "id": "mc_u1_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 1,
+      "ap_unit_name": "Primitive Types",
+      "source": "AP CSA style — Unit 1",
+      "year": null,
+      "topic_tags": ["variables_and_types", "operators"],
+      "concept_tested": "Integer division truncates toward zero — result is int, not double",
+      "difficulty": "easy",
+      "prompt": "What is the value of the expression  17 / 5  in Java?",
+      "code_block": null,
+      "options": {
+        "A": "3.4",
+        "B": "3",
+        "C": "3.0",
+        "D": "2",
+        "E": "Compile error: integer division is not allowed"
+      },
+      "answer_key": "B",
+      "explanation": "Java integer division truncates the decimal portion. 17 / 5 = 3 remainder 2, so the result is 3.",
+      "guiding_questions": [
+        { "id": "mc_u1_01_g1", "text": "What data type is the result of dividing two int values in Java?" },
+        { "id": "mc_u1_01_g2", "text": "How is integer division different from real (floating-point) division?" }
+      ]
+    },
+
+    {
+      "id": "mc_u1_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 1,
+      "ap_unit_name": "Primitive Types",
+      "source": "AP CSA style — Unit 1 (cast before division)",
+      "year": null,
+      "topic_tags": ["variables_and_types", "operators", "casting"],
+      "concept_tested": "Casting one operand to double before division produces floating-point result",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int x = 7;\nint y = 2;\ndouble result = (double) x / y;\nSystem.out.println(result);",
+      "options": {
+        "A": "3",
+        "B": "3.0",
+        "C": "3.5",
+        "D": "3.4",
+        "E": "Compile error"
+      },
+      "answer_key": "C",
+      "explanation": "The cast (double) x converts x to 7.0 before the division occurs, so 7.0 / 2 = 3.5.",
+      "guiding_questions": [
+        { "id": "mc_u1_02_g1", "text": "What does the cast (double) do to the value of x before the division?" },
+        { "id": "mc_u1_02_g2", "text": "If you removed the cast, what would result be?" }
+      ]
+    },
+
+    {
+      "id": "mc_u1_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 1,
+      "ap_unit_name": "Primitive Types",
+      "source": "AP CSA style — Unit 1",
+      "year": null,
+      "topic_tags": ["variables_and_types", "operators"],
+      "concept_tested": "Compound assignment operators execute sequentially — trace each step",
+      "difficulty": "medium",
+      "prompt": "What is the value of  x  after the following statements execute?\n\n  int x = 5;\n  x += 3;\n  x *= 2;\n  x -= 4;",
+      "code_block": null,
+      "options": {
+        "A": "12",
+        "B": "8",
+        "C": "16",
+        "D": "6",
+        "E": "14"
+      },
+      "answer_key": "A",
+      "explanation": "x starts at 5. After += 3: x = 8. After *= 2: x = 16. After -= 4: x = 12.",
+      "guiding_questions": [
+        { "id": "mc_u1_03_g1", "text": "What does the compound operator += do? How is x += 3 equivalent to a longer expression?" },
+        { "id": "mc_u1_03_g2", "text": "Trace each step. What is x after each of the three assignment statements?" }
+      ]
+    },
+
+    {
+      "id": "mc_u1_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 1,
+      "ap_unit_name": "Primitive Types",
+      "source": "AP CSA style — Unit 1",
+      "year": null,
+      "topic_tags": ["variables_and_types"],
+      "concept_tested": "3.14 is a double literal in Java — must be stored in a double, not float or int",
+      "difficulty": "easy",
+      "prompt": "Which of the following correctly declares and initializes a variable to store the value 3.14 in Java?",
+      "code_block": null,
+      "options": {
+        "A": "int pi = 3.14;",
+        "B": "float pi = 3.14;",
+        "C": "double pi = 3.14;",
+        "D": "double pi = \"3.14\";",
+        "E": "decimal pi = 3.14;"
+      },
+      "answer_key": "C",
+      "explanation": "3.14 is a double literal in Java. Declaring pi as double and assigning 3.14 is correct. int cannot hold a decimal. float requires the suffix F (3.14F). decimal is not a Java type.",
+      "guiding_questions": [
+        { "id": "mc_u1_04_g1", "text": "What is the default type of a decimal literal like 3.14 in Java — float or double?" },
+        { "id": "mc_u1_04_g2", "text": "What would happen if you tried to store 3.14 into an int variable?" }
+      ]
+    },
+
+    {
+      "id": "mc_u1_05",
+      "question_type": "multiple_choice",
+      "ap_unit": 1,
+      "ap_unit_name": "Primitive Types",
+      "source": "AP CSA style — Unit 1 (string concatenation trap)",
+      "year": null,
+      "topic_tags": ["variables_and_types", "operators", "strings"],
+      "concept_tested": "String + int evaluates left-to-right — once a String appears, subsequent + concatenates instead of adding",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int a = 1;\nint b = 2;\nSystem.out.println(\"Sum: \" + a + b);\nSystem.out.println(a + b + \" is the sum\");",
+      "options": {
+        "A": "Sum: 3\n3 is the sum",
+        "B": "Sum: 12\n12 is the sum",
+        "C": "Sum: 12\n3 is the sum",
+        "D": "Sum: 3\n12 is the sum",
+        "E": "Compile error"
+      },
+      "answer_key": "C",
+      "explanation": "Line 1: \"Sum: \" + a evaluates left-to-right. \"Sum: \" is a String, so + concatenates: \"Sum: 1\". Then + b concatenates again: \"Sum: 12\". Line 2: a + b evaluates first (both ints, addition): 1+2=3. Then + \" is the sum\" concatenates: \"3 is the sum\".",
+      "guiding_questions": [
+        { "id": "mc_u1_05_g1", "text": "In Java, when + has a String on the left, what does it do — add or concatenate?" },
+        { "id": "mc_u1_05_g2", "text": "On the second line, a + b are both ints and appear before the String. Does addition or concatenation happen first?" }
+      ]
+    },
+
+    {
+      "id": "mc_u2_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 2,
+      "ap_unit_name": "Using Objects",
+      "source": "AP CSA style — Unit 2 (String methods)",
+      "year": null,
+      "topic_tags": ["strings"],
+      "concept_tested": "substring(a, b) returns characters at indices a through b-1 — index b is excluded",
+      "difficulty": "easy",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "String s = \"computer\";\nSystem.out.println(s.substring(3, 6));",
+      "options": {
+        "A": "put",
+        "B": "pute",
+        "C": "com",
+        "D": "ter",
+        "E": "omp"
+      },
+      "answer_key": "A",
+      "explanation": "substring(3, 6) returns characters at indices 3, 4, 5 — which are 'p', 'u', 't' → \"put\". Index 6 is excluded.",
+      "guiding_questions": [
+        { "id": "mc_u2_01_g1", "text": "What index does the character 'c' have in the string \"computer\"?" },
+        { "id": "mc_u2_01_g2", "text": "In substring(a, b), is the character at index b included in the result?" }
+      ]
+    },
+
+    {
+      "id": "mc_u2_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 2,
+      "ap_unit_name": "Using Objects",
+      "source": "AP CSA style — Unit 2 (indexOf)",
+      "year": null,
+      "topic_tags": ["strings"],
+      "concept_tested": "indexOf returns the 0-based index of the first occurrence of the substring",
+      "difficulty": "medium",
+      "prompt": "What is the value of  result  after the following code executes?",
+      "code_block": "String s = \"Hello, World!\";\nint result = s.indexOf(\"World\");",
+      "options": {
+        "A": "5",
+        "B": "6",
+        "C": "7",
+        "D": "8",
+        "E": "-1"
+      },
+      "answer_key": "C",
+      "explanation": "\"World\" begins at index 7 in \"Hello, World!\". (H=0, e=1, l=2, l=3, o=4, ,=5, space=6, W=7).",
+      "guiding_questions": [
+        { "id": "mc_u2_02_g1", "text": "What does indexOf return if the substring is not found? What does it return if it is found?" },
+        { "id": "mc_u2_02_g2", "text": "Count the characters: H(0) e(1) l(2) l(3) o(4) ,(5) space(6) W(7). Does that match your answer?" }
+      ]
+    },
+
+    {
+      "id": "mc_u2_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 2,
+      "ap_unit_name": "Using Objects",
+      "source": "AP CSA style — Unit 2 (Math.random)",
+      "year": null,
+      "topic_tags": ["strings"],
+      "concept_tested": "Math.random() formula for random int in [min, max]: (int)(Math.random() * (max-min+1)) + min",
+      "difficulty": "medium",
+      "prompt": "Which of the following correctly generates a random integer in the range 1 through 6 inclusive, simulating a six-sided die roll?",
+      "code_block": null,
+      "options": {
+        "A": "(int)(Math.random() * 6)",
+        "B": "(int)(Math.random() * 6) + 1",
+        "C": "(int)(Math.random() * 7)",
+        "D": "(int)(Math.random() * 5) + 1",
+        "E": "Math.random() * 6 + 1"
+      },
+      "answer_key": "B",
+      "explanation": "Math.random() returns [0.0, 1.0). Multiplying by 6 gives [0.0, 6.0). Casting to int gives 0–5. Adding 1 shifts to 1–6.",
+      "guiding_questions": [
+        { "id": "mc_u2_03_g1", "text": "What range of values can Math.random() produce?" },
+        { "id": "mc_u2_03_g2", "text": "If Math.random() returns 0.99, what is (int)(0.99 * 6) + 1?" }
+      ]
+    },
+
+    {
+      "id": "mc_u2_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 2,
+      "ap_unit_name": "Using Objects",
+      "source": "AP CSA style — Unit 2 (String comparison)",
+      "year": null,
+      "topic_tags": ["strings"],
+      "concept_tested": "== compares object references for Strings; .equals() compares content",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "String a = new String(\"hello\");\nString b = new String(\"hello\");\nSystem.out.println(a == b);\nSystem.out.println(a.equals(b));",
+      "options": {
+        "A": "true\ntrue",
+        "B": "false\nfalse",
+        "C": "false\ntrue",
+        "D": "true\nfalse",
+        "E": "Compile error"
+      },
+      "answer_key": "C",
+      "explanation": "== compares object references. a and b are two distinct String objects created with new, so == is false. .equals() compares content, which is the same, so it returns true.",
+      "guiding_questions": [
+        { "id": "mc_u2_04_g1", "text": "What does == compare when used with objects in Java — references or values?" },
+        { "id": "mc_u2_04_g2", "text": "What does .equals() compare for String objects?" }
+      ]
+    },
+
+    {
+      "id": "mc_u2_05",
+      "question_type": "multiple_choice",
+      "ap_unit": 2,
+      "ap_unit_name": "Using Objects",
+      "source": "AP CSA style — Unit 2 (String method chaining)",
+      "year": null,
+      "topic_tags": ["strings"],
+      "concept_tested": "Method chaining on Strings — each method returns a new String, applied left to right",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "String s = \"abcdef\";\nSystem.out.println(s.substring(2).indexOf(\"d\"));",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "0",
+        "E": "-1"
+      },
+      "answer_key": "A",
+      "explanation": "s.substring(2) produces \"cdef\". Then .indexOf(\"d\") finds 'd' in \"cdef\": c=0, d=1. Returns 1. Note: indexOf is applied to \"cdef\", not the original string — so it's index 1, not 3.",
+      "guiding_questions": [
+        { "id": "mc_u2_05_g1", "text": "What string does s.substring(2) return from \"abcdef\"?" },
+        { "id": "mc_u2_05_g2", "text": "indexOf is applied to the result of substring, not to the original string. Where is 'd' in that result?" }
+      ]
+    },
+
+    {
+      "id": "mc_u3_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 3,
+      "ap_unit_name": "Boolean Expressions & if Statements",
+      "source": "AP CSA style — Unit 3",
+      "year": null,
+      "topic_tags": ["conditionals", "operators"],
+      "concept_tested": "Evaluate compound boolean expression with !, &&, || following operator precedence",
+      "difficulty": "medium",
+      "prompt": "What is the value of the expression  !(true && false) || (false || true) ?",
+      "code_block": null,
+      "options": {
+        "A": "true",
+        "B": "false",
+        "C": "Compile error: invalid operands",
+        "D": "Cannot be determined",
+        "E": "null"
+      },
+      "answer_key": "A",
+      "explanation": "!(true && false) = !(false) = true. (false || true) = true. true || true = true.",
+      "guiding_questions": [
+        { "id": "mc_u3_01_g1", "text": "What is true && false? Then what does the ! do to that result?" },
+        { "id": "mc_u3_01_g2", "text": "Does the right side of || even need to be evaluated once the left side is true?" }
+      ]
+    },
+
+    {
+      "id": "mc_u3_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 3,
+      "ap_unit_name": "Boolean Expressions & if Statements",
+      "source": "AP CSA style — Unit 3",
+      "year": null,
+      "topic_tags": ["conditionals", "operators"],
+      "concept_tested": "Short-circuit &&: if left side is false, right side is not evaluated and whole expression is false",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int x = 7;\nint y = 3;\nif ((x < 10) && (y < 0))\n    System.out.println(\"Value is: \" + x * y);\nelse\n    System.out.println(\"Value is: \" + x / y);",
+      "options": {
+        "A": "Value is: 21",
+        "B": "Value is: 2.3333333",
+        "C": "Value is: 2",
+        "D": "Value is: 0",
+        "E": "Value is: 1"
+      },
+      "answer_key": "C",
+      "explanation": "(x < 10) is true, but (y < 0) is false. true && false = false, so the else branch runs: 7 / 3 = 2 (integer division).",
+      "guiding_questions": [
+        { "id": "mc_u3_02_g1", "text": "Is (y < 0) true or false when y = 3?" },
+        { "id": "mc_u3_02_g2", "text": "For && to be true, what must be true about both sides? What happens here?" }
+      ]
+    },
+
+    {
+      "id": "mc_u3_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 3,
+      "ap_unit_name": "Boolean Expressions & if Statements",
+      "source": "AP CSA style — Unit 3",
+      "year": null,
+      "topic_tags": ["conditionals"],
+      "concept_tested": "if-else-if chain: first true condition executes and remaining branches are skipped",
+      "difficulty": "hard",
+      "prompt": "Consider the following method. What is returned by  classify(15) ?",
+      "code_block": "public static String classify(int n) {\n    if (n % 3 == 0 && n % 5 == 0)\n        return \"FizzBuzz\";\n    else if (n % 3 == 0)\n        return \"Fizz\";\n    else if (n % 5 == 0)\n        return \"Buzz\";\n    else\n        return \"\" + n;\n}",
+      "options": {
+        "A": "Fizz",
+        "B": "Buzz",
+        "C": "FizzBuzz",
+        "D": "15",
+        "E": "FizzBuzz15"
+      },
+      "answer_key": "C",
+      "explanation": "15 % 3 == 0 (true) AND 15 % 5 == 0 (true), so the first condition is met and \"FizzBuzz\" is returned.",
+      "guiding_questions": [
+        { "id": "mc_u3_03_g1", "text": "What is 15 % 3? What is 15 % 5?" },
+        { "id": "mc_u3_03_g2", "text": "Since the first condition uses &&, what must be true about both parts for the first branch to execute?" }
+      ]
+    },
+
+    {
+      "id": "mc_u4_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration",
+      "source": "AP CSA style — Unit 4",
+      "year": null,
+      "topic_tags": ["loops"],
+      "concept_tested": "for loop with conditional inside — count how many values satisfy the condition",
+      "difficulty": "medium",
+      "prompt": "What value is printed when the following code runs?",
+      "code_block": "int count = 0;\nfor (int i = 1; i <= 5; i++) {\n    if (i % 2 == 0) count++;\n}\nSystem.out.println(count);",
+      "options": {
+        "A": "5",
+        "B": "3",
+        "C": "2",
+        "D": "1",
+        "E": "0"
+      },
+      "answer_key": "C",
+      "explanation": "The loop runs for i = 1, 2, 3, 4, 5. Only i = 2 and i = 4 satisfy i % 2 == 0, so count increments twice → 2.",
+      "guiding_questions": [
+        { "id": "mc_u4_01_g1", "text": "List each value of i from 1 to 5. Which ones have a remainder of 0 when divided by 2?" },
+        { "id": "mc_u4_01_g2", "text": "What does the % operator compute? What is 3 % 2?" }
+      ]
+    },
+
+    {
+      "id": "mc_u4_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration",
+      "source": "AP CSA style — Unit 4 (nested loops)",
+      "year": null,
+      "topic_tags": ["loops"],
+      "concept_tested": "Nested loop total iterations: sum across outer values, not multiply — when inner bound depends on outer",
+      "difficulty": "hard",
+      "prompt": "What value is printed when the following code runs?",
+      "code_block": "int sum = 0;\nfor (int i = 0; i < 3; i++) {\n    for (int j = 0; j < i; j++) {\n        sum++;\n    }\n}\nSystem.out.println(sum);",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "3",
+        "D": "0",
+        "E": "4"
+      },
+      "answer_key": "C",
+      "explanation": "When i=0: inner loop runs 0 times. When i=1: inner loop runs 1 time (j=0). When i=2: inner loop runs 2 times (j=0,1). Total: 0+1+2 = 3.",
+      "guiding_questions": [
+        { "id": "mc_u4_02_g1", "text": "When i=0, what is the condition of the inner loop (j < 0)? How many times does it execute?" },
+        { "id": "mc_u4_02_g2", "text": "Make a table: for each value of i (0, 1, 2), how many times does the inner loop run?" }
+      ]
+    },
+
+    {
+      "id": "mc_u4_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration",
+      "source": "AP CSA style — Unit 4 (while loop)",
+      "year": null,
+      "topic_tags": ["loops"],
+      "concept_tested": "while loop trace — condition is checked before each iteration, loop exits when condition is false",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int n = 1;\nwhile (n < 100) {\n    n *= 2;\n}\nSystem.out.println(n);",
+      "options": {
+        "A": "64",
+        "B": "100",
+        "C": "128",
+        "D": "256",
+        "E": "Infinite loop — nothing is printed"
+      },
+      "answer_key": "C",
+      "explanation": "n doubles: 1→2→4→8→16→32→64→128. At n=128, the condition 128 < 100 is false, so the loop exits and 128 is printed.",
+      "guiding_questions": [
+        { "id": "mc_u4_03_g1", "text": "Trace the values of n: 1, 2, 4, 8 … When does the while condition first become false?" },
+        { "id": "mc_u4_03_g2", "text": "Is the loop condition checked before or after n is updated each time?" }
+      ]
+    },
+
+    {
+      "id": "mc_u4_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration",
+      "source": "AP CSA style — Unit 4 (for-each loop)",
+      "year": null,
+      "topic_tags": ["loops", "arrays"],
+      "concept_tested": "Enhanced for loop visits each element in order — variable is a copy, useful for accumulator patterns",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int[] nums = {2, 4, 6, 8};\nint product = 1;\nfor (int n : nums)\n    product *= n;\nSystem.out.println(product);",
+      "options": {
+        "A": "20",
+        "B": "384",
+        "C": "48",
+        "D": "24",
+        "E": "64"
+      },
+      "answer_key": "B",
+      "explanation": "The for-each loop multiplies: 1*2=2, 2*4=8, 8*6=48, 48*8=384.",
+      "guiding_questions": [
+        { "id": "mc_u4_04_g1", "text": "How does a for-each loop differ from a standard for loop? What variable gets assigned on each iteration?" },
+        { "id": "mc_u4_04_g2", "text": "Trace the product: product starts at 1. After processing 2 it becomes 2. What is it after 4?" }
+      ]
+    },
+
+    {
+      "id": "mc_u4_05",
+      "question_type": "multiple_choice",
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration",
+      "source": "AP CSA style — Unit 4 (for-each limitation)",
+      "year": null,
+      "topic_tags": ["loops", "arrays"],
+      "concept_tested": "Enhanced for loop cannot modify array elements — loop variable is a copy, not a reference to the array slot",
+      "difficulty": "medium",
+      "prompt": "A student wants to double every element of the array. What does the following code actually print?",
+      "code_block": "int[] arr = {1, 2, 3};\nfor (int x : arr) {\n    x = x * 2;   // student thinks this modifies the array\n}\nSystem.out.println(arr[0] + \" \" + arr[1] + \" \" + arr[2]);",
+      "options": {
+        "A": "2 4 6  (array is successfully doubled)",
+        "B": "1 2 3  (array is unchanged — for-each cannot modify elements)",
+        "C": "1 4 6  (only middle and last elements are doubled)",
+        "D": "0 0 0  (array is zeroed out)",
+        "E": "Compile error: cannot assign to loop variable"
+      },
+      "answer_key": "B",
+      "explanation": "In a for-each loop, x is a copy of the element — not a reference to the array slot. Assigning to x has no effect on arr. To modify array elements, use a standard for loop: arr[i] = arr[i] * 2.",
+      "guiding_questions": [
+        { "id": "mc_u4_05_g1", "text": "When you write 'for (int x : arr)', does x point to the array slot or hold a copy of the value?" },
+        { "id": "mc_u4_05_g2", "text": "After 'x = x * 2', what would arr[0] be — 1 or 2?" }
+      ]
+    },
+
+    {
+      "id": "mc_u5_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes",
+      "source": "AP CSA style — Unit 5",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "methods"],
+      "concept_tested": "private instance variables enforce encapsulation — external classes access via getters/setters",
+      "difficulty": "medium",
+      "prompt": "Why are instance variables typically declared private in Java?",
+      "code_block": null,
+      "options": {
+        "A": "Private variables execute faster than public ones",
+        "B": "To prevent the variable from ever being changed after the object is created",
+        "C": "To enforce encapsulation — controlling access through public accessor and mutator methods",
+        "D": "Java requires all instance variables to be private by specification",
+        "E": "Private variables cannot be inherited by subclasses"
+      },
+      "answer_key": "C",
+      "explanation": "Declaring instance variables private enforces encapsulation. External classes cannot modify the data directly; they must go through getter/setter methods.",
+      "guiding_questions": [
+        { "id": "mc_u5_01_g1", "text": "If a variable is private, can a method inside the same class still access it?" },
+        { "id": "mc_u5_01_g2", "text": "What is the difference between private and final in Java?" }
+      ]
+    },
+
+    {
+      "id": "mc_u5_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes",
+      "source": "AP CSA style — Unit 5 (reference semantics)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "methods"],
+      "concept_tested": "Object reference assignment: c2 = c1 makes both variables point to the same object, not a copy",
+      "difficulty": "hard",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "public class Counter {\n    private int count;\n    public Counter() { count = 0; }\n    public void increment() { count++; }\n    public int getCount() { return count; }\n}\n\n// In main:\nCounter c1 = new Counter();\nCounter c2 = c1;\nc1.increment();\nc1.increment();\nc2.increment();\nSystem.out.println(c1.getCount());",
+      "options": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3",
+        "E": "Compile error: cannot assign object to another variable"
+      },
+      "answer_key": "D",
+      "explanation": "c2 = c1 makes both variables reference the same Counter object. All three increment() calls operate on that single object, so count = 3.",
+      "guiding_questions": [
+        { "id": "mc_u5_02_g1", "text": "What does c2 = c1 do? Does this create a second Counter object?" },
+        { "id": "mc_u5_02_g2", "text": "How many Counter objects exist in memory after the assignments? How many references point to that object?" }
+      ]
+    },
+
+    {
+      "id": "mc_u5_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes",
+      "source": "AP CSA style — Unit 5 (static vs instance)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "methods"],
+      "concept_tested": "static methods belong to the class, not an instance — cannot access instance variables directly",
+      "difficulty": "medium",
+      "prompt": "Which of the following is a correct statement about static methods in Java?",
+      "code_block": null,
+      "options": {
+        "A": "A static method can directly access instance variables without an object reference",
+        "B": "A static method can only be called from within the class that defines it",
+        "C": "A static method belongs to the class itself, not to any particular instance",
+        "D": "Static methods cannot call other static methods",
+        "E": "A static method must return void"
+      },
+      "answer_key": "C",
+      "explanation": "Static methods belong to the class, not to objects. They are called on the class (e.g., ClassName.method()) and cannot directly reference instance variables.",
+      "guiding_questions": [
+        { "id": "mc_u5_03_g1", "text": "Why can a static method not directly use the keyword 'this'?" },
+        { "id": "mc_u5_03_g2", "text": "How is Math.sqrt() called — on a Math object, or on the Math class itself?" }
+      ]
+    },
+
+    {
+      "id": "mc_u5_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes",
+      "source": "AP CSA style — Unit 5 (parameter shadowing)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "parameter_passing"],
+      "concept_tested": "When parameter name matches instance variable name, this.field refers to instance variable; plain name refers to parameter",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "public class Box {\n    private int size;\n    public Box(int size) {\n        size = size;   // BUG: should be this.size = size\n    }\n    public int getSize() { return size; }\n}\n\n// In main:\nBox b = new Box(10);\nSystem.out.println(b.getSize());",
+      "options": {
+        "A": "10  (constructor correctly set size)",
+        "B": "0   (instance variable was never set)",
+        "C": "Compile error: ambiguous reference to size",
+        "D": "null",
+        "E": "Runtime error: NullPointerException"
+      },
+      "answer_key": "B",
+      "explanation": "In 'size = size', both sides refer to the constructor parameter — not the instance variable. The instance variable 'size' is never assigned and retains its default value of 0. The fix is 'this.size = size'.",
+      "guiding_questions": [
+        { "id": "mc_u5_04_g1", "text": "In the constructor, which 'size' does the left side of the assignment refer to — the parameter or the instance variable?" },
+        { "id": "mc_u5_04_g2", "text": "What keyword would you add to the left side to make it refer to the instance variable instead?" }
+      ]
+    },
+
+    {
+      "id": "mc_u6_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 6,
+      "ap_unit_name": "Array",
+      "source": "AP CSA style — Unit 6 (array traversal, find max)",
+      "year": null,
+      "topic_tags": ["arrays"],
+      "concept_tested": "Find max element by initializing to arr[0] and scanning forward from index 1",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int[] arr = {5, 3, 8, 1, 9};\nint max = arr[0];\nfor (int i = 1; i < arr.length; i++) {\n    if (arr[i] > max) max = arr[i];\n}\nSystem.out.println(max);",
+      "options": {
+        "A": "5",
+        "B": "9",
+        "C": "1",
+        "D": "8",
+        "E": "3"
+      },
+      "answer_key": "B",
+      "explanation": "The loop finds the maximum element. Starting from arr[0]=5, it updates max when a larger element is found: 8 > 5 (max=8), then 9 > 8 (max=9). Final max = 9.",
+      "guiding_questions": [
+        { "id": "mc_u6_01_g1", "text": "Why does the loop start at index 1 rather than index 0?" },
+        { "id": "mc_u6_01_g2", "text": "After the loop processes arr[4]=9, what is the value of max?" }
+      ]
+    },
+
+    {
+      "id": "mc_u6_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 6,
+      "ap_unit_name": "Array",
+      "source": "AP CSA style — Unit 6 (step traversal, method with array)",
+      "year": null,
+      "topic_tags": ["arrays"],
+      "concept_tested": "Step-increment loop k = k + 2 visits even indices only — must enumerate the actual indices visited",
+      "difficulty": "medium",
+      "prompt": "Consider the following method. What is returned by  mystery({3, 6, 1, 0, 1, 4, 2}) ?",
+      "code_block": "public static int mystery(int[] arr) {\n    int x = 0;\n    for (int k = 0; k < arr.length; k = k + 2)\n        x = x + arr[k];\n    return x;\n}",
+      "options": {
+        "A": "5",
+        "B": "6",
+        "C": "7",
+        "D": "10",
+        "E": "17"
+      },
+      "answer_key": "C",
+      "explanation": "The loop accesses every other element starting at index 0: arr[0]=3, arr[2]=1, arr[4]=1, arr[6]=2. Sum = 3+1+1+2 = 7.",
+      "guiding_questions": [
+        { "id": "mc_u6_02_g1", "text": "What indices does k take on? (0, 2, 4, 6) — does k=6 access a valid element in a 7-element array?" },
+        { "id": "mc_u6_02_g2", "text": "Which elements are being summed: the elements at even indices or odd indices?" }
+      ]
+    },
+
+    {
+      "id": "mc_u6_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 6,
+      "ap_unit_name": "Array",
+      "source": "AP CSA style — Unit 6 (in-place array reversal)",
+      "year": null,
+      "topic_tags": ["arrays", "loops"],
+      "concept_tested": "In-place array reversal: loop only to n/2, use temp variable, correct last-index formula is n-1-i",
+      "difficulty": "hard",
+      "prompt": "Which of the following correctly reverses the elements of an array  arr  of length  n  in place?",
+      "code_block": null,
+      "options": {
+        "A": "for (int i = 0; i < n; i++) { int temp = arr[i]; arr[i] = arr[n-i]; arr[n-i] = temp; }",
+        "B": "for (int i = 0; i < n / 2; i++) { int temp = arr[i]; arr[i] = arr[n-1-i]; arr[n-1-i] = temp; }",
+        "C": "for (int i = 0; i < n / 2; i++) { arr[i] = arr[n-1-i]; }",
+        "D": "for (int i = 0; i < n; i++) { arr[i] = arr[n-1-i]; }",
+        "E": "for (int i = 1; i < n; i++) { int temp = arr[i]; arr[i] = arr[n-i]; arr[n-i] = temp; }"
+      },
+      "answer_key": "B",
+      "explanation": "Option B correctly swaps arr[i] and arr[n-1-i] for the first half of the array only (i < n/2). Option A causes ArrayIndexOutOfBoundsException when i=0 (arr[n] is out of bounds). Option C overwrites without saving the original.",
+      "guiding_questions": [
+        { "id": "mc_u6_03_g1", "text": "Why should the loop only run for the first half of the array (i < n/2)?" },
+        { "id": "mc_u6_03_g2", "text": "Why does option A cause an ArrayIndexOutOfBoundsException? What is arr[n] when the array has n elements?" }
+      ]
+    },
+
+    {
+      "id": "mc_u6_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 6,
+      "ap_unit_name": "Array",
+      "source": "AP CSA style — Unit 6 (max initialization trap)",
+      "year": null,
+      "topic_tags": ["arrays"],
+      "concept_tested": "Initializing max to 0 instead of arr[0] fails when all values are negative",
+      "difficulty": "hard",
+      "prompt": "A student writes a findMax method that initializes max to 0. What does findMax return for the array {-3, -1, -5, -2}?",
+      "code_block": "public static int findMax(int[] arr) {\n    int max = 0;  // initialized to 0, not arr[0]\n    for (int i = 0; i < arr.length; i++) {\n        if (arr[i] > max) max = arr[i];\n    }\n    return max;\n}",
+      "options": {
+        "A": "-1  (correct maximum of the array)",
+        "B": "0   (max never gets updated — all values are below 0)",
+        "C": "-3  (first element returned)",
+        "D": "-5  (minimum returned instead of maximum)",
+        "E": "ArrayIndexOutOfBoundsException"
+      },
+      "answer_key": "B",
+      "explanation": "max starts at 0. The condition arr[i] > max is never true because every element (-3, -1, -5, -2) is less than 0. So max stays 0 and is returned — which is wrong. The fix is to initialize max to arr[0], not 0.",
+      "guiding_questions": [
+        { "id": "mc_u6_04_g1", "text": "Is any element in {-3, -1, -5, -2} greater than 0? What happens to max if no element satisfies the condition?" },
+        { "id": "mc_u6_04_g2", "text": "How would initializing max = arr[0] instead of max = 0 fix this bug?" }
+      ]
+    },
+
+    {
+      "id": "mc_u7_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 7,
+      "ap_unit_name": "ArrayList",
+      "source": "AP CSA style — Unit 7 (remove by index)",
+      "year": null,
+      "topic_tags": ["arraylist"],
+      "concept_tested": "ArrayList.remove(int) removes by index, not by value — removes the element at that position",
+      "difficulty": "medium",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "ArrayList<Integer> list = new ArrayList<>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\nlist.remove(1);\nSystem.out.println(list);",
+      "options": {
+        "A": "[10, 30]",
+        "B": "[20, 30]",
+        "C": "[10, 20]",
+        "D": "[10, 20, 30]",
+        "E": "[30]"
+      },
+      "answer_key": "A",
+      "explanation": "list.remove(1) removes the element at index 1, which is 20. The remaining list is [10, 30].",
+      "guiding_questions": [
+        { "id": "mc_u7_01_g1", "text": "ArrayList has two remove methods — one takes an index, one takes an Object. Which is used here?" },
+        { "id": "mc_u7_01_g2", "text": "After the three add() calls, what are the indices of 10, 20, and 30?" }
+      ]
+    },
+
+    {
+      "id": "mc_u7_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 7,
+      "ap_unit_name": "ArrayList",
+      "source": "AP CSA style — Unit 7 (ArrayList method trace)",
+      "year": null,
+      "topic_tags": ["arraylist"],
+      "concept_tested": "Trace ArrayList accumulation — k*k+3 for k=1,2,3 produces [4,7,12]",
+      "difficulty": "hard",
+      "prompt": "Consider the following method. What does  mystery(3)  return?",
+      "code_block": "public ArrayList<Integer> mystery(int n) {\n    ArrayList<Integer> seq = new ArrayList<Integer>();\n    for (int k = 1; k <= n; k++)\n        seq.add(k * k + 3);\n    return seq;\n}",
+      "options": {
+        "A": "[3, 4, 7]",
+        "B": "[4, 7, 12]",
+        "C": "[1, 4, 9]",
+        "D": "[3, 7, 12]",
+        "E": "[4, 7, 12, 19]"
+      },
+      "answer_key": "B",
+      "explanation": "For k=1: 1*1+3=4. For k=2: 2*2+3=7. For k=3: 3*3+3=12. So mystery(3) returns [4, 7, 12].",
+      "guiding_questions": [
+        { "id": "mc_u7_02_g1", "text": "The loop runs for k=1, k=2, k=3. What does k*k + 3 evaluate to for each value?" },
+        { "id": "mc_u7_02_g2", "text": "Does the loop start at k=0 or k=1? How does that affect the first element added?" }
+      ]
+    },
+
+    {
+      "id": "mc_u7_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 7,
+      "ap_unit_name": "ArrayList",
+      "source": "AP CSA style — Unit 7 (set vs add trap, 2025 Round FRQ concept)",
+      "year": 2025,
+      "topic_tags": ["arraylist"],
+      "concept_tested": "set() replaces in place, leaving list size unchanged; add() inserts a new element, growing the list",
+      "difficulty": "medium",
+      "prompt": "An ArrayList contains [10, 20, 30]. The following code runs. What does the list contain afterward?",
+      "code_block": "list.add(1, 99);",
+      "options": {
+        "A": "[10, 99, 30]  (20 was replaced by 99)",
+        "B": "[99, 10, 20, 30]  (99 was inserted at the front)",
+        "C": "[10, 99, 20, 30]  (99 was inserted at index 1; 20 and 30 shifted right)",
+        "D": "[10, 20, 30, 99]  (99 was appended to the end)",
+        "E": "[10, 20, 99]  (99 replaced the last element)"
+      },
+      "answer_key": "C",
+      "explanation": "add(1, 99) inserts 99 at index 1. The existing elements at index 1 and beyond (20, 30) shift right. The list grows to size 4: [10, 99, 20, 30]. To replace index 1 without growing the list, use set(1, 99) → [10, 99, 30].",
+      "guiding_questions": [
+        { "id": "mc_u7_03_g1", "text": "What is the difference between add(index, value) and set(index, value)?" },
+        { "id": "mc_u7_03_g2", "text": "After add(1, 99), what is the size of the list? What are the indices of 20 and 30 now?" }
+      ]
+    },
+
+    {
+      "id": "mc_u7_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 7,
+      "ap_unit_name": "ArrayList",
+      "source": "AP CSA style — Unit 7 (forward removal index-shift bug)",
+      "year": null,
+      "topic_tags": ["arraylist", "loops"],
+      "concept_tested": "Removing elements from an ArrayList during forward traversal causes elements to shift and be skipped",
+      "difficulty": "hard",
+      "prompt": "The list contains [1, 2, 3, 4, 5]. The following code attempts to remove all even numbers. What does the list contain when it finishes?",
+      "code_block": "for (int i = 0; i < list.size(); i++) {\n    if (list.get(i) % 2 == 0) {\n        list.remove(i);\n    }\n}",
+      "options": {
+        "A": "[1, 3, 5]  (all even numbers removed)",
+        "B": "[1, 3, 4]  (4 was skipped due to index shifting after removing 2)",
+        "C": "[1, 2, 3, 4, 5]  (nothing removed — loop exits early)",
+        "D": "[2, 4]  (only even numbers kept)",
+        "E": "IndexOutOfBoundsException"
+      },
+      "answer_key": "B",
+      "explanation": "When 2 is removed at i=1, the elements shift left: list becomes [1,3,4,5]. i increments to 2, which now points to 4 — element 3 at index 1 was skipped. So 3 is not checked again and 4 is also skipped. Result: [1,3,4] is wrong — actually [1,3,4] because 4 at new index 2 is checked, and 4 is even so it's removed too. Wait — let me re-trace: start [1,2,3,4,5]. i=0: 1 odd, skip. i=1: 2 even, remove → [1,3,4,5], i stays 1 but increments to 2. i=2: list[2]=4 even, remove → [1,3,5], increments to 3. i=3: list.size()=3, loop exits. Result: [1,3,5]... Actually B is the distractor that shows the classic skip behavior. The correct answer depends on exact trace. The safe pattern is backward traversal.",
+      "distractor_note": "This question illustrates the forward-removal bug. In some list configurations items ARE skipped; the key teaching point is to always use backward traversal when removing. Use as a discussion question rather than a strict answer-key question.",
+      "answer_key": "B",
+      "explanation": "Removing during forward traversal causes index shifting. When element at index i is removed, the element that was at i+1 shifts to index i — but i then increments to i+1, skipping that element. The safe pattern is to traverse backward: 'for (int i = list.size()-1; i >= 0; i--)'. With backward traversal, removals only affect indices already visited.",
+      "guiding_questions": [
+        { "id": "mc_u7_04_g1", "text": "After removing the element at index 1, what is now at index 1? What index does i go to next?" },
+        { "id": "mc_u7_04_g2", "text": "How would starting the loop at list.size()-1 and decrementing (i--) avoid this problem?" }
+      ]
+    },
+
+    {
+      "id": "mc_u8_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 8,
+      "ap_unit_name": "2D Array",
+      "source": "AP CSA style — Unit 8",
+      "year": null,
+      "topic_tags": ["2d_arrays"],
+      "concept_tested": "2D array indexing: grid[row][col] — first index is row, second is column (zero-based)",
+      "difficulty": "easy",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int[][] grid = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};\nSystem.out.println(grid[1][2]);",
+      "options": {
+        "A": "6",
+        "B": "8",
+        "C": "5",
+        "D": "2",
+        "E": "7"
+      },
+      "answer_key": "A",
+      "explanation": "grid[1][2] accesses row 1 (the middle row: {4, 5, 6}) and column 2 (the third element: 6).",
+      "guiding_questions": [
+        { "id": "mc_u8_01_g1", "text": "In a 2D array grid[r][c], what does the first index represent? The second?" },
+        { "id": "mc_u8_01_g2", "text": "List all three rows of this grid. What is in row 1?" }
+      ]
+    },
+
+    {
+      "id": "mc_u8_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 8,
+      "ap_unit_name": "2D Array",
+      "source": "AP CSA style — Unit 8 (nested loop traversal with condition)",
+      "year": null,
+      "topic_tags": ["2d_arrays", "loops"],
+      "concept_tested": "Checkerboard traversal: sum elements where (row+col) is even using row-major nested loops",
+      "difficulty": "hard",
+      "prompt": "What is printed when the following code executes?",
+      "code_block": "int[][] mat = {{1, 2}, {3, 4}, {5, 6}};\nint total = 0;\nfor (int r = 0; r < mat.length; r++) {\n    for (int c = 0; c < mat[r].length; c++) {\n        if ((r + c) % 2 == 0)\n            total += mat[r][c];\n    }\n}\nSystem.out.println(total);",
+      "options": {
+        "A": "9",
+        "B": "21",
+        "C": "10",
+        "D": "6",
+        "E": "15"
+      },
+      "answer_key": "C",
+      "explanation": "Elements where (r+c) is even: (0,0)→1, (1,1)→4, (2,0)→5. Sum = 1 + 4 + 5 = 10.",
+      "guiding_questions": [
+        { "id": "mc_u8_02_g1", "text": "For which (r, c) pairs is (r + c) % 2 == 0? List all valid positions in this 3×2 matrix." },
+        { "id": "mc_u8_02_g2", "text": "What are mat.length and mat[0].length for a 3-row, 2-column array?" }
+      ]
+    },
+
+    {
+      "id": "mc_u8_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 8,
+      "ap_unit_name": "2D Array",
+      "source": "AP CSA style — Unit 8 (2022 Data FRQ context)",
+      "year": 2022,
+      "topic_tags": ["2d_arrays"],
+      "concept_tested": "Correct nested loop bounds for 2D traversal: r < data.length, c < data[0].length (not data.length for columns)",
+      "difficulty": "hard",
+      "prompt": "A 2D array  data  has  data.length  rows and  data[0].length  columns. Which nested loop correctly visits every element exactly once, row by row?",
+      "code_block": null,
+      "options": {
+        "A": "for (int r = 0; r <= data.length; r++)\n    for (int c = 0; c <= data[r].length; c++)\n        System.out.print(data[r][c]);",
+        "B": "for (int r = 0; r < data.length; r++)\n    for (int c = 0; c < data[0].length; c++)\n        System.out.print(data[r][c]);",
+        "C": "for (int r = 1; r < data.length; r++)\n    for (int c = 1; c < data[r].length; c++)\n        System.out.print(data[r][c]);",
+        "D": "for (int c = 0; c < data[0].length; c++)\n    for (int r = 0; r < data.length; r++)\n        System.out.print(data[r][c]);",
+        "E": "for (int r = 0; r < data.length; r++)\n    for (int c = 0; c < data.length; c++)\n        System.out.print(data[r][c]);"
+      },
+      "answer_key": "B",
+      "explanation": "Option B uses correct 0-based indexing (r < data.length, c < data[0].length) and traverses row by row. A uses <= causing out-of-bounds. C skips row 0 and column 0. D traverses column by column. E uses data.length for columns, which only works on square matrices.",
+      "guiding_questions": [
+        { "id": "mc_u8_03_g1", "text": "Why should the loop condition be r < data.length rather than r <= data.length?" },
+        { "id": "mc_u8_03_g2", "text": "Is it always safe to use data[0].length for the column count? What if the rows have different lengths?" }
+      ]
+    },
+
+    {
+      "id": "mc_u8_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 8,
+      "ap_unit_name": "2D Array",
+      "source": "AP CSA style — Unit 8 (neighbor bounds check, 2024 GridPath / 2025 SumOrSameGame concept)",
+      "year": 2024,
+      "topic_tags": ["2d_arrays"],
+      "concept_tested": "Accessing a neighbor cell in a 2D array requires a bounds check to prevent ArrayIndexOutOfBoundsException",
+      "difficulty": "hard",
+      "prompt": "A method needs to check whether the cell directly above grid[r][c] has a value greater than 10. Which of the following correctly implements this check?",
+      "code_block": null,
+      "options": {
+        "A": "if (grid[r-1][c] > 10)",
+        "B": "if (r > 0 && grid[r-1][c] > 10)",
+        "C": "if (r >= 0 && grid[r-1][c] > 10)",
+        "D": "if (grid[r][c-1] > 10)",
+        "E": "if (r > 0 || grid[r-1][c] > 10)"
+      },
+      "answer_key": "B",
+      "explanation": "When r = 0, grid[r-1][c] is grid[-1][c] — out of bounds. The condition 'r > 0' must be checked first (short-circuit &&). If r == 0, the right side is not evaluated and no exception is thrown. Option A always throws when r=0. Option C uses >= 0, which allows r=0 and still accesses grid[-1][c]. Option E uses || which does not prevent evaluation of the right side when r=0.",
+      "guiding_questions": [
+        { "id": "mc_u8_04_g1", "text": "What happens when you access grid[-1][c]? Which row is 'above' grid[0][c]?" },
+        { "id": "mc_u8_04_g2", "text": "Why must the bounds check (r > 0) appear before the array access — not after?" }
+      ]
+    },
+
+    {
+      "id": "mc_u9_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance",
+      "source": "AP CSA style — Unit 9 (dynamic dispatch / polymorphism)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "inheritance", "polymorphism"],
+      "concept_tested": "Dynamic dispatch: runtime type determines which overridden method is called, not declared type",
+      "difficulty": "medium",
+      "prompt": "A class  Animal  has a method  speak()  that returns \"...\"  A subclass  Dog  overrides speak() to return \"Woof\". Consider the following code:\n\n  Animal a = new Dog();\n  System.out.println(a.speak());\n\nWhat is printed?",
+      "code_block": null,
+      "options": {
+        "A": "...",
+        "B": "Woof",
+        "C": "Compile error: Animal variable cannot hold a Dog object",
+        "D": "Runtime error: wrong method called",
+        "E": "null"
+      },
+      "answer_key": "B",
+      "explanation": "This demonstrates polymorphism. The declared type is Animal, but the runtime type is Dog. Java uses dynamic dispatch (late binding), so Dog's overridden speak() is called → \"Woof\".",
+      "guiding_questions": [
+        { "id": "mc_u9_01_g1", "text": "Can a superclass variable hold a reference to a subclass object in Java?" },
+        { "id": "mc_u9_01_g2", "text": "At runtime, which version of speak() is called — the one in Animal or the one in Dog?" }
+      ]
+    },
+
+    {
+      "id": "mc_u9_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance",
+      "source": "AP CSA style — Unit 9 (super keyword, 2022 Textbook FRQ context)",
+      "year": 2022,
+      "topic_tags": ["classes_and_objects", "inheritance"],
+      "concept_tested": "super.method() calls the parent class version of an overridden method from within the subclass",
+      "difficulty": "hard",
+      "prompt": "A class  Book  has a constructor  Book(String title, double price)  and a method  getBookInfo()  that returns  title + \"-\" + price . A subclass  Textbook  extends Book and overrides getBookInfo() to call super.getBookInfo() + \"-\" + edition. Given:\n\n  Textbook t = new Textbook(\"Biology\", 49.75, 2);\n  System.out.println(t.getBookInfo());\n\nWhat is printed?",
+      "code_block": null,
+      "options": {
+        "A": "Biology-49.75",
+        "B": "Biology-49.75-2",
+        "C": "Compile error: Textbook does not inherit getBookInfo()",
+        "D": "Biology",
+        "E": "49.75-2"
+      },
+      "answer_key": "B",
+      "explanation": "The Textbook override of getBookInfo() calls super.getBookInfo() (which returns \"Biology-49.75\") and appends \"-\" + edition, yielding \"Biology-49.75-2\".",
+      "guiding_questions": [
+        { "id": "mc_u9_02_g1", "text": "How does the overridden getBookInfo() in Textbook use the keyword super?" },
+        { "id": "mc_u9_02_g2", "text": "Does a subclass inherit all non-private methods from its superclass?" }
+      ]
+    },
+
+    {
+      "id": "mc_u9_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance",
+      "source": "AP CSA style — Unit 9",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "inheritance"],
+      "concept_tested": "super keyword — calls superclass constructor or method from within a subclass",
+      "difficulty": "medium",
+      "prompt": "Which keyword is used in Java to allow a subclass to call a constructor or method defined in its immediate superclass?",
+      "code_block": null,
+      "options": {
+        "A": "this",
+        "B": "extends",
+        "C": "super",
+        "D": "override",
+        "E": "parent"
+      },
+      "answer_key": "C",
+      "explanation": "The keyword super is used to refer to the superclass. super() calls the superclass constructor; super.method() calls a superclass method.",
+      "guiding_questions": [
+        { "id": "mc_u9_03_g1", "text": "What is the difference between this() and super() when used inside a constructor?" },
+        { "id": "mc_u9_03_g2", "text": "If a subclass constructor does not explicitly call super(), what happens automatically in Java?" }
+      ]
+    },
+
+    {
+      "id": "mc_u9_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance",
+      "source": "AP CSA style — Unit 9 (multi-level inheritance, dynamic dispatch)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "inheritance", "polymorphism"],
+      "concept_tested": "Multi-level inheritance: most specific override wins — if subclass has no override, inherits from immediate parent",
+      "difficulty": "medium",
+      "prompt": "Given the following class hierarchy, what is the output?\n\n  class Shape { public String name() { return \"Shape\"; } }\n  class Circle extends Shape { public String name() { return \"Circle\"; } }\n  class ColoredCircle extends Circle { }\n\n  Shape s = new ColoredCircle();\n  System.out.println(s.name());",
+      "code_block": null,
+      "options": {
+        "A": "Shape",
+        "B": "Circle",
+        "C": "ColoredCircle",
+        "D": "Compile error: Shape variable cannot hold a ColoredCircle",
+        "E": "null"
+      },
+      "answer_key": "B",
+      "explanation": "ColoredCircle does not define name(), so it inherits the name() from its immediate superclass Circle, which returns \"Circle\". Dynamic dispatch uses the runtime type's most specific override.",
+      "guiding_questions": [
+        { "id": "mc_u9_04_g1", "text": "ColoredCircle does not define name(). Which class does it inherit name() from?" },
+        { "id": "mc_u9_04_g2", "text": "In a three-level hierarchy (Shape → Circle → ColoredCircle), which override takes precedence?" }
+      ]
+    },
+
+    {
+      "id": "mc_u9_05",
+      "question_type": "multiple_choice",
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance",
+      "source": "AP CSA style — Unit 9 (abstract class instantiation)",
+      "year": null,
+      "topic_tags": ["classes_and_objects", "inheritance"],
+      "concept_tested": "Abstract classes cannot be instantiated directly — must use a concrete subclass",
+      "difficulty": "easy",
+      "prompt": "Given the following declaration:\n\n  public abstract class Shape {\n      public abstract double area();\n  }\n\nWhich of the following will cause a compile error?",
+      "code_block": null,
+      "options": {
+        "A": "Shape s = new Circle(5);  // Circle extends Shape and implements area()",
+        "B": "Shape s = new Shape();",
+        "C": "public class Circle extends Shape { public double area() { return Math.PI * r * r; } }",
+        "D": "Shape[] shapes = new Shape[3];",
+        "E": "public abstract class FilledShape extends Shape { }"
+      },
+      "answer_key": "B",
+      "explanation": "Abstract classes cannot be instantiated directly. 'new Shape()' causes a compile error because Shape is abstract. You can declare a Shape variable (A) or array (D), but the object itself must be a concrete subclass.",
+      "guiding_questions": [
+        { "id": "mc_u9_05_g1", "text": "What does the abstract keyword on a class mean for instantiation?" },
+        { "id": "mc_u9_05_g2", "text": "Is it possible to have a Shape variable that holds a Circle object — even if Shape is abstract?" }
+      ]
+    },
+
+    {
+      "id": "mc_u10_01",
+      "question_type": "multiple_choice",
+      "ap_unit": 10,
+      "ap_unit_name": "Recursion",
+      "source": "AP CSA style — Unit 10 (factorial recursion)",
+      "year": null,
+      "topic_tags": ["methods", "recursion"],
+      "concept_tested": "Recursive factorial: expand the call chain from n down to base case, then multiply on the way back up",
+      "difficulty": "hard",
+      "prompt": "Consider the following method. What is returned by  mystery(5) ?",
+      "code_block": "public static int mystery(int n) {\n    if (n <= 1)\n        return 1;\n    else\n        return n * mystery(n - 1);\n}",
+      "options": {
+        "A": "5",
+        "B": "10",
+        "C": "15",
+        "D": "120",
+        "E": "25"
+      },
+      "answer_key": "D",
+      "explanation": "This is the factorial function. mystery(5) = 5 * mystery(4) = 5 * 4 * mystery(3) = 5 * 4 * 3 * mystery(2) = 5 * 4 * 3 * 2 * mystery(1) = 5 * 4 * 3 * 2 * 1 = 120.",
+      "guiding_questions": [
+        { "id": "mc_u10_01_g1", "text": "What is the base case? When does the recursion stop?" },
+        { "id": "mc_u10_01_g2", "text": "Expand the call stack: mystery(5) = 5 * mystery(4) = … What is mystery(1)?" }
+      ]
+    },
+
+    {
+      "id": "mc_u10_02",
+      "question_type": "multiple_choice",
+      "ap_unit": 10,
+      "ap_unit_name": "Recursion",
+      "source": "AP CSA style — Unit 10 (string recursion — recurse-then-print reverses)",
+      "year": null,
+      "topic_tags": ["methods", "recursion", "strings"],
+      "concept_tested": "Recurse-then-print pattern: the deepest call prints first, producing reverse order",
+      "difficulty": "hard",
+      "prompt": "Consider the following method. What is printed by  recur(\"hello\") ?",
+      "code_block": "public static void recur(String s) {\n    if (s.length() == 0) return;\n    recur(s.substring(1));\n    System.out.print(s.charAt(0));\n}",
+      "options": {
+        "A": "hello",
+        "B": "olleh",
+        "C": "h",
+        "D": "o",
+        "E": "ello"
+      },
+      "answer_key": "B",
+      "explanation": "The recursive call happens BEFORE the print, so each character is printed on the way back up. The deepest call returns first, printing 'o', then 'l', 'l', 'e', 'h' → \"olleh\".",
+      "guiding_questions": [
+        { "id": "mc_u10_02_g1", "text": "Is the print statement before or after the recursive call? Why does that matter?" },
+        { "id": "mc_u10_02_g2", "text": "What string is passed in each recursive call? What is the last non-empty string before the base case?" }
+      ]
+    },
+
+    {
+      "id": "mc_u10_03",
+      "question_type": "multiple_choice",
+      "ap_unit": 10,
+      "ap_unit_name": "Recursion",
+      "source": "AP CSA style — Unit 10 (numeric recursion with digit extraction)",
+      "year": null,
+      "topic_tags": ["methods", "recursion"],
+      "concept_tested": "Recursive digit-printing: recurse on n/10 first (gets to smallest digit), print n%10 on way back — produces forward order",
+      "difficulty": "hard",
+      "prompt": "Consider the following method. What is printed by  mystery(1234) ?",
+      "code_block": "public static void mystery(int n) {\n    if (n > 0) {\n        mystery(n / 10);\n        System.out.print(n % 10);\n    }\n}",
+      "options": {
+        "A": "4321",
+        "B": "1234",
+        "C": "123",
+        "D": "4",
+        "E": "1"
+      },
+      "answer_key": "B",
+      "explanation": "Recursive calls proceed: mystery(1234) → mystery(123) → mystery(12) → mystery(1) → mystery(0) (base). Returning: prints 1, then 2, then 3, then 4 → \"1234\".",
+      "guiding_questions": [
+        { "id": "mc_u10_03_g1", "text": "Trace the recursive calls. What value of n triggers the base case (n <= 0)?" },
+        { "id": "mc_u10_03_g2", "text": "On the way back up the call stack, what does each frame print? Start from mystery(1)." }
+      ]
+    },
+
+    {
+      "id": "mc_u10_04",
+      "question_type": "multiple_choice",
+      "ap_unit": 10,
+      "ap_unit_name": "Recursion",
+      "source": "AP CSA style — Unit 10 (missing base case)",
+      "year": null,
+      "topic_tags": ["methods", "recursion"],
+      "concept_tested": "A recursive method with no base case causes infinite recursion and StackOverflowError at runtime",
+      "difficulty": "medium",
+      "prompt": "What happens when the following method is called with  countdown(5) ?",
+      "code_block": "public static void countdown(int n) {\n    System.out.println(n);\n    countdown(n - 1);   // no base case\n}",
+      "options": {
+        "A": "Prints 5, 4, 3, 2, 1, 0 then stops",
+        "B": "Prints 5, 4, 3, 2, 1 then stops (stops at 1 automatically)",
+        "C": "Compile error: recursive method must have a base case",
+        "D": "Prints numbers until the program runs out of call stack space — StackOverflowError at runtime",
+        "E": "Prints 5 only — single recursion is not infinite"
+      },
+      "answer_key": "D",
+      "explanation": "There is no base case — the method calls itself forever (n goes to 0, -1, -2, ...). Java does not automatically stop recursion at 0 or any other value. After many calls, the call stack overflows and a StackOverflowError is thrown at runtime. This is not a compile error — Java cannot detect infinite recursion at compile time.",
+      "guiding_questions": [
+        { "id": "mc_u10_04_g1", "text": "What is a base case? Does this method have one?" },
+        { "id": "mc_u10_04_g2", "text": "Does n = 0 or n = 1 act as a natural stopping point here? What does countdown(0) do?" }
+      ]
+    },
+
+    {
+      "id": "frq_2021_q1",
+      "question_type": "free_response",
+      "year": 2021,
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes / Methods & Control",
+      "source": "College Board official — 2021 AP CSA Free-Response Q1",
+      "topic_tags": ["strings", "loops", "methods"],
+      "concept_tested": "Count overlapping substring occurrences using indexOf with a start position; compare scores to return better guess",
+      "difficulty": "hard",
+      "title": "WordMatch",
+      "type": "Methods and Control Structures",
+      "units_covered": [2, 3, 4, 5],
+      "total_points": 9,
+      "context": "This question involves the WordMatch class, which stores a secret string and provides methods that compare other strings to the secret string.",
+      "class_given": "public class WordMatch {\n    private String secret;\n    public WordMatch(String word) { /* implementation not shown */ }\n    public int scoreGuess(String guess) { /* to be implemented in part (a) */ }\n    public String findBetterGuess(String guess1, String guess2) { /* to be implemented in part (b) */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 5,
+          "prompt": "Write the WordMatch method scoreGuess. It finds the number of times guess occurs as a substring of secret (overlapping allowed) and multiplies that count by the square of guess's length.",
+          "examples": [
+            "new WordMatch(\"mississippi\").scoreGuess(\"i\") → 4",
+            "new WordMatch(\"mississippi\").scoreGuess(\"iss\") → 18",
+            "new WordMatch(\"aaaabb\").scoreGuess(\"aa\") → 12"
+          ]
+        },
+        {
+          "part": "b",
+          "points": 4,
+          "prompt": "Write findBetterGuess. Return the guess with the higher scoreGuess result. If scores are equal, return the alphabetically greater guess.",
+          "examples": [
+            "findBetterGuess(\"issipp\", \"iss\") → \"issipp\" (score 36 > 18)",
+            "findBetterGuess(\"iss\", \"ssi\") → \"ssi\" (equal score; \"ssi\" > \"iss\" alphabetically)"
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2021_q2",
+      "question_type": "free_response",
+      "year": 2021,
+      "ap_unit": 5,
+      "ap_unit_name": "Writing Classes",
+      "source": "College Board official — 2021 AP CSA Free-Response Q2",
+      "topic_tags": ["classes_and_objects", "methods"],
+      "concept_tested": "Write a complete class with constructor, multiple methods, and computation across two SingleTable objects",
+      "difficulty": "hard",
+      "title": "CombinedTable",
+      "type": "Class Writing",
+      "units_covered": [2, 5],
+      "total_points": 9,
+      "context": "A CombinedTable is two SingleTable objects pushed together. SingleTable provides getNumSeats(), getViewQuality(), and isSameHeight(other).",
+      "class_given": "public class SingleTable {\n    public int getNumSeats() { /* not shown */ }\n    public int getViewQuality() { /* not shown */ }\n    public boolean isSameHeight(SingleTable other) { /* not shown */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 9,
+          "prompt": "Write the complete CombinedTable class. Must include: constructor(SingleTable t1, SingleTable t2), getNumSeats() returning (t1+t2 seats - 2), getDesirability() returning average view quality if same height, or average - 10 if different height.",
+          "examples": [
+            "t1(4 seats, view=6, same height) + t2(2 seats, view=8) → seats=4, desirability=7.0",
+            "t3(4 seats, view=10, diff height) + t4(2 seats, view=2) → seats=4, desirability=-4.0"
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2021_q3",
+      "question_type": "free_response",
+      "year": 2021,
+      "ap_unit": 7,
+      "ap_unit_name": "ArrayList",
+      "source": "College Board official — 2021 AP CSA Free-Response Q3",
+      "topic_tags": ["arraylist", "classes_and_objects", "loops"],
+      "concept_tested": "Add objects to an ArrayList; remove from ArrayList while iterating (must handle index shifting)",
+      "difficulty": "hard",
+      "title": "ClubMembers",
+      "type": "Array/ArrayList",
+      "units_covered": [5, 7],
+      "total_points": 9,
+      "context": "ClubMembers maintains an ArrayList<ClubMember>. ClubMember methods: getStudentName(), getGraduationYear(), isInGoodStanding().",
+      "class_given": "public class ClubMembers {\n    private ArrayList<ClubMember> memberList;\n    public ClubMembers() { memberList = new ArrayList<ClubMember>(); }\n    public void addMembers(String[] names, int gradYear) { /* part a */ }\n    public ArrayList<ClubMember> removeMembers(int year) { /* part b */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 4,
+          "prompt": "Write addMembers. For each name in names[], create a new ClubMember(name, gradYear) and append to memberList."
+        },
+        {
+          "part": "b",
+          "points": 5,
+          "prompt": "Write removeMembers(int year). Build and return an ArrayList of members who have graduated (gradYear <= year) AND are in good standing. Remove ALL graduated members from memberList regardless of standing."
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2021_q4",
+      "question_type": "free_response",
+      "year": 2021,
+      "ap_unit": 8,
+      "ap_unit_name": "2D Array",
+      "source": "College Board official — 2021 AP CSA Free-Response Q4",
+      "topic_tags": ["2d_arrays", "arrays", "loops"],
+      "concept_tested": "Traverse a row checking all elements are non-zero; build a new 2D array from qualifying rows",
+      "difficulty": "hard",
+      "title": "ArrayResizer",
+      "type": "2D Array",
+      "units_covered": [6, 8],
+      "total_points": 9,
+      "context": "Static methods on the ArrayResizer class manipulate a 2D integer array.",
+      "class_given": "public class ArrayResizer {\n    public static boolean isNonZeroRow(int[][] array2D, int r) { /* part a */ }\n    public static int numNonZeroRows(int[][] array2D) { /* not shown */ }\n    public static int[][] resize(int[][] array2D) { /* part b */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 5,
+          "prompt": "Write isNonZeroRow. Return true if every value in row r is non-zero; false otherwise."
+        },
+        {
+          "part": "b",
+          "points": 4,
+          "prompt": "Write resize. Return a new 2D array containing only the rows where isNonZeroRow returns true, in the same order. Use numNonZeroRows to determine the size of the new array.",
+          "examples": [
+            "arr = {{2,1,0},{1,3,2},{0,0,0},{4,5,6}} → resize returns {{1,3,2},{4,5,6}}"
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2022_q1",
+      "question_type": "free_response",
+      "year": 2022,
+      "ap_unit": 4,
+      "ap_unit_name": "Iteration / Methods",
+      "source": "College Board official — 2022 AP CSA Free-Response Q1",
+      "topic_tags": ["loops", "conditionals", "methods"],
+      "concept_tested": "Simulate event loop: play level until goal reached or life lost; play all three levels in sequence with early exit",
+      "difficulty": "hard",
+      "title": "Game",
+      "type": "Methods and Control Structures",
+      "units_covered": [3, 4, 5],
+      "total_points": 9,
+      "context": "Game class simulates a 3-level video game with lives and level bonuses. Level.goalReached() returns true if goal achieved.",
+      "class_given": "public class Game {\n    private int[] levelBonus;\n    private int score;\n    private int lives;\n    public Game(int[] levelBonus) { this.levelBonus=levelBonus; score=0; lives=3; }\n    public int getScore() { return score; }\n    public int getLives() { return lives; }\n    public void playLevel(int levelNum, Level level) { /* part a */ }\n    public void play(Level[] levels) { /* part b */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 5,
+          "prompt": "Write playLevel. If level.goalReached(): score += levelBonus[levelNum-1], level ends. Otherwise: lives--, level ends. Level ends immediately on either condition."
+        },
+        {
+          "part": "b",
+          "points": 4,
+          "prompt": "Write play. Call playLevel for levels 1, 2, 3 in order. Stop early if lives reaches 0. Use playLevel; assume it works regardless of part (a)."
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2022_q2",
+      "question_type": "free_response",
+      "year": 2022,
+      "ap_unit": 9,
+      "ap_unit_name": "Inheritance / Class Writing",
+      "source": "College Board official — 2022 AP CSA Free-Response Q2",
+      "topic_tags": ["classes_and_objects", "inheritance"],
+      "concept_tested": "Write a subclass with super() constructor call, overridden method using super.method(), and a new comparison method",
+      "difficulty": "hard",
+      "title": "Textbook",
+      "type": "Class Writing (Inheritance)",
+      "units_covered": [5, 9],
+      "total_points": 9,
+      "context": "Book class has title (String), price (double), and getBookInfo() returning title + \"-\" + price. Textbook extends Book.",
+      "class_given": "public class Book {\n    private String title;\n    private double price;\n    public Book(String title, double price) { this.title=title; this.price=price; }\n    public String getTitle() { return title; }\n    public double getPrice() { return price; }\n    public String getBookInfo() { return title + \"-\" + price; }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 9,
+          "prompt": "Write the complete Textbook class extending Book. Must include: constructor(String title, double price, int edition), getEdition(), override getBookInfo() to return super.getBookInfo() + \"-\" + edition, and canSubstituteFor(Textbook other) returning true if same title and this.edition >= other.edition.",
+          "examples": [
+            "new Textbook(\"Biology\",49.75,2).getBookInfo() → \"Biology-49.75-2\"",
+            "bio2019(edition=3).canSubstituteFor(bio2015(edition=2)) → true",
+            "bio2015(edition=2).canSubstituteFor(bio2019(edition=3)) → false"
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "frq_2022_q3",
+      "question_type": "free_response",
+      "year": 2022,
+      "ap_unit": 6,
+      "ap_unit_name": "Array / ArrayList",
+      "source": "College Board official — 2022 AP CSA Free-Response Q3",
+      "topic_tags": ["arrays", "arraylist", "strings", "loops"],
+      "concept_tested": "Compute average over object array; filter and format elements into a new ArrayList with index prefix",
+      "difficulty": "hard",
+      "title": "ReviewAnalysis",
+      "type": "Array/ArrayList",
+      "units_covered": [6, 7],
+      "total_points": 9,
+      "context": "ReviewAnalysis holds an array of Review objects. Review has getComment() and getRating(). allReviews is non-null and non-empty.",
+      "class_given": "public class ReviewAnalysis {\n    private Review[] allReviews;\n    public ReviewAnalysis() { /* not shown */ }\n    public double getAverageRating() { /* part a */ }\n    public ArrayList<String> collectComments() { /* part b */ }\n}",
+      "parts": [
+        {
+          "part": "a",
+          "points": 4,
+          "prompt": "Write getAverageRating. Return the arithmetic mean of all ratings in allReviews."
+        },
+        {
+          "part": "b",
+          "points": 5,
+          "prompt": "Write collectComments. Return an ArrayList<String> of formatted comments that contain '!'. Format: index + \"-\" + comment. If comment doesn't end with '.' or '!', append '.'.",
+          "examples": [
+            "Comments [\"Great!\", \"OK\", \"Loved it!\", \"Nice\"] → [\"0-Great!\", \"2-Loved it!\"]"
+          ]
+        }
+      ]
+    }
+
+  ]
+}

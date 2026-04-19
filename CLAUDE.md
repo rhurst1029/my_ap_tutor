@@ -1,5 +1,6 @@
 # CLAUDE.md — MyAPTutor (AP CSA Adaptive Learning Platform)
 
+
 > **Inherits from:** `../CLAUDE.md` (ADHD-Aware Development Partner Protocol)
 > Read the parent file first. All behavioral rules, session phases, creative interventions,
 > and shorthand commands defined there are in effect here. This file adds only what is
@@ -23,6 +24,7 @@ then generates an adaptive test for the next iteration.
 - Phase 2: Java visualizer (Monaco + step-through traces) + Vosk audio capture
 - Phase 3: Claude AI layer — reports, study guides, streaming chat
 - Phase 4: Full iteration loop — adaptive test generation, history-aware welcome
+- Take-Home IDE (complete, 2026-04-18): `/?takehome={student_dir}/{assignment}` route, Monaco editor + test runner + Java Visualizer iframe. Also ships standalone `Q{N}{A,B}.java` files with embedded test runners for offline IntelliJ/VS Code use. Served by `backend/routers/takehome.py` at `/api/takehome/...`. See `docs/BuildGuide.md` "Take-Home Assignments" section.
 
 ---
 
