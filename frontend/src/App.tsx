@@ -34,15 +34,22 @@ export default function App() {
   const [loadError, setLoadError] = useState('');
   const [sessionType, setSessionType] = useState<'assessment' | 'quiz'>('assessment');
   const [takeHomePath, setTakeHomePath] = useState('');
+  const [forcedTestId, setForcedTestId] = useState<string | null>(null);
 
-  // Check URL params for take-home mode: ?takehome=bella_data/take_home_session_6
+  // URL params:
+  //   ?takehome=bella_data/take_home_session_6   → opens the take-home IDE
+  //   ?test=bella_data_practice_exam_1           → after name entry, loads this exact test
+  //                                                instead of the next adaptive iteration
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const th = params.get('takehome');
     if (th) {
       setTakeHomePath(th);
       setScreen('takehome');
+      return;
     }
+    const t = params.get('test');
+    if (t) setForcedTestId(t);
   }, []);
 
   const handleStart = async (name: string) => {
@@ -50,7 +57,16 @@ export default function App() {
     setScreen('loading');
     setLoadError('');
     try {
-      const { test_id, session_type } = await fetchNextTest(name);
+      let test_id: string;
+      let session_type: 'assessment' | 'quiz';
+      if (forcedTestId) {
+        test_id = forcedTestId;
+        session_type = 'quiz';
+      } else {
+        const next = await fetchNextTest(name);
+        test_id = next.test_id;
+        session_type = next.session_type;
+      }
       setSessionType(session_type);
       const t = await fetchTest(test_id);
       setTest(t);
