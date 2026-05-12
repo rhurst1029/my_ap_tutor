@@ -5,6 +5,33 @@
 
 ---
 
+## Session: 2026-05-12 (session-4-bella — FRQ-only drill quiz for Bella, session 7)
+
+**What got done:**
+- Hand-crafted `data/tests/generated/bella_data_quiz_7.json` (gitignored) — 5 FRQ-only quiz targeted at the slowdown signal in `bella_data/report_6.json`. The report shows 100% accuracy but a 565s spike on the lone FRQ (vs. ~56s avg on MCQs); weak signals were "methods (writing from scratch)", "arraylist (constructing)", and "conditionals (compound conditions in code-writing)". Replaced the auto-generated mixed quiz_7 (8 questions: 3 code_trace + 2 MC + 2 FRQ + 1 trace) with a pure FRQ drill.
+- FRQ ladder by difficulty:
+  - q1 `countInRange(int[], int, int) → int` — counter + compound condition warm-up (target <2 min).
+  - q2 `buildSquares(int n) → ArrayList<Integer>` — ArrayList construction from scratch (target <3 min).
+  - q3 `findFirstDuplicate(int[]) → int` — nested loop with `j < i` (triangle pattern) + early-return + sentinel (target <4 min).
+  - q4 `largestEvenInGrid(int[][]) → int` — 2D nested loops + compound conditional + max tracker + sentinel (target <5 min).
+  - q5 `mostFrequent(ArrayList<String>) → String` — full integration: ArrayList input + nested loop + .equals() + tracker variable + tie-break-via-strict-> + empty-list guard (target <6 min).
+- Each FRQ has 5–6 tests covering edge cases (empty input, single element, all-tied, sentinel-return paths). Each starter compiles cleanly with a safe-default return that produces an honest non-zero baseline pass count (Bella sees what's already passing before she writes a line).
+- Verified all 5 offline via javac+java:
+    q1 starter 2/6 → ref 6/6
+    q2 starter 1/5 → ref 5/5
+    q3 starter 3/5 → ref 5/5
+    q4 starter 2/5 → ref 5/5
+    q5 starter 1/5 → ref 5/5
+- Verified in browser: name=Bella → adaptive resolver picks `bella_data_quiz_7` (iteration 7, session_type=quiz) → "Quiz — Bella — FRQ Drill (Session 7)" renders Question 1 of 5 with Monaco editor → Run on the unmodified starter → "Summary: 2/6 tests passed" (matches offline baseline). Zero console errors.
+
+**Codebase state:** Working. Backend on :8000 returns `bella_data_quiz_7` (with priority over the parallel auto-generated `assessment_7`); frontend renders the 5 FRQs cleanly. JSON file is gitignored; only PROGRESS.md is tracked.
+
+**Next step:** Bella runs the quiz post-AP-exam (FRQ fluency drill, not exam-prep). After: address parking-lot items.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-12 (session-4-bella — pre-exam tune-up test for Bella)
 
 **What got done:**
