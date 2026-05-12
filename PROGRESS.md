@@ -5,6 +5,22 @@
 
 ---
 
+## Session: 2026-05-12 (session-4-bella — pre-exam tune-up test for Bella)
+
+**What got done:**
+- Hand-crafted `data/tests/generated/bella_data_assessment_6.json` (gitignored runtime file) — 10 MCQ + 1 FRQ targeted at the actual gaps surfaced in `bella_data/may_eleventh_report.md` and `bella_data/quiz_report_5.json`. The auto-generated `assessment_6` file from 2026-05-11 covered the quiz_report's still-weak topics (recursion, casting, conditionals, nested_loops) but missed today's session-floor gaps; replaced it with a sharper roster.
+- MCQ topic coverage: enhanced for-loop value-vs-index (Q1, Q2 — biggest active gap from today, Q6+Q7 in this morning's session both hit it); `.length` vs `.size()` API confusion (Q3); 2D array indexing + nested traversal count (Q4, Q5 — Bella's self-flagged "horrible to work with" topic); ArrayList add/remove with shifting (Q6 — the other half of her self-flagged ask); triangle nested loop (Q7 — reinforces the `j <= i` rule she named correctly today); casting + int promotion (Q8 — Q7 from quiz_5); short-circuit boolean conditional with hidden div-by-zero trap (Q9 — Q10 from quiz_5); factorial recursion trace with explicit "skip if you can't trace in 30s" reminder (Q10 — recursion is MCQ-only in 2026 per Bella's surfaced format note).
+- FRQ Q11: `collectInRange(int[] arr, int low, int high) → ArrayList<Integer>` — sibling of yesterday's `countAboveThreshold` pattern but collects into an ArrayList. Forces ArrayList API + compound-condition + counter+loop fluency in one shot. 6-test harness with embedded check() pattern, edge cases (empty result, low==high, negatives, empty input).
+- Verified end-to-end: `Bella` login → adaptive resolver returns `bella_data_assessment_6` → frontend loads "Bella — Pre-Exam Tune-Up (Session 6)" → walked all 11 questions in browser → injected reference solution into Q11 Monaco editor → `Summary: 6/6 tests passed` with verdict "✓ Matches expected" and Submit FRQ enabled. Zero console errors.
+
+**Codebase state:** Working. Backend on :8000 returns `bella_data_assessment_6` for Bella's next-test; frontend on :5173 renders the full test cleanly. JSON file is gitignored runtime data; no tracked-code changes in this session.
+
+**Next step:** Bella logs in for tomorrow morning's pre-exam review. After the AP exam, address parking-lot items: 2D array + ArrayList practice block, take-home generator regressions, strategy-hint UI placement.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-04-18 (session-4-bella — Take-Home IDE + Session 6 assignment)
 
 **What got done:**
