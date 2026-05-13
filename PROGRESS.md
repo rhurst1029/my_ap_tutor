@@ -5,6 +5,34 @@
 
 ---
 
+## Session: 2026-05-13 (session-4-bella — AP25-style FRQ drill + strategy guide, session 8)
+
+**What got done:**
+- Bella completed yesterday's practice exam in the browser (session_7) — auto-generated `bella_data/quiz_report_7.json` shows 100% accuracy with q10 `hasEnoughPaint` (2D array FRQ) consuming **432 seconds** — by far the longest. Weak signals identified for next session: `2d_arrays`, `free_response_coding`, `nested_loops`, plus a recommendation to "introduce FRQ-style problems from past AP exams".
+- Created `data/tests/generated/bella_data_quiz_8.json` (gitignored) — a 4-FRQ AP25-style drill that mirrors the structure and subjects of the actual 2025 AP CSA FRQ paper (extracted via pypdf from `https://apcentral.collegeboard.org/media/pdf/ap25-frq-computer-science-a.pdf`):
+  - q1 `PetFeeder.feedPets` — methods + helper-class delegation + min logic (mirrors AP25 #1 DogWalker.walkDogs)
+  - q2 `EmailHandle` — full class with constructor + 2 string-manipulation methods (mirrors AP25 #2 SignedText)
+  - q3 `PracticeBracket.buildPairings` — ArrayList + two-pointer paired traversal (mirrors AP25 #3 Round.buildMatches)
+  - q4 `PuzzleGrid.clearPair(row, col)` — **2D array search + mutation** (mirrors AP25 #4 SumOrSameGame.clearPair) — the targeted drill for Bella's 432s slowness signal
+- Built via Python generator script `/tmp/gen_quiz_8.py` (compile-verifies each starter and reference solution before emitting JSON). Verified offline: q1 starter 0/5 → ref 5/5; q2 starter 1/7 → ref 7/7; q3 starter 0/5 → ref 5/5; q4 starter 2/6 → ref 6/6.
+- **Layered FRQ strategy guidance into every prompt** from the new reference transcript at `data/references/how_to_answer_frqs_transcript.txt` (John's APCSA FRQ tutorial):
+  - Top-level GENERAL FRQ STRATEGY block on every FRQ (return-type check, hand-trace examples, USE provided helpers, declare anything for partial credit)
+  - Per-FRQ Strategy Reminders sections specific to that FRQ type:
+    - FRQ-1-style: helper-method usage gets full credit, min-of-two pattern, side-effect verification
+    - FRQ-2-style: #1 mistake = forgetting the constructor, indexOf returns -1, substring inclusive/exclusive trap
+    - FRQ-3-style: build-a-new-list recipe, REMOVE in reverse, two-pointer with strict `<`, adjacent-pair pattern needs i=1 start
+    - FRQ-4-style: one-column = no nested loops, one-row = no nested loops, find-min/max never returns early (but find-first-match does), cache target before mutation
+  - Added 1-2 strategy-derived guiding_questions per FRQ (4 of them now reference the guide directly)
+- Title bumped to "Bella — AP25-Style FRQ Drill + Strategy Guide (Session 8)" so the change is visible at the top of the test.
+
+**Codebase state:** Working. Backend on :8000 returns `bella_data_quiz_8` for Bella's next-test (iteration 8). Frontend renders the 4 FRQs with strategy text intact. JSON file is gitignored (41 KB on disk, 36 KB served).
+
+**Next step:** Bella runs the AP25-style FRQ drill at her next session — focus on q4 fluency drill for the 2D-array gap. After: keep cycling AP-past-FRQ-style content per the report's recommendation.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-12 (session-4-bella — practice exam for Bella, session 7, post-AP-exam)
 
 **What got done:**
