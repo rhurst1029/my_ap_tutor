@@ -5,6 +5,21 @@
 
 ---
 
+## Session: 2026-05-13 (session-4-bella — fix FRQ prompt formatting)
+
+**What got done:**
+- User reported the FRQ prompt text rendered as "one giant paragraph" and was intimidating. Root cause: `QuestionCard.tsx` line 156 dumps `question.prompt` (which now contains many `\n`, bullets, headings) into a single `<p>` whose default `white-space: normal` collapses all whitespace.
+- Fix part 1 (tracked): added `white-space: pre-wrap;` to `.question-prompt` in `frontend/src/App.css`. One-line change. Newlines, indentation, and blank-line breaks now render. Verified via Playwright `getComputedStyle` — `whiteSpace = "pre-wrap"`. Visual line count for the Q1 FRQ prompt jumped from ~1 paragraph to ~38 visual lines with proper structure (headers framed by `===` dividers, numbered tips on separate lines, bullets on separate lines).
+- Fix part 2 (gitignored data): the new prompts contained `**bold**` markdown and inline ` `code` ` backticks left over from the strategy-guide layering. Without a markdown renderer those produce visible asterisks and backticks. Stripped both via in-place Python regex pass on `bella_data_quiz_8.json` — 0 asterisks and 0 backticks remain in the prompt text.
+
+**Codebase state:** Working. Frontend `App.css` updated; backend unchanged; quiz_8 JSON cleaned in place (still gitignored). Backend continues to serve quiz_8 as Bella's next-test. Visual smoke test passed (screenshot showed proper sectioning of the GENERAL FRQ STRATEGY block, the numbered checklist, the Rules bullets, and the per-FRQ Strategy Reminders).
+
+**Next step:** If a future test wants real markdown (bold, code spans, headings), add `react-markdown` and replace `<p className="question-prompt">{...}</p>` with `<ReactMarkdown>{...}</ReactMarkdown>`. Not needed today — the pre-wrap + strip combo is enough.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-13 (session-4-bella — AP25-style FRQ drill + strategy guide, session 8)
 
 **What got done:**
