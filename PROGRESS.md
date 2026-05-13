@@ -5,6 +5,35 @@
 
 ---
 
+## Session: 2026-05-12 (session-4-bella — practice exam for Bella, session 7, post-AP-exam)
+
+**What got done:**
+- Replaced `data/tests/generated/bella_data_quiz_7.json` (gitignored) — was a 5-FRQ pure drill earlier this session; now a mixed-format **practice exam** (8 MCQ + 2 FRQ) synthesized from three inputs: today's session transcript (`bella_data/may_twelth.txt`), the auto-generated `bella_data/practice_6.json` problem bank, and the timing/weak-signals in `bella_data/report_6.json`. The drill version was never run by Bella (today's session happened in person, not in the IDE) so overwriting was safe.
+- MCQ coverage maps to today's actual session content + lingering gaps:
+  - Q1 Fibonacci recursion trace (today's recursion topic)
+  - Q2 Merge step from merge sort (today's merge sort walkthrough — sidesteps the recursion mastery hurdle by drilling the in-place merge)
+  - Q3 ArrayList `.set` vs `.add(i,v)` vs `.replace` (Bella's open question from today's transcript — the answer is `.set`)
+  - Q4 Enhanced for-loop value-vs-index (persistent gap from May 11 report — kept in rotation)
+  - Q5 Compound-conditional range check (mirrors practice_6 problem 1)
+  - Q6 2D array surface-area accumulation (today's paint problem topic)
+  - Q7 Parallel ArrayLists with GPA filter (mirrors practice_6 problem 5)
+  - Q8 Remove-during-iteration skip-bug (mirrors practice_6 problem 4 — known AP CSA pitfall)
+- FRQs target the slowness signal in report_6 (565s on the lone FRQ vs ~56s avg on MCQs):
+  - Q9 `squareValuesInPlace(ArrayList<Integer>) → void` — the problem they DIDN'T finish today, plus operationally answers the open `.set` question. Forces in-place mutation pattern.
+  - Q10 `hasEnoughPaint(int[][] surfaces, int gallons) → boolean` — exactly today's paint problem, integrating 2D arrays + accumulator + boundary `>=` comparison.
+- Verified all FRQs offline (javac+java):
+    q9 starter 1/5 → ref 5/5
+    q10 starter 2/6 → ref 6/6
+- Verified end-to-end in browser via Playwright: name=Bella → adaptive resolver picks `bella_data_quiz_7` → "Quiz — Bella — Practice Exam (Session 7)" renders Question 1 of 10 → walked all 8 MCQs and got every answer-key correct on first try → landed on Q9 with Monaco mounted → Run on unmodified Q9 starter → "Summary: 1/5 tests passed" (matches offline baseline exactly). Zero console errors throughout.
+
+**Codebase state:** Working. Backend on :8000 returns `bella_data_quiz_7` (now the practice exam). Frontend renders the 10 mixed questions cleanly. JSON file is gitignored; only PROGRESS.md is tracked here.
+
+**Next step:** Bella runs the practice exam at her next session. After: address parking-lot items (2D array + ArrayList drill block, take-home generator regressions, strategy-hint UI placement).
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-12 (session-4-bella — FRQ-only drill quiz for Bella, session 7)
 
 **What got done:**
