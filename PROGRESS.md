@@ -5,6 +5,22 @@
 
 ---
 
+## Session: 2026-05-14 (session-4-bella — standalone offline HTML export)
+
+**What got done:**
+- Built `scripts/export_guided_practice_html.py` — exports the guided-practice session as a single self-contained HTML file that runs fully offline (no backend, no Vite build, no internet). Lets Bella work through the 2-hour session by just opening the file in any browser.
+- The export reads `data/tests/generated/bella_data_quiz_8.json` for FRQ content and mirrors the 7-stage plan from `guidedPlan.ts`. Output: `data/students/bella_data/bella_guided_practice.html` (gitignored — student material + build artifact).
+- The HTML reproduces the guided flow: stage nav with progress bar + dots, per-stage countdown timers (Pause/Resume/Reset), checklists, the writing-stage textarea, and a "Reset all progress" control. Everything persists to `localStorage` (place, checkboxes, code, writing, MCQ answers, reveal state) so she can close and reopen.
+- FRQ stage adaptation (no Java compiler available in a standalone file): each FRQ shows the prompt, interactive guiding-question MCQs with instant correct/incorrect feedback, a code textarea pre-filled with the starter, a "Reveal reference solution" toggle, and the test cases as a self-check list. Workflow is "write it, reveal to compare, walk the test cases" — with a note pointing to the standalone Q{N}.java IntelliJ files for real execution.
+
+**Codebase state:** Working. Generator runs clean: 7 stages + 4 FRQs embedded, 56 KB output, single `<script>` block, embedded JSON validates. Verified offline via a static file server + Playwright: stage 1 renders, checklist persists, Next x2 reaches the FRQ stage with all 4 FRQs, MCQ feedback works (wrong answer flagged, correct option highlighted), code textarea saves, reveal-solution works — and after a full page reload everything restored (stage 3, code text, MCQ verdict, reveal box, checkbox state). Only console error is a benign favicon 404 from the browser, not the file.
+
+**Next step:** If the FRQ stage should run real Java offline, the only viable path is bundling a WASM JVM (CheerpJ) — heavy and out of scope; the IntelliJ Q{N}.java files remain the execution route. Otherwise the export is complete.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-14 (session-4-bella — guided practice UI flow)
 
 **What got done:**
