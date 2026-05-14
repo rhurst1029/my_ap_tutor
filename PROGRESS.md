@@ -5,6 +5,26 @@
 
 ---
 
+## Session: 2026-05-14 (session-4-bella — guided practice UI flow)
+
+**What got done:**
+- Built a tutor-facing **guided practice** flow that turns the 2-hour day-before-exam session plan into a timed, stage-by-stage UI walkthrough. Earlier this session I researched test-prep literature and wrote `data/students/bella_data/may_fourteenth_session_plan.md` (the 2-hour plan) + `data/references/test_day_prep_research.md` (+ PDFs of both via a reportlab `md_to_pdf.py` script); this feature implements that plan in the app.
+- New files (all tracked):
+  - `frontend/src/components/GuidedPractice/guidedPlan.ts` — `GUIDED_PLAN`, 7 typed `GuidedStage` objects encoding the plan (re-anchor, warm-up retrieval, interleaved FRQ rehearsal, break, strategy rehearsal, psychological tools, close-out). Stage kinds: `instruction`, `warmup`, `frq`, `break`, `writing`.
+  - `frontend/src/components/GuidedPractice/GuidedPractice.tsx` — stage-walker component: per-stage countdown timer (auto-start, Pause/Resume/Reset, clamps at 0 without auto-advancing — tutor controls pace), progress bar + stage dots, Prev/Next nav with "Finish" on the last stage, per-stage checklist with persistent tick-state, expressive-writing textarea on the writing stage.
+  - The FRQ rehearsal stage embeds the existing `TestRunner` inline on `bella_data_quiz_8` (user chose inline embed over a link-out hand-off). The runner is mounted once the FRQ stage is first reached and then kept alive via a `display` toggle, so navigating away and back does NOT restart its backend session.
+- Wired `?guided=1` URL param into `App.tsx` (mirrors the existing `?test=` / `?takehome=` pattern) — added the `'guided'` screen state and render branch. Plan is Bella-specific for v1, so the route hardcodes `studentName='Bella'`.
+- Added `.guided-*` styles to `App.css` using the existing CSS custom properties (dark theme, no new CSS deps).
+- Updated `docs/BuildGuide.md` with a "Guided Practice" section (route, plan-data schema, component behavior).
+
+**Codebase state:** Working. `tsc --noEmit` exits 0. Browser-verified end-to-end via Playwright: walked all 7 stages, confirmed checklist toggling, the embedded FRQ TestRunner loading quiz_8 (Monaco mounted, Question 1 of 4), the writing textarea, Finish button on the last stage, and — critically — that the TestRunner persists across stage navigation (mount-marker survived a round-trip) and the writing text persists too. Zero console errors.
+
+**Next step:** If guided practice should support students beyond Bella, lift the hardcoded plan into a backend-served JSON keyed by student (mirrors how `?test=` resolves). Not needed for tomorrow's session.
+
+**Energy at close:** —
+
+---
+
 ## Session: 2026-05-13 (session-4-bella — fix FRQ prompt formatting)
 
 **What got done:**

@@ -3,12 +3,13 @@ import NameEntry from './components/NameEntry';
 import TestRunner from './components/TestRunner/TestRunner';
 import CompletionScreen from './components/CompletionScreen';
 import TakeHomeRunner from './components/TakeHome/TakeHomeRunner';
+import GuidedPractice from './components/GuidedPractice/GuidedPractice';
 import { fetchTest, fetchNextTest } from './api';
 import type { Test } from './types/test';
 import type { QuestionResponse } from './types/session';
 import './App.css';
 
-type Screen = 'name-entry' | 'loading' | 'test' | 'complete' | 'takehome';
+type Screen = 'name-entry' | 'loading' | 'test' | 'complete' | 'takehome' | 'guided';
 
 interface SessionInfo {
   session_id: string;
@@ -40,12 +41,19 @@ export default function App() {
   //   ?takehome=bella_data/take_home_session_6   → opens the take-home IDE
   //   ?test=bella_data_practice_exam_1           → after name entry, loads this exact test
   //                                                instead of the next adaptive iteration
+  //   ?guided=1                                  → opens the 2-hour guided practice flow
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const th = params.get('takehome');
     if (th) {
       setTakeHomePath(th);
       setScreen('takehome');
+      return;
+    }
+    if (params.get('guided')) {
+      // The guided plan is Bella-specific (derived from her session plan doc).
+      setStudentName('Bella');
+      setScreen('guided');
       return;
     }
     const t = params.get('test');
@@ -113,6 +121,12 @@ export default function App() {
         <TakeHomeRunner
           manifestPath={`${takeHomePath}/manifest.json`}
           basePath={takeHomePath}
+        />
+      )}
+      {screen === 'guided' && (
+        <GuidedPractice
+          studentName={studentName}
+          onExit={() => setScreen('name-entry')}
         />
       )}
       {screen === 'complete' && result && (
